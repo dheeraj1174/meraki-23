@@ -15,6 +15,15 @@ const HomeHero: React.FC = () => {
 			>
 				Meraki
 			</Typography>
+			<button
+				className={classes("-btn")}
+				type="button"
+				onClick={() => {
+					window.scroll(0, window.innerHeight);
+				}}
+			>
+				<span className={classes("-btn-arrow")} />
+			</button>
 		</section>
 	);
 };

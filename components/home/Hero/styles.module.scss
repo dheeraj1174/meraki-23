@@ -7,6 +7,7 @@
 	justify-content: center;
 	align-items: center;
 	background-color: #000;
+	position: relative;
 
 	&-title {
 		width: 100%;
@@ -27,6 +28,42 @@
 			background-color: #000;
 			z-index: 1;
 			animation: reveal 0.6s ease-in-out forwards;
+		}
+	}
+
+	&-btn {
+		@include init-button();
+		width: 48px;
+		height: 48px;
+		position: absolute;
+		bottom: 32px;
+		left: 50%;
+		transform: translateX(-50%);
+
+		&-arrow {
+			width: 1px;
+			background-color: #fff;
+			position: relative;
+			animation: expand-arrow 0.5s linear 1s forwards;
+
+			&::before,
+			&::after {
+				content: "";
+				position: absolute;
+				bottom: 0;
+				width: 1px;
+				height: 50%;
+				background-color: #fff;
+				transform-origin: bottom;
+			}
+
+			&::before {
+				transform: rotate(-45deg);
+			}
+
+			&::after {
+				transform: rotate(45deg);
+			}
 		}
 	}
 }
@@ -52,5 +89,15 @@
 	100% {
 		left: 100%;
 		width: 0;
+	}
+}
+
+@keyframes expand-arrow {
+	0% {
+		height: 0;
+	}
+
+	100% {
+		height: 48px;
 	}
 }
