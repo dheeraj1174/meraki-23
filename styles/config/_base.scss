@@ -19,13 +19,12 @@
 
 html {
 	scroll-behavior: smooth;
-	overflow-x: hidden;
+	scroll-snap-type: y mandatory;
 }
 
 body {
 	font-family: var(--font-poppins);
 	overflow-x: hidden;
-	min-height: 100vh;
 	@include hide-scrollbar();
 	background-image: repeating-linear-gradient(
 		to right,
