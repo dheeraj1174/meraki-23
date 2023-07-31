@@ -48,40 +48,6 @@
 	}
 }
 
-@mixin color-scheme($mode) {
-	@if $mode ==light {
-		@media (prefers-color-scheme: light) {
-			@content;
-		}
-	} @else if $mode ==dark {
-		@media (prefers-color-scheme: dark) {
-			@content;
-		}
-	}
-}
-
-@mixin theme($theme) {
-	// if body has no data-theme attribute, then apply the styles
-
-	@if $theme ==light {
-		body:not([data-theme]) & {
-			@content;
-		}
-	}
-
-	@if $theme ==light {
-		body[data-theme="light"] & {
-			@content;
-		}
-	} @else if $theme ==dark {
-		body[data-theme="dark"] & {
-			@content;
-		}
-	} @else {
-		@content;
-	}
-}
-
 @mixin font(
 	$font-family: Poppins,
 	$font-size: inherit,

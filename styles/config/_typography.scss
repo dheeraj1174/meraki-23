@@ -3,6 +3,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200");
 @import url("https://fonts.googleapis.com/css2?family=Red+Hat+Text:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap");
 
 /* 
     Font Family
@@ -60,14 +61,6 @@ $formats: (regular, medium, bold, underlined, italic, bold-italic);
 	@if $type ==heading {
 		font-family: var(--font-red-hat-display);
 		color: var(--color-black);
-
-		@include theme(light) {
-			color: var(--color-black);
-		}
-
-		@include theme(dark) {
-			color: var(--color-white);
-		}
 
 		@if $variant ==display {
 			font-size: 42px;
@@ -278,14 +271,6 @@ $formats: (regular, medium, bold, underlined, italic, bold-italic);
 	} @else if $type ==body {
 		font-family: var(--font-red-hat-text);
 		color: var(--color-black);
-
-		@include theme(light) {
-			color: var(--color-black);
-		}
-
-		@include theme(dark) {
-			color: var(--color-white);
-		}
 
 		@if $variant ==extra-large {
 			font-size: 18px;
