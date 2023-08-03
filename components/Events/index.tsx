@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { IEvent } from "@/types/Event";
 import Link from "next/link";
 import Typography from "@/library/Typography";
+import { useRouter } from "next/router";
 
 interface EventsProps {
 	onClose?: any;
@@ -13,7 +14,17 @@ interface EventsProps {
 const classes = stylesConfig(styles, "events");
 
 const Events: React.FC<EventsProps> = ({ onClose, events }) => {
+	const router = useRouter();
 	const [isClosing, setIsClosing] = useState(false);
+	const [transform, setTransform] = useState<string | null>(null);
+
+	const animationStart = () => {
+		setTransform("translate(-50%, -50%) scale(1)");
+	};
+
+	const animationEnd = () => {
+		setTransform("translate(-50%, -50%) scale(5)");
+	};
 
 	useEffect(() => {
 		const handleClose = (e: KeyboardEvent) => {
@@ -30,6 +41,11 @@ const Events: React.FC<EventsProps> = ({ onClose, events }) => {
 		};
 	}, [onClose]);
 
+	useEffect(() => {
+		router.events.on("routeChangeStart", animationStart);
+		router.events.on("routeChangeComplete", animationEnd);
+	}, [router]);
+
 	return (
 		<section
 			className={classes("", {
@@ -40,12 +56,14 @@ const Events: React.FC<EventsProps> = ({ onClose, events }) => {
 				{events.map((event, index) => {
 					return (
 						<Link
-							href={`/event/${event._id}/${slugify(event.name)}`}
+							href={`/events/${event._id}/${slugify(event.name)}`}
 							key={index}
 							className={classes("-event")}
 							style={{
 								width: "300px",
-								transform: `rotateY(calc(${index} * 45deg)) translateZ(400px)`,
+								transform:
+									transform ??
+									`rotateY(calc(${index} * 45deg)) translateZ(400px)`,
 								backgroundImage: `url(${event.image})`,
 							}}
 						>
