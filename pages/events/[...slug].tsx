@@ -1,8 +1,9 @@
 import React from "react";
+import Button from "@/library/Button";
 import Typography from "@/library/Typography";
-import { stylesConfig } from "@/utils/functions";
 import sampleEvents from "@/data/events.json";
 import { IEvent } from "@/types/Event";
+import { stylesConfig } from "@/utils/functions";
 import styles from "@/styles/pages/Event.module.scss";
 
 interface EventPageProps {
@@ -28,6 +29,9 @@ const EventPage: React.FC<EventPageProps> = ({ event }) => {
 			>
 				{event.name}
 			</Typography>
+			<Button className={classes("-cta")} size="large">
+				Apply Now
+			</Button>
 		</main>
 	);
 };

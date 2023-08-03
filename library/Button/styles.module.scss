@@ -1,0 +1,165 @@
+@import "@/styles/config/mixins";
+@import "@/styles/config/typography";
+
+.btn {
+	all: unset;
+	box-sizing: border-box;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	border: 1px solid transparent;
+	white-space: nowrap;
+	flex: 0 0 auto;
+	cursor: pointer;
+	user-select: none;
+	transition: all 0.2s ease-in-out;
+	position: relative;
+
+	&::before {
+		content: "";
+		position: absolute;
+		top: -8px;
+		left: -8px;
+		width: 100%;
+		height: 100%;
+		border: 1px solid transparent;
+	}
+
+	&--variant {
+		&--light {
+			background-color: var(--color-white);
+			color: var(--color-black) !important;
+
+			&::before {
+				border-color: var(--color-white);
+			}
+		}
+
+		&--dark {
+			background-color: var(--color-black);
+			color: var(--color-white) !important;
+
+			&::before {
+				border-color: var(--color-black);
+			}
+		}
+	}
+
+	&--size {
+		&--medium {
+			padding: 12px 18px;
+			min-width: 100px;
+			letter-spacing: 2px;
+			@include typography(body, large, regular);
+			font-family: var(--font-orbitron);
+
+			&::before {
+				top: -8px;
+				left: -8px;
+			}
+		}
+
+		&--small {
+			padding: 8px 12px;
+			min-width: 80px;
+			letter-spacing: 2px;
+			@include typography(body, medium, regular);
+			font-family: var(--font-orbitron);
+
+			&::before {
+				top: -6px;
+				left: -6px;
+			}
+		}
+
+		&--large {
+			padding: 18px 24px;
+			min-width: 120px;
+			letter-spacing: 2px;
+			@include typography(body, extra-large, regular);
+			font-family: var(--font-orbitron);
+
+			&::before {
+				top: -10px;
+				left: -10px;
+			}
+		}
+	}
+
+	&--disabled {
+		cursor: not-allowed;
+		opacity: 0.5;
+	}
+
+	&--loading {
+		cursor: not-allowed;
+	}
+
+	&__icon {
+		display: inline-flex;
+		justify-content: center;
+		align-items: center;
+
+		&--left {
+			margin-right: 8px;
+		}
+
+		&--right {
+			margin-left: 8px;
+		}
+	}
+
+	&__loader {
+		width: 16px;
+		height: 16px;
+		border-radius: 500px;
+		border: 3px solid transparent;
+		animation: spin 1s linear infinite;
+	}
+
+	&--small &__loader {
+		width: 17px;
+		height: 17px;
+	}
+
+	&--medium &__loader {
+		width: 19px;
+		height: 19px;
+	}
+
+	&--large &__loader {
+		width: 23px;
+		height: 23px;
+	}
+
+	&--filled &__loader {
+		border-color: var(--color-brand-white);
+		border-top-color: var(--color-brand-black);
+	}
+
+	&--outlined &__loader {
+		border-color: var(--color-brand-black);
+		border-top-color: var(--color-brand-white);
+	}
+
+	&:hover {
+		box-shadow: var(--shadow-elevation-2dp);
+	}
+
+	&:hover {
+		&::before {
+			top: 0;
+			left: 0;
+		}
+	}
+
+	&:active {
+		box-shadow: var(--shadow-elevation-1dp);
+	}
+}
+
+@keyframes spin {
+	100% {
+		transform: rotate(360deg);
+	}
+}

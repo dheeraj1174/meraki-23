@@ -17,4 +17,10 @@
 		@include font(Orbitron, 56px, 700);
 		color: var(--color-white);
 	}
+
+	&-cta {
+		position: fixed;
+		bottom: 16px;
+		right: 16px;
+	}
 }
