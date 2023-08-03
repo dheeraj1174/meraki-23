@@ -2,12 +2,16 @@ import React from "react";
 import styles from "./styles.module.scss";
 import { stylesConfig } from "@/utils/functions";
 import Events from "@/components/Events";
-import sampleEvents from "@/data/events.json";
 import Typography from "@/library/Typography";
+import { IEvent } from "@/types/Event";
 
-const classes = stylesConfig(styles, "home-about");
+interface HomeEventsProps {
+	events: IEvent[];
+}
 
-const HomeAbout: React.FC = () => {
+const classes = stylesConfig(styles, "home-events");
+
+const HomeEvents: React.FC<HomeEventsProps> = ({ events }) => {
 	return (
 		<section className={classes("")}>
 			<Typography
@@ -17,9 +21,9 @@ const HomeAbout: React.FC = () => {
 			>
 				Events
 			</Typography>
-			<Events events={sampleEvents} />
+			<Events events={events} />
 		</section>
 	);
 };
 
-export default HomeAbout;
+export default HomeEvents;

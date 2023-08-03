@@ -1,13 +1,13 @@
 import { slugify, stylesConfig } from "@/utils/functions";
 import styles from "./styles.module.scss";
 import React, { useEffect, useState } from "react";
-import { Event } from "@/types/Event";
+import { IEvent } from "@/types/Event";
 import Link from "next/link";
 import Typography from "@/library/Typography";
 
 interface EventsProps {
 	onClose?: any;
-	events: Event[];
+	events: IEvent[];
 }
 
 const classes = stylesConfig(styles, "events");

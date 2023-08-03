@@ -1,4 +1,4 @@
 import Hero from "./Hero";
-import About from "./About";
+import Events from "./Events";
 
-export { Hero, About };
+export { Hero, Events };
