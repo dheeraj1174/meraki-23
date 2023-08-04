@@ -19,11 +19,11 @@ const Events: React.FC<EventsProps> = ({ onClose, events }) => {
 	const [transform, setTransform] = useState<string | null>(null);
 
 	const animationStart = () => {
-		setTransform("translate(-50%, -50%) scale(1)");
+		setTransform("translate(0, 0)");
 	};
 
 	const animationEnd = () => {
-		setTransform("translate(-50%, -50%) scale(5)");
+		setTransform("translate(0, 0)");
 	};
 
 	useEffect(() => {
@@ -44,6 +44,10 @@ const Events: React.FC<EventsProps> = ({ onClose, events }) => {
 	useEffect(() => {
 		router.events.on("routeChangeStart", animationStart);
 		router.events.on("routeChangeComplete", animationEnd);
+		return () => {
+			router.events.off("routeChangeStart", animationStart);
+			router.events.off("routeChangeComplete", animationEnd);
+		};
 	}, [router]);
 
 	return (

@@ -4,7 +4,9 @@ import Typography from "@/library/Typography";
 import sampleEvents from "@/data/events.json";
 import { IEvent } from "@/types/Event";
 import { stylesConfig } from "@/utils/functions";
+import { PiCaretLeftBold } from "react-icons/pi";
 import styles from "@/styles/pages/Event.module.scss";
+import { useRouter } from "next/router";
 
 interface EventPageProps {
 	event: IEvent;
@@ -13,6 +15,9 @@ interface EventPageProps {
 const classes = stylesConfig(styles, "event");
 
 const EventPage: React.FC<EventPageProps> = ({ event }) => {
+	const router = useRouter();
+	const eventUrl: any = router.query.slug;
+	const eventId = eventUrl[0];
 	if (!event) return null;
 	return (
 		<main
@@ -22,14 +27,39 @@ const EventPage: React.FC<EventPageProps> = ({ event }) => {
 			}}
 			data-aos="zoom-in"
 		>
-			<Typography
-				type="heading"
-				variant="display"
-				className={classes("-title")}
+			<div className={classes("-header")}>
+				<button
+					className={classes("-header-back")}
+					onClick={() => {
+						router.back();
+					}}
+				>
+					<PiCaretLeftBold />
+				</button>
+				<Typography
+					type="heading"
+					variant="display"
+					className={classes("-title")}
+				>
+					{event.name}
+				</Typography>
+			</div>
+			<div className={classes("-body")}>
+				<Typography
+					type="body"
+					variant="extra-large"
+					className={classes("-description")}
+				>
+					{event.description}
+				</Typography>
+			</div>
+			<Button
+				className={classes("-cta")}
+				size="large"
+				onClick={() => {
+					router.push(`/events/${eventId}/apply`);
+				}}
 			>
-				{event.name}
-			</Typography>
-			<Button className={classes("-cta")} size="large">
 				Apply Now
 			</Button>
 		</main>
@@ -52,8 +82,9 @@ export const getServerSideProps = async ({ params }: any) => {
 	} catch (error) {
 		console.error(error);
 		return {
-			props: {
-				event: null,
+			redirect: {
+				destination: "/404",
+				permanent: false,
 			},
 		};
 	}
