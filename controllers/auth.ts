@@ -110,16 +110,16 @@ export const getAuthenicatedUser = async (
 
 export const updateDetails = async (req: ApiRequest, res: ApiResponse) => {
 	try {
-		const { name, phone, avatar } = req.body;
+		const { name, avatar } = req.body;
 		const user: IUser = await User.findById(req.user.id).select(
 			"-password"
 		);
 		if (!user) return res.status(404).json({ message: "User not found" });
-		if (!name && !phone && !avatar)
+		if (!name && !avatar)
 			return res.status(400).json({ message: "Invalid request" });
 		const updateDetails: Partial<IUser> = {};
-		type KeysToUpdate = "name";
-		const keysToUpdate: KeysToUpdate[] = ["name"];
+		type KeysToUpdate = "name" | "avatar";
+		const keysToUpdate: KeysToUpdate[] = ["name", "avatar"];
 		keysToUpdate.forEach((key: KeysToUpdate) => {
 			if (key in req.body) {
 				if (!regex[key].test(req.body[key])) {

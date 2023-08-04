@@ -21,6 +21,10 @@ const UserSchema = new mongoose.Schema(
 			default: USER_ROLES.USER,
 			enum: Object.values(USER_ROLES),
 		},
+		avatar: {
+			type: String,
+			default: "/vectors/user.svg",
+		},
 	},
 	{
 		timestamps: true,
