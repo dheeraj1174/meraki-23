@@ -9,7 +9,7 @@ export const getAllTeams = async (req: ApiRequest, res: ApiResponse) => {
 			message: RESPONSE_MESSAGES.SUCCESS,
 			data: teams,
 		});
-	} catch (err) {
+	} catch (error: any) {
 		return res
 			.status(500)
 			.json({ message: RESPONSE_MESSAGES.SERVER_ERROR });
@@ -24,7 +24,10 @@ export const getTeamById = async (req: ApiRequest, res: ApiResponse) => {
 			message: RESPONSE_MESSAGES.SUCCESS,
 			data: team,
 		});
-	} catch (err) {
+	} catch (error: any) {
+		if (error.kind === "ObjectId") {
+			return res.status(404).json({ message: "Team not found" });
+		}
 		return res
 			.status(500)
 			.json({ message: RESPONSE_MESSAGES.SERVER_ERROR });
