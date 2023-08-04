@@ -8,8 +8,6 @@ export interface RegisterValues {
 	email: string;
 	password: string;
 	confirmPassword?: string;
-	location?: string;
-	phone?: string;
 }
 
 export interface ResetPasswordValues extends LoginValues {
