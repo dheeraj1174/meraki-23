@@ -87,3 +87,27 @@ export const createTeam = async (req: ApiRequest, res: ApiResponse) => {
 			.json({ message: RESPONSE_MESSAGES.SERVER_ERROR });
 	}
 };
+
+export const removeTeam = async (req: ApiRequest, res: ApiResponse) => {
+	try {
+		const teamId = req.query.id;
+		if (!teamId) {
+			return res.status(400).json({ message: RESPONSE_MESSAGES.FAILED });
+		}
+		const foundTeam = await Team.findById(teamId);
+		if (!foundTeam) {
+			return res.status(404).json({ message: "No Team found" });
+		}
+		await Participant.deleteMany({ team: teamId });
+		await Team.findByIdAndDelete(teamId);
+		return res.status(204).json({ message: RESPONSE_MESSAGES.SUCCESS });
+	} catch (error: any) {
+		console.error(error);
+		if (error.kind === "ObjectId") {
+			return res.status(404).json({ message: "Team not found" });
+		}
+		return res
+			.status(500)
+			.json({ message: RESPONSE_MESSAGES.SERVER_ERROR });
+	}
+};
