@@ -1,6 +1,8 @@
 import { RESPONSE_MESSAGES } from "@/constants/enum";
 import { ApiRequest, ApiResponse } from "@/interfaces/api";
 import Event from "@/models/Event";
+import Participant from "@/models/Participant";
+import Team from "@/models/Team";
 import { IEvent } from "@/types/Event";
 import { createEventValidator } from "@/validations/event";
 
@@ -122,6 +124,27 @@ export const updateEvent = async (req: ApiRequest, res: ApiResponse) => {
 			message: RESPONSE_MESSAGES.SUCCESS,
 			data: updatedEvent,
 		});
+	} catch (error: any) {
+		if (error.kind === "ObjectId") {
+			return res.status(404).json({ message: "Event not found" });
+		}
+		return res
+			.status(500)
+			.json({ message: RESPONSE_MESSAGES.SERVER_ERROR });
+	}
+};
+
+export const deleteEvent = async (req: ApiRequest, res: ApiResponse) => {
+	try {
+		const eventId = req.query.id;
+		const foundEvent = await Event.findById(eventId);
+		if (!foundEvent) {
+			res.status(404).json({ message: "Event not found" });
+		}
+		await Participant.deleteMany({ event: eventId });
+		await Team.deleteMany({ event: eventId });
+		await Event.findByIdAndDelete(eventId);
+		return res.status(204).json({ message: RESPONSE_MESSAGES.SUCCESS });
 	} catch (error: any) {
 		if (error.kind === "ObjectId") {
 			return res.status(404).json({ message: "Event not found" });
