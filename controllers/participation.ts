@@ -1,6 +1,7 @@
 import { RESPONSE_MESSAGES } from "@/constants/enum";
 import Event from "@/models/Event";
 import Participant from "@/models/Participant";
+import Team from "@/models/Team";
 import { ApiRequest, ApiResponse } from "@/types/api";
 
 export const getAllParticipants = async (req: ApiRequest, res: ApiResponse) => {
@@ -26,6 +27,56 @@ export const getAllParticipants = async (req: ApiRequest, res: ApiResponse) => {
 		});
 	} catch (error: any) {
 		console.error(error);
+		return res
+			.status(500)
+			.json({ message: RESPONSE_MESSAGES.SERVER_ERROR });
+	}
+};
+
+export const getTeamsForEvent = async (req: ApiRequest, res: ApiResponse) => {
+	try {
+		const eventId = req.query.id;
+		if (!eventId)
+			return res
+				.status(400)
+				.json({ message: "Please select an event to view teams" });
+		const foundEvent = await Event.findById(eventId);
+		if (!foundEvent)
+			return res.status(404).json({ message: "Event not found" });
+		// write a mongo query for this SQL query
+		// SELECT * FROM participants WHERE event = eventId AND team IS NOT NULL GROUP BY team
+		const allTeams = await Participant.find({ event: eventId })
+			.populate({
+				path: "event",
+				select: "name description",
+			})
+			.populate({
+				path: "user",
+				select: "name email avatar",
+			})
+			.populate({
+				path: "team",
+				select: "name",
+				match: { team: { $exists: true } },
+			});
+		const groupedTeams = allTeams.reduce((acc: any, curr: any) => {
+			if (curr.team) {
+				if (!acc[curr.team.name]) {
+					acc[curr.team.name] = [];
+				}
+				acc[curr.team.name].push(curr);
+			}
+			return acc;
+		}, {});
+		return res.status(200).json({
+			message: RESPONSE_MESSAGES.SUCCESS,
+			data: groupedTeams,
+		});
+	} catch (error: any) {
+		console.error(error);
+		if (error.kind === "ObjectId") {
+			return res.status(404).json({ message: "Not found" });
+		}
 		return res
 			.status(500)
 			.json({ message: RESPONSE_MESSAGES.SERVER_ERROR });
@@ -62,6 +113,45 @@ export const getParticipantsForEvent = async (
 		return res.status(200).json({
 			message: RESPONSE_MESSAGES.SUCCESS,
 			data: allparticipants,
+		});
+	} catch (error: any) {
+		console.error(error);
+		if (error.kind === "ObjectId") {
+			return res.status(404).json({ message: "Not found" });
+		}
+		return res
+			.status(500)
+			.json({ message: RESPONSE_MESSAGES.SERVER_ERROR });
+	}
+};
+
+export const getTeam = async (req: ApiRequest, res: ApiResponse) => {
+	const teamId = req.query.id;
+	if (!teamId)
+		return res
+			.status(400)
+			.json({ message: "Please select a team to view participants" });
+	try {
+		const allParticipants = await Participant.find({ team: teamId })
+			.populate({
+				path: "event",
+				select: "name description",
+			})
+			.populate({
+				path: "user",
+				select: "name email avatar",
+			})
+			.populate({
+				path: "team",
+				select: "name",
+				match: { team: { $exists: true } },
+			});
+		if (!allParticipants.length) {
+			return res.status(404).json({ message: "Team not found" });
+		}
+		return res.status(200).json({
+			message: RESPONSE_MESSAGES.SUCCESS,
+			data: allParticipants,
 		});
 	} catch (error: any) {
 		console.error(error);
