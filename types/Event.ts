@@ -4,4 +4,5 @@ export interface IEvent {
 	description: string;
 	date: string;
 	image: string;
+	teamSize: number;
 }
