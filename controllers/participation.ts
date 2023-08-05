@@ -176,12 +176,17 @@ export const participateInEvent = async (req: ApiRequest, res: ApiResponse) => {
 			event: eventId,
 			user: req.user?.id,
 		});
+		const teamId = req.body.teamId;
 		if (foundParticipant) {
 			return res.status(409).json({
 				message: "You have already registered in this event",
 			});
 		}
 		if (foundEvent.teamSize === 1) {
+			if (teamId)
+				return res.status(400).json({
+					message: "This event only accepts individual participants",
+				});
 			const newParticipant = await Participant.create({
 				event: eventId,
 				user: req.user?.id,
@@ -192,7 +197,6 @@ export const participateInEvent = async (req: ApiRequest, res: ApiResponse) => {
 				data: newParticipant,
 			});
 		} else {
-			const teamId = req.body.teamId;
 			if (!teamId)
 				return res
 					.status(400)

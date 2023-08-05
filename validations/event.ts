@@ -35,6 +35,10 @@ export const createEventValidator = async (values: ParsedEvent) => {
 	if (!values.teamSize) {
 		errors.teamSize =
 			"Please enter maximum number of members in a team (1 for solo participation)";
+	} else if (isNaN(Number(values.teamSize))) {
+		errors.teamSize = "Please enter a valid number";
+	} else if (Number(values.teamSize) < 1) {
+		errors.teamSize = "Team size cannot be less than 1";
 	}
 
 	return Object.keys(errors).length === 0
