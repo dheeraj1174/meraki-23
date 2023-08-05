@@ -1,6 +1,7 @@
 import { RESPONSE_MESSAGES } from "@/constants/enum";
 import { ApiRequest, ApiResponse } from "@/interfaces/api";
 import Event from "@/models/Event";
+import { IEvent } from "@/types/Event";
 import { createEventValidator } from "@/validations/event";
 
 export const getAllEvents = async (req: ApiRequest, res: ApiResponse) => {
@@ -77,6 +78,54 @@ export const createEvent = async (req: ApiRequest, res: ApiResponse) => {
 			data: event,
 		});
 	} catch (error: any) {
+		return res
+			.status(500)
+			.json({ message: RESPONSE_MESSAGES.SERVER_ERROR });
+	}
+};
+
+export const updateEvent = async (req: ApiRequest, res: ApiResponse) => {
+	try {
+		const eventId = req.query.id;
+		const event = await Event.findById(eventId);
+		if (!event) {
+			return res.status(404).json({ message: "Event not found" });
+		}
+		if (event.createdBy.toString() !== req.user?.id) {
+			return res.status(401).json({ message: "Not authorized" });
+		}
+		const updateDetails: Partial<IEvent> = {};
+		type KeysToUpdate =
+			| "name"
+			| "description"
+			| "date"
+			| "image"
+			| "teamSize";
+		const keysToUpdate: KeysToUpdate[] = [
+			"name",
+			"description",
+			"date",
+			"image",
+			"teamSize",
+		];
+		keysToUpdate.forEach((key: KeysToUpdate) => {
+			if (key in req.body) {
+				updateDetails[key] = req.body[key];
+			}
+		});
+		const updatedEvent = await Event.findByIdAndUpdate(
+			eventId,
+			{ $set: updateDetails },
+			{ new: true }
+		);
+		return res.status(200).json({
+			message: RESPONSE_MESSAGES.SUCCESS,
+			data: updatedEvent,
+		});
+	} catch (error: any) {
+		if (error.kind === "ObjectId") {
+			return res.status(404).json({ message: "Event not found" });
+		}
 		return res
 			.status(500)
 			.json({ message: RESPONSE_MESSAGES.SERVER_ERROR });
