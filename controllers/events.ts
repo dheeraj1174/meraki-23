@@ -17,6 +17,7 @@ export const getAllEvents = async (req: ApiRequest, res: ApiResponse) => {
 			data: allEvents,
 		});
 	} catch (error) {
+		console.error(error);
 		return res
 			.status(500)
 			.json({ message: RESPONSE_MESSAGES.SERVER_ERROR });
@@ -37,6 +38,7 @@ export const getEventById = async (req: ApiRequest, res: ApiResponse) => {
 			data: event,
 		});
 	} catch (error: any) {
+		console.error(error);
 		if (error.kind === "ObjectId") {
 			return res.status(404).json({ message: "Event not found" });
 		}
@@ -80,6 +82,7 @@ export const createEvent = async (req: ApiRequest, res: ApiResponse) => {
 			data: event,
 		});
 	} catch (error: any) {
+		console.error(error);
 		return res
 			.status(500)
 			.json({ message: RESPONSE_MESSAGES.SERVER_ERROR });
@@ -125,6 +128,7 @@ export const updateEvent = async (req: ApiRequest, res: ApiResponse) => {
 			data: updatedEvent,
 		});
 	} catch (error: any) {
+		console.error(error);
 		if (error.kind === "ObjectId") {
 			return res.status(404).json({ message: "Event not found" });
 		}
@@ -146,6 +150,7 @@ export const deleteEvent = async (req: ApiRequest, res: ApiResponse) => {
 		await Event.findByIdAndDelete(eventId);
 		return res.status(204).json({ message: RESPONSE_MESSAGES.SUCCESS });
 	} catch (error: any) {
+		console.error(error);
 		if (error.kind === "ObjectId") {
 			return res.status(404).json({ message: "Event not found" });
 		}
