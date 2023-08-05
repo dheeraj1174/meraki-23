@@ -1,7 +1,6 @@
-import { RESPONSE_MESSAGES } from "@/constants/enum";
+import { RESPONSE_MESSAGES, TEAM_PARTICIPATION_STATUS } from "@/constants/enum";
 import Event from "@/models/Event";
 import Participant from "@/models/Participant";
-import Team from "@/models/Team";
 import { ApiRequest, ApiResponse } from "@/types/api";
 
 export const getAllParticipants = async (req: ApiRequest, res: ApiResponse) => {
@@ -43,8 +42,6 @@ export const getTeamsForEvent = async (req: ApiRequest, res: ApiResponse) => {
 		const foundEvent = await Event.findById(eventId);
 		if (!foundEvent)
 			return res.status(404).json({ message: "Event not found" });
-		// write a mongo query for this SQL query
-		// SELECT * FROM participants WHERE event = eventId AND team IS NOT NULL GROUP BY team
 		const allTeams = await Participant.find({ event: eventId })
 			.populate({
 				path: "event",
@@ -153,6 +150,69 @@ export const getTeam = async (req: ApiRequest, res: ApiResponse) => {
 			message: RESPONSE_MESSAGES.SUCCESS,
 			data: allParticipants,
 		});
+	} catch (error: any) {
+		console.error(error);
+		if (error.kind === "ObjectId") {
+			return res.status(404).json({ message: "Not found" });
+		}
+		return res
+			.status(500)
+			.json({ message: RESPONSE_MESSAGES.SERVER_ERROR });
+	}
+};
+
+export const participateInEvent = async (req: ApiRequest, res: ApiResponse) => {
+	const eventId = req.query.id;
+	if (!eventId)
+		return res
+			.status(400)
+			.json({ message: "Please select an event to participate in" });
+	try {
+		const foundEvent = await Event.findById(eventId);
+		if (!foundEvent)
+			return res.status(404).json({ message: "Event not found" });
+		const foundParticipant = await Participant.findOne({
+			event: eventId,
+			user: req.user?.id,
+		});
+		if (foundParticipant) {
+			return res.status(409).json({
+				message: "You have already registered in this event",
+			});
+		}
+		if (foundEvent.teamSize === 1) {
+			const newParticipant = await Participant.create({
+				event: eventId,
+				user: req.user?.id,
+				status: TEAM_PARTICIPATION_STATUS.ACCEPTED,
+			});
+			return res.status(201).json({
+				message: RESPONSE_MESSAGES.SUCCESS,
+				data: newParticipant,
+			});
+		} else {
+			const teamId = req.body.teamId;
+			if (!teamId)
+				return res
+					.status(400)
+					.json({ message: "Please select a team to join" });
+			const foundTeam = await Participant.findOne({
+				event: eventId,
+				team: teamId,
+			});
+			if (!foundTeam)
+				return res.status(404).json({ message: "Team not found" });
+			const newParticipant = await Participant.create({
+				event: eventId,
+				team: teamId,
+				user: req.user?.id,
+				status: TEAM_PARTICIPATION_STATUS.PENDING,
+			});
+			return res.status(201).json({
+				message: RESPONSE_MESSAGES.SUCCESS,
+				data: newParticipant,
+			});
+		}
 	} catch (error: any) {
 		console.error(error);
 		if (error.kind === "ObjectId") {
