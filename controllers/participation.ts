@@ -1,6 +1,7 @@
 import { RESPONSE_MESSAGES, TEAM_PARTICIPATION_STATUS } from "@/constants/enum";
 import Event from "@/models/Event";
 import Participant from "@/models/Participant";
+import Team from "@/models/Team";
 import { ApiRequest, ApiResponse } from "@/types/api";
 
 export const getAllParticipants = async (req: ApiRequest, res: ApiResponse) => {
@@ -213,6 +214,95 @@ export const participateInEvent = async (req: ApiRequest, res: ApiResponse) => {
 				data: newParticipant,
 			});
 		}
+	} catch (error: any) {
+		console.error(error);
+		if (error.kind === "ObjectId") {
+			return res.status(404).json({ message: "Not found" });
+		}
+		return res
+			.status(500)
+			.json({ message: RESPONSE_MESSAGES.SERVER_ERROR });
+	}
+};
+
+export const approveParticipantInTeam = async (
+	req: ApiRequest,
+	res: ApiResponse
+) => {
+	const teamId = req.query.id;
+	if (!teamId)
+		return res
+			.status(400)
+			.json({ message: "Please select a team to approve" });
+	try {
+		const participantId = req.body.participantId;
+		if (!participantId)
+			return res
+				.status(400)
+				.json({ message: "Please select a participant to approve" });
+		const foundTeam = await Team.findById(teamId);
+		if (!foundTeam)
+			return res.status(404).json({ message: "Team not found" });
+		const foundParticipant = await Participant.findOne({
+			team: teamId,
+			user: participantId,
+		});
+		if (!foundParticipant)
+			return res.status(404).json({ message: "Participant not found" });
+		if (foundParticipant.createdBy.toString() !== req.user?.id)
+			return res.status(403).json({
+				message: "You are not authorized to approve this participant",
+			});
+		foundParticipant.status = TEAM_PARTICIPATION_STATUS.ACCEPTED;
+		await foundParticipant.save();
+		return res.status(200).json({
+			message: RESPONSE_MESSAGES.SUCCESS,
+			data: foundParticipant,
+		});
+	} catch (error: any) {
+		console.error(error);
+		if (error.kind === "ObjectId") {
+			return res.status(404).json({ message: "Not found" });
+		}
+		return res
+			.status(500)
+			.json({ message: RESPONSE_MESSAGES.SERVER_ERROR });
+	}
+};
+
+export const rejectParticipantInTeam = async (
+	req: ApiRequest,
+	res: ApiResponse
+) => {
+	const teamId = req.query.id;
+	if (!teamId)
+		return res
+			.status(400)
+			.json({ message: "Please select a team to reject" });
+	try {
+		const participantId = req.body.participantId;
+		if (!participantId)
+			return res
+				.status(400)
+				.json({ message: "Please select a participant to reject" });
+		const foundTeam = await Team.findById(teamId);
+		if (!foundTeam)
+			return res.status(404).json({ message: "Team not found" });
+		const foundParticipant = await Participant.findOne({
+			team: teamId,
+			user: participantId,
+		});
+		if (!foundParticipant)
+			return res.status(404).json({ message: "Participant not found" });
+		if (foundParticipant.createdBy.toString() !== req.user?.id)
+			return res.status(403).json({
+				message: "You are not authorized to reject this participant",
+			});
+		await Participant.findByIdAndDelete(foundParticipant._id);
+		return res.status(200).json({
+			message: RESPONSE_MESSAGES.SUCCESS,
+			data: foundParticipant,
+		});
 	} catch (error: any) {
 		console.error(error);
 		if (error.kind === "ObjectId") {
