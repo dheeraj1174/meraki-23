@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "@/library/Button";
 import Typography from "@/library/Typography";
 import sampleEvents from "@/data/events.json";
@@ -7,6 +7,7 @@ import { stylesConfig } from "@/utils/functions";
 import { PiCaretLeftBold } from "react-icons/pi";
 import styles from "@/styles/pages/Event.module.scss";
 import { useRouter } from "next/router";
+import Popup from "@/library/Popup";
 
 interface EventPageProps {
 	event: IEvent;
@@ -16,53 +17,66 @@ const classes = stylesConfig(styles, "event");
 
 const EventPage: React.FC<EventPageProps> = ({ event }) => {
 	const router = useRouter();
-	const eventUrl: any = router.query.slug;
-	const eventId = eventUrl[0];
+	const [showApplyPopup, setShowApplyPopup] = useState(false);
 	if (!event) return null;
 	return (
-		<main
-			className={classes("")}
-			style={{
-				backgroundImage: `url(${event.image})`,
-			}}
-			data-aos="zoom-in"
-		>
-			<div className={classes("-header")}>
-				<button
-					className={classes("-header-back")}
+		<>
+			<main
+				className={classes("")}
+				style={{
+					backgroundImage: `url(${event.image})`,
+				}}
+				data-aos="zoom-in"
+			>
+				<div className={classes("-header")}>
+					<button
+						className={classes("-header-back")}
+						onClick={() => {
+							router.back();
+						}}
+					>
+						<PiCaretLeftBold />
+					</button>
+					<Typography
+						type="heading"
+						variant="display"
+						className={classes("-title")}
+					>
+						{event.name}
+					</Typography>
+				</div>
+				<div className={classes("-body")}>
+					<Typography
+						type="body"
+						variant="extra-large"
+						className={classes("-description")}
+					>
+						{event.description}
+					</Typography>
+				</div>
+				<Button
+					className={classes("-cta")}
+					size="large"
 					onClick={() => {
-						router.back();
+						setShowApplyPopup(true);
 					}}
 				>
-					<PiCaretLeftBold />
-				</button>
-				<Typography
-					type="heading"
-					variant="display"
-					className={classes("-title")}
+					Apply Now
+				</Button>
+			</main>
+			{showApplyPopup ? (
+				<Popup
+					onClose={() => setShowApplyPopup(false)}
+					title={`Apply for ${event.name}`}
+					width="60%"
+					height="80%"
 				>
-					{event.name}
-				</Typography>
-			</div>
-			<div className={classes("-body")}>
-				<Typography
-					type="body"
-					variant="extra-large"
-					className={classes("-description")}
-				>
-					{event.description}
-				</Typography>
-			</div>
-			<Button
-				className={classes("-cta")}
-				size="large"
-				onClick={() => {
-					router.push(`/events/${eventId}/apply`);
-				}}
-			>
-				Apply Now
-			</Button>
-		</main>
+					<Typography type="heading" variant="subtitle">
+						Apply for {event.name}
+					</Typography>
+				</Popup>
+			) : null}
+		</>
 	);
 };
 
