@@ -15,7 +15,6 @@
 		"test:coverage": "jest --coverage --passWithNoTests"
 	},
 	"dependencies": {
-		"@reduxjs/toolkit": "^1.9.5",
 		"@types/node": "18.16.3",
 		"@types/react": "18.2.0",
 		"@types/react-dom": "18.2.1",
@@ -32,7 +31,6 @@
 		"react-dom": "18.2.0",
 		"react-hot-toast": "^2.4.1",
 		"react-icons": "^4.10.1",
-		"react-redux": "^8.1.2",
 		"typescript": "5.0.4"
 	},
 	"devDependencies": {

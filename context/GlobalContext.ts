@@ -1,8 +1,11 @@
 import { createContext } from "react";
+import { IUser } from "@/types/auth";
 
 const GlobalContext = createContext({
-	theme: "light" as "light" | "dark",
-	setTheme: (_: "light" | "dark") => {},
+	user: null as IUser | null,
+	setUser: (_: IUser | null) => {},
+	isLoggedIn: false as boolean,
+	setIsLoggedIn: (_: boolean) => {},
 });
 
 export default GlobalContext;

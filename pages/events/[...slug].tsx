@@ -9,6 +9,7 @@ import styles from "@/styles/pages/Event.module.scss";
 import { useRouter } from "next/router";
 import Popup from "@/library/Popup";
 import { toast } from "react-hot-toast";
+import useStore from "@/hooks/store";
 
 interface EventPageProps {
 	event: IEvent;
@@ -19,6 +20,9 @@ const classes = stylesConfig(styles, "event");
 const EventPage: React.FC<EventPageProps> = ({ event }) => {
 	const router = useRouter();
 	const [showApplyPopup, setShowApplyPopup] = useState(false);
+
+	const { isLoggedIn, setIsLoggedIn } = useStore();
+
 	if (!event) return null;
 	return (
 		<>
@@ -59,7 +63,8 @@ const EventPage: React.FC<EventPageProps> = ({ event }) => {
 					className={classes("-cta")}
 					size="large"
 					onClick={() => {
-						toast.success("Applied");
+						toast.success(`${isLoggedIn}`);
+						setIsLoggedIn(!isLoggedIn);
 						setShowApplyPopup(true);
 					}}
 				>

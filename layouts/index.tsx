@@ -49,7 +49,7 @@ const Layout: React.FC<any> = ({ children }) => {
 				}}
 			/>
 			{children}
-			<Toaster position="top-center" reverseOrder={true} />
+			<Toaster position="top-center" />
 		</>
 	);
 };
