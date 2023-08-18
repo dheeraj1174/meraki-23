@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import Popup from "@/library/Popup";
 import { toast } from "react-hot-toast";
 import useStore from "@/hooks/store";
+import Avatar from "@/components/Avatar";
 
 interface EventPageProps {
 	event: IEvent;
@@ -58,6 +59,10 @@ const EventPage: React.FC<EventPageProps> = ({ event }) => {
 					>
 						{event.description}
 					</Typography>
+					<Avatar
+						src="https://github.com/akshatmittal61.pn"
+						alt="Akshat Mittal"
+					/>
 				</div>
 				<Button
 					className={classes("-cta")}
