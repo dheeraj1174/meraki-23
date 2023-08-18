@@ -11,6 +11,7 @@ import Popup from "@/library/Popup";
 import { toast } from "react-hot-toast";
 import useStore from "@/hooks/store";
 import Avatar from "@/components/Avatar";
+import { Input } from "@/library/form";
 
 interface EventPageProps {
 	event: IEvent;
@@ -59,6 +60,29 @@ const EventPage: React.FC<EventPageProps> = ({ event }) => {
 					>
 						{event.description}
 					</Typography>
+					<Input
+						name="name"
+						placeholder="Enter your name"
+						label="Full Name"
+						dropdown={{
+							enabled: true,
+							options: [
+								{
+									id: 1,
+									value: "jane",
+									label: "Jane Doe",
+								},
+								{
+									id: 2,
+									value: "kelly",
+									label: "Kelly Wristwourth",
+								},
+							],
+							onSelect(option) {
+								toast.success(`Chose ${option.label}`);
+							},
+						}}
+					/>
 					<Avatar
 						src="https://github.com/akshatmittal61.pn"
 						alt="Akshat Mittal"

@@ -1,0 +1,161 @@
+@import "@/styles/config/mixins";
+@import "@/styles/config/typography";
+
+.input {
+	width: 100%;
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+	flex-flow: column;
+	position: relative;
+
+	label:has(~ input:required) {
+		&::after {
+			content: "*";
+			color: #f00;
+			margin-left: 5px;
+		}
+	}
+
+	&--box {
+		border-radius: 8px;
+		gap: 4px;
+	}
+
+	&--line {
+		border-radius: 0;
+		gap: 12px;
+	}
+
+	&__label {
+		@include typography(body, large, regular);
+	}
+
+	&__input {
+		all: unset;
+		box-sizing: border-box;
+		width: 100%;
+		@include typography(body, medium, regular);
+		transition: all 0.3s ease-in-out;
+	}
+
+	&--box &__label {
+		color: #697d95;
+	}
+
+	&--box &__input {
+		border-radius: 8px;
+		border: 1.5px solid #bac7d5;
+		padding: 10px;
+	}
+
+	&--box &__input:active,
+	&--box &__input:focus {
+		border-color: var(--theme-black);
+	}
+
+	&--line &__input {
+		border-bottom: 1.5px solid #666;
+		padding: 4px;
+	}
+
+	&--line &__input:active,
+	&--line &__input:focus {
+		border-bottom: 1.5px solid #000;
+	}
+
+	&--box &__input:invalid,
+	&--line &__input:invalid {
+		border-color: #f00;
+	}
+
+	&__prefix {
+		position: absolute;
+		bottom: 12px;
+		left: 12px;
+		@include typography(body, medium, regular);
+	}
+
+	&--box &__prefix {
+		bottom: 11px;
+		left: 10px;
+	}
+
+	&--line &__prefix {
+		bottom: 8px;
+		left: 4px;
+	}
+
+	&__icon {
+		width: 20px;
+		height: 20px;
+		position: absolute;
+		top: 50%;
+		cursor: pointer;
+		user-select: none;
+		display: inline-flex;
+		justify-content: center;
+		align-items: center;
+
+		&--left {
+			left: 0;
+			transform: translate(25%, -50%);
+		}
+
+		&--right {
+			right: 0;
+			transform: translate(-25%, -50%);
+		}
+	}
+
+	&__icon--left + &__input {
+		padding-left: 30px;
+	}
+
+	&__input:has(~ .input__icon--right) {
+		padding-right: 30px;
+	}
+
+	&__dropdown {
+		display: none;
+		justify-content: flex-start;
+		align-items: flex-start;
+		flex-flow: column;
+		position: absolute;
+		top: 100%;
+		left: 0;
+		z-index: 15;
+		width: 100%;
+		max-height: 150px;
+		height: fit-content;
+		box-shadow: var(--shadow-elevation-4dp);
+		background-color: #fff;
+		color: #000;
+		border-radius: 4px;
+		overflow: hidden;
+		overflow-y: auto;
+		@include hide-scrollbar();
+
+		&__option {
+			width: 100%;
+			padding: 10px 8px;
+			cursor: pointer;
+			transition: all 0.2s ease-in-out;
+
+			&:hover,
+			&:active,
+			&:focus {
+				background-color: #eee;
+			}
+		}
+
+		&:active,
+		&:focus {
+			display: flex;
+		}
+	}
+
+	&__input:focus ~ &__dropdown {
+		display: flex;
+	}
+}
