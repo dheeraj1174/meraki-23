@@ -17,6 +17,7 @@
 		text-transform: uppercase;
 		animation: appear 0.4s ease-in-out forwards;
 		opacity: 0;
+		text-align: center;
 
 		&::after {
 			content: "";
@@ -39,6 +40,7 @@
 		bottom: 32px;
 		left: 50%;
 		transform: translateX(-50%);
+		z-index: 5;
 
 		&-arrow {
 			width: 1px;

@@ -1,4 +1,5 @@
 import React from "react";
+import { Navigation } from "..";
 import Typography from "@/library/Typography";
 import styles from "./styles.module.scss";
 import { stylesConfig } from "@/utils/functions";
@@ -24,6 +25,7 @@ const HomeHero: React.FC = () => {
 			>
 				<span className={classes("-btn-arrow")} />
 			</button>
+			<Navigation />
 		</section>
 	);
 };
