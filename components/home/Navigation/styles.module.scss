@@ -68,8 +68,7 @@
 
 	&-link {
 		text-decoration: none;
-		@include font(Orbitron, 36px, 800);
-		color: var(--blue-grey-100);
+		@include font(Orbitron, 24px, 800, 125%, var(--blue-grey-100), 3px);
 		text-transform: uppercase;
 		text-align: center;
 

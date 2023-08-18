@@ -26,6 +26,8 @@ export interface InputProps extends React.HTMLProps<HTMLInputElement> {
 		onSelect: (_: InputDropdownOption) => void;
 		onSearch?: (_: string) => void;
 	};
+	error?: boolean;
+	errorMessage?: string;
 }
 
 export interface TextareaProps extends React.HTMLProps<HTMLTextAreaElement> {

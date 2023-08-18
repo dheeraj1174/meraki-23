@@ -6,6 +6,7 @@ const GlobalContext = createContext({
 	setUser: (_: IUser | null) => {},
 	isLoggedIn: false as boolean,
 	setIsLoggedIn: (_: boolean) => {},
+	isCheckingLoggedIn: false as boolean,
 });
 
 export default GlobalContext;

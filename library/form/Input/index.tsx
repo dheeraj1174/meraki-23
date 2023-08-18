@@ -16,6 +16,8 @@ const Input: React.FC<InputProps> = ({
 	prefix,
 	style,
 	className,
+	error,
+	errorMessage,
 	...props
 }) => {
 	const prefixRef = useRef<any>(null);
@@ -130,6 +132,13 @@ const Input: React.FC<InputProps> = ({
 					...styles?.input,
 					...style,
 				}}
+				onInvalid={(e) => {
+					e.currentTarget.setCustomValidity(errorMessage + "");
+				}}
+				onInput={(e) => {
+					e.currentTarget.setCustomValidity("");
+				}}
+				title={error ? errorMessage : props.title ?? ""}
 				{...props}
 				onChange={(e) => {
 					if (dropdown?.enabled) {
