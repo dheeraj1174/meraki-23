@@ -8,6 +8,7 @@ import { PiCaretLeftBold } from "react-icons/pi";
 import styles from "@/styles/pages/Event.module.scss";
 import { useRouter } from "next/router";
 import Popup from "@/library/Popup";
+import { toast } from "react-hot-toast";
 
 interface EventPageProps {
 	event: IEvent;
@@ -58,6 +59,7 @@ const EventPage: React.FC<EventPageProps> = ({ event }) => {
 					className={classes("-cta")}
 					size="large"
 					onClick={() => {
+						toast.success("Applied");
 						setShowApplyPopup(true);
 					}}
 				>
