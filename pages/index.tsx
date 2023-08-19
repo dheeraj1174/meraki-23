@@ -2,7 +2,7 @@ import React from "react";
 import styles from "@/styles/pages/Home.module.scss";
 import { stylesConfig } from "@/utils/functions";
 import { Events, Hero } from "@/components/home";
-import sampleEvents from "@/data/events.json";
+import sampleEvents from "@/data/events";
 import { IEvent } from "@/types/Event";
 
 interface HomePageProps {

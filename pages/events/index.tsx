@@ -1,7 +1,7 @@
 import React from "react";
 import Typography from "@/library/Typography";
 import { stylesConfig } from "@/utils/functions";
-import sampleEvents from "@/data/events.json";
+import sampleEvents from "@/data/events";
 import { IEvent } from "@/types/Event";
 import Events from "@/components/Events";
 import styles from "@/styles/pages/Events.module.scss";

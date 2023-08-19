@@ -31,7 +31,7 @@
 		background-color: var(--color-white);
 
 		&-title {
-			@include font(Rajdhani, 28px, 500);
+			@include font("Red hat Display", 28px, 500);
 		}
 
 		&-close {

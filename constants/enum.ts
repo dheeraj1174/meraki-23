@@ -1,4 +1,8 @@
-export const USER_ROLES = {
+import { USER_ROLES as ROLES } from "@/types/auth";
+
+export const USER_ROLES: {
+	[key: string]: ROLES;
+} = {
 	ADMIN: "admin",
 	USER: "user",
 	GUEST: "guest",

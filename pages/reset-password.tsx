@@ -130,13 +130,7 @@ const SignInPage: React.FC = () => {
 
 	return (
 		<main className={classNames("")}>
-			<section
-				className={classNames("-graphic")}
-				style={{
-					backgroundImage:
-						"url(https://images.prismic.io/worldcoin-company-website/cfb5aaac-7497-4bb8-9890-ac4235a57520_what-is-a-hackathon%402x.jpg)",
-				}}
-			>
+			<section className={classNames("-graphic")}>
 				<Typography
 					type="heading"
 					variant="display"

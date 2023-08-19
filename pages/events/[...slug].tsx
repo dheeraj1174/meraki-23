@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import Button from "@/library/Button";
 import Typography from "@/library/Typography";
-import sampleEvents from "@/data/events.json";
+import sampleEvents from "@/data/events";
+import sampleUsers from "@/data/users";
 import { IEvent } from "@/types/Event";
 import { stylesConfig } from "@/utils/functions";
 import { PiCaretLeftBold } from "react-icons/pi";
@@ -9,21 +10,19 @@ import styles from "@/styles/pages/Event.module.scss";
 import { useRouter } from "next/router";
 import Popup from "@/library/Popup";
 import { toast } from "react-hot-toast";
-import useStore from "@/hooks/store";
-import Avatar from "@/components/Avatar";
 import { Input } from "@/library/form";
+import { ITeam } from "@/types/team";
 
 interface EventPageProps {
 	event: IEvent;
+	teams: ITeam[];
 }
 
 const classes = stylesConfig(styles, "event");
 
-const EventPage: React.FC<EventPageProps> = ({ event }) => {
+const EventPage: React.FC<EventPageProps> = ({ event, teams }) => {
 	const router = useRouter();
 	const [showApplyPopup, setShowApplyPopup] = useState(false);
-
-	const { isLoggedIn, setIsLoggedIn } = useStore();
 
 	if (!event) return null;
 	return (
@@ -60,56 +59,44 @@ const EventPage: React.FC<EventPageProps> = ({ event }) => {
 					>
 						{event.description}
 					</Typography>
-					<Input
-						name="name"
-						placeholder="Enter your name"
-						label="Full Name"
-						dropdown={{
-							enabled: true,
-							options: [
-								{
-									id: 1,
-									value: "jane",
-									label: "Jane Doe",
-								},
-								{
-									id: 2,
-									value: "kelly",
-									label: "Kelly Wristwourth",
-								},
-							],
-							onSelect(option) {
-								toast.success(`Chose ${option.label}`);
-							},
-						}}
-					/>
-					<Avatar
-						src="https://github.com/akshatmittal61.pn"
-						alt="Akshat Mittal"
-					/>
 				</div>
 				<Button
 					className={classes("-cta")}
 					size="large"
 					onClick={() => {
-						toast.success(`${isLoggedIn}`);
-						setIsLoggedIn(!isLoggedIn);
 						setShowApplyPopup(true);
 					}}
 				>
-					Apply Now
+					Register Now
 				</Button>
 			</main>
 			{showApplyPopup ? (
 				<Popup
 					onClose={() => setShowApplyPopup(false)}
-					title={`Apply for ${event.name}`}
+					title={`Register for ${event.name}`}
 					width="60%"
 					height="80%"
 				>
-					<Typography type="heading" variant="subtitle">
-						Apply for {event.name}
-					</Typography>
+					{event.teamSize === 1 ? (
+						<form className={classes("-form")}></form>
+					) : (
+						<form className={classes("-form")}>
+							<Input
+								label="Select a team"
+								dropdown={{
+									enabled: true,
+									options: teams.map((team) => ({
+										id: team._id,
+										label: team.name,
+										value: team._id,
+									})),
+									onSelect: (team) => {
+										toast.success(team.label);
+									},
+								}}
+							/>
+						</form>
+					)}
 				</Popup>
 			) : null}
 		</>
@@ -127,6 +114,15 @@ export const getServerSideProps = async ({ params }: any) => {
 		return {
 			props: {
 				event: event,
+				teams: [
+					{
+						_id: "1",
+						name: "Team 1",
+						event: event,
+						createdBy: sampleUsers[0],
+						members: [sampleUsers[0], sampleUsers[1]],
+					},
+				],
 			},
 		};
 	} catch (error) {
