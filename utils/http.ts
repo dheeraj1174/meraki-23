@@ -1,7 +1,7 @@
 import { backendBaseUrl } from "@/constants/variables";
 import axios from "axios";
 
-export const http = axios.create({
+const http = axios.create({
 	baseURL: backendBaseUrl,
 });
 
@@ -25,3 +25,5 @@ http.interceptors.request.use(
 		return Promise.reject(error);
 	}
 );
+
+export default http;

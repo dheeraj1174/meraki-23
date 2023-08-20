@@ -8,3 +8,5 @@ export interface ITeam {
 	createdBy: IUser;
 	members: IUser[];
 }
+
+export type TEAM_PARTICIPATION_STATUS = "accepted" | "pending" | "rejected";

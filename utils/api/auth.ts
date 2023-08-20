@@ -1,5 +1,5 @@
 import { LoginValues, RegisterValues } from "@/types/auth";
-import { http } from "../http";
+import http from "../http";
 
 export const register = async (user: RegisterValues) => {
 	try {

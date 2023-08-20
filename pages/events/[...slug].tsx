@@ -61,9 +61,8 @@ const EventPage: React.FC<EventPageProps> = ({ event }) => {
 					className={classes("-cta")}
 					size="large"
 					onClick={() => {
-						/* if (isLoggedIn) setShowApplyPopup(true);
-						else router.push(`/login?redirect=${router.asPath}`); */
-						setShowApplyPopup(true);
+						if (isLoggedIn) setShowApplyPopup(true);
+						else router.push(`/login?redirect=${router.asPath}`);
 					}}
 				>
 					Register Now
