@@ -57,7 +57,7 @@ const SignInPage: React.FC = () => {
 			else router.push("/");
 		} catch (error: any) {
 			console.error(error);
-			toast.error(error.message);
+			toast.error(error.message ?? error ?? "Something went wrong");
 		} finally {
 			setLoading(false);
 		}
@@ -129,7 +129,7 @@ const SignInPage: React.FC = () => {
 							)
 						}
 					/>
-					<Button type="submit" variant="light" loading={loading}>
+					<Button type="submit" variant="dark" loading={loading}>
 						Login
 					</Button>
 				</form>

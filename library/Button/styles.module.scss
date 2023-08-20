@@ -132,13 +132,13 @@
 		height: 23px;
 	}
 
-	&--filled &__loader {
-		border-color: var(--color-brand-white);
+	&--variant--light &__loader {
+		border-left-color: var(--color-brand-white);
 		border-top-color: var(--color-brand-black);
 	}
 
-	&--outlined &__loader {
-		border-color: var(--color-brand-black);
+	&--variant--dark &__loader {
+		border-left-color: var(--color-brand-black);
 		border-top-color: var(--color-brand-white);
 	}
 

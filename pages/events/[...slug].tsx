@@ -2,26 +2,23 @@ import React, { useState } from "react";
 import Button from "@/library/Button";
 import Typography from "@/library/Typography";
 import sampleEvents from "@/data/events";
-import sampleUsers from "@/data/users";
 import { IEvent } from "@/types/Event";
 import { stylesConfig } from "@/utils/functions";
 import { PiCaretLeftBold } from "react-icons/pi";
 import styles from "@/styles/pages/Event.module.scss";
 import { useRouter } from "next/router";
-import Popup from "@/library/Popup";
-import { toast } from "react-hot-toast";
-import { Input } from "@/library/form";
-import { ITeam } from "@/types/team";
+import EventPopup from "@/components/Event";
+import useStore from "@/hooks/store";
 
 interface EventPageProps {
 	event: IEvent;
-	teams: ITeam[];
 }
 
 const classes = stylesConfig(styles, "event");
 
-const EventPage: React.FC<EventPageProps> = ({ event, teams }) => {
+const EventPage: React.FC<EventPageProps> = ({ event }) => {
 	const router = useRouter();
+	const { isLoggedIn } = useStore();
 	const [showApplyPopup, setShowApplyPopup] = useState(false);
 
 	if (!event) return null;
@@ -64,6 +61,8 @@ const EventPage: React.FC<EventPageProps> = ({ event, teams }) => {
 					className={classes("-cta")}
 					size="large"
 					onClick={() => {
+						/* if (isLoggedIn) setShowApplyPopup(true);
+						else router.push(`/login?redirect=${router.asPath}`); */
 						setShowApplyPopup(true);
 					}}
 				>
@@ -71,33 +70,10 @@ const EventPage: React.FC<EventPageProps> = ({ event, teams }) => {
 				</Button>
 			</main>
 			{showApplyPopup ? (
-				<Popup
+				<EventPopup
+					event={event}
 					onClose={() => setShowApplyPopup(false)}
-					title={`Register for ${event.name}`}
-					width="60%"
-					height="80%"
-				>
-					{event.teamSize === 1 ? (
-						<form className={classes("-form")}></form>
-					) : (
-						<form className={classes("-form")}>
-							<Input
-								label="Select a team"
-								dropdown={{
-									enabled: true,
-									options: teams.map((team) => ({
-										id: team._id,
-										label: team.name,
-										value: team._id,
-									})),
-									onSelect: (team) => {
-										toast.success(team.label);
-									},
-								}}
-							/>
-						</form>
-					)}
-				</Popup>
+				/>
 			) : null}
 		</>
 	);
@@ -114,15 +90,6 @@ export const getServerSideProps = async ({ params }: any) => {
 		return {
 			props: {
 				event: event,
-				teams: [
-					{
-						_id: "1",
-						name: "Team 1",
-						event: event,
-						createdBy: sampleUsers[0],
-						members: [sampleUsers[0], sampleUsers[1]],
-					},
-				],
 			},
 		};
 	} catch (error) {
