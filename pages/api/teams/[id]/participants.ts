@@ -4,6 +4,7 @@ import {
 	handleParticipantStatusInTeam,
 } from "@/controllers/participation";
 import connectDB from "@/db";
+import authMiddleware from "@/middleware/auth";
 import { ApiRequest, ApiResponse } from "@/types/api";
 
 const handler = async (req: ApiRequest, res: ApiResponse) => {
@@ -15,7 +16,7 @@ const handler = async (req: ApiRequest, res: ApiResponse) => {
 			case "GET":
 				return getTeamParticipants(req, res);
 			case "PATCH":
-				return handleParticipantStatusInTeam(req, res);
+				return authMiddleware(handleParticipantStatusInTeam)(req, res);
 			default:
 				res.setHeader("Allow", ["GET", "PATCH"]);
 				return res.status(405).end(`Method ${method} Not Allowed`);

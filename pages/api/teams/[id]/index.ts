@@ -1,6 +1,7 @@
 import { RESPONSE_MESSAGES } from "@/constants/enum";
-import { createTeam, getAllTeams } from "@/controllers/team";
+import { getTeamById, removeTeam } from "@/controllers/team";
 import connectDB from "@/db";
+import authMiddleware from "@/middleware/auth";
 import { ApiRequest, ApiResponse } from "@/types/api";
 
 const handler = async (req: ApiRequest, res: ApiResponse) => {
@@ -10,11 +11,11 @@ const handler = async (req: ApiRequest, res: ApiResponse) => {
 
 		switch (method) {
 			case "GET":
-				return getAllTeams(req, res);
-			case "POST":
-				return createTeam(req, res);
+				return getTeamById(req, res);
+			case "DELETE":
+				return authMiddleware(removeTeam)(req, res);
 			default:
-				res.setHeader("Allow", ["GET", "POST"]);
+				res.setHeader("Allow", ["GET", "DELETE"]);
 				return res.status(405).end(`Method ${method} Not Allowed`);
 		}
 	} catch (error: any) {

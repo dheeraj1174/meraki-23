@@ -1,6 +1,7 @@
 import { RESPONSE_MESSAGES } from "@/constants/enum";
 import { participateInEvent } from "@/controllers/participation";
 import connectDB from "@/db";
+import authMiddleware from "@/middleware/auth";
 import { ApiRequest, ApiResponse } from "@/types/api";
 
 const handler = async (req: ApiRequest, res: ApiResponse) => {
@@ -10,7 +11,7 @@ const handler = async (req: ApiRequest, res: ApiResponse) => {
 
 		switch (method) {
 			case "POST":
-				return participateInEvent(req, res);
+				return authMiddleware(participateInEvent)(req, res);
 			default:
 				res.setHeader("Allow", ["POST"]);
 				return res.status(405).end(`Method ${method} Not Allowed`);
