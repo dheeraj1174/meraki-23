@@ -6,6 +6,9 @@ import { ITeam } from "@/types/Team";
 import sampleUsers from "@/data/users";
 import { stylesConfig } from "@/utils/functions";
 import styles from "./styles.module.scss";
+import ConfirmationModal from "../Confirmation";
+import { toast } from "react-hot-toast";
+import useStore from "@/hooks/store";
 
 interface EventPopupProps {
 	event: IEvent;
@@ -15,6 +18,7 @@ interface EventPopupProps {
 const classes = stylesConfig(styles, "event-popup");
 
 const EventPopup: React.FC<EventPopupProps> = ({ event, onClose }) => {
+	const { user } = useStore();
 	const [registrationDetails, setRegistrationDetails] = useState({
 		eventId: event._id,
 		teamId: null,
@@ -44,37 +48,42 @@ const EventPopup: React.FC<EventPopupProps> = ({ event, onClose }) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [event._id]);
 
-	return (
+	return event.teamSize === 1 ? (
+		<ConfirmationModal
+			title="Register"
+			body={`Participate in ${event.name} as ${user?.name}?`}
+			onConfirm={() => {
+				toast.success("Registered successfully!");
+			}}
+			onCancel={onClose}
+		/>
+	) : (
 		<Popup
 			onClose={onClose}
 			title={`Register for ${event.name}`}
 			width="60%"
 			height="80%"
 		>
-			{event.teamSize === 1 ? (
-				<form className={classes("-form")}></form>
-			) : (
-				<form className={classes("-form")}>
-					<Input
-						label="Select a team"
-						dropdown={{
-							enabled: true,
-							options: teams.map((team) => ({
-								id: team._id,
-								label: team.name,
-								value: team._id,
-							})),
-							onSelect: (team) => {
-								setRegistrationDetails({
-									...registrationDetails,
-									teamId: team.id,
-								});
-							},
-						}}
-						placeholder="Team Name"
-					/>
-				</form>
-			)}
+			<form className={classes("-form")}>
+				<Input
+					label="Select a team"
+					dropdown={{
+						enabled: true,
+						options: teams.map((team) => ({
+							id: team._id,
+							label: team.name,
+							value: team._id,
+						})),
+						onSelect: (team) => {
+							setRegistrationDetails({
+								...registrationDetails,
+								teamId: team.id,
+							});
+						},
+					}}
+					placeholder="Team Name"
+				/>
+			</form>
 		</Popup>
 	);
 };

@@ -1,0 +1,24 @@
+@import "@/styles/config/mixins";
+
+.confirmation-modal {
+	width: 100%;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	flex-flow: column;
+
+	&-body {
+		width: 100%;
+		margin-bottom: 24px;
+		color: #000;
+	}
+
+	&-footer {
+		width: 100%;
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		gap: 12px;
+		margin-top: auto;
+	}
+}
