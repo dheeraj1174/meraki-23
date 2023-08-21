@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Button from "@/library/Button";
 import Typography from "@/library/Typography";
 import sampleEvents from "@/data/events";
-import { IEvent } from "@/types/Event";
+import { IEvent } from "@/types/event";
 import { stylesConfig } from "@/utils/functions";
 import { PiCaretLeftBold } from "react-icons/pi";
 import styles from "@/styles/pages/Event.module.scss";

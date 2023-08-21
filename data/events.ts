@@ -1,4 +1,4 @@
-import { IEvent } from "@/types/Event";
+import { IEvent } from "@/types/event";
 
 const teams: IEvent[] = [
 	{

@@ -1,5 +1,5 @@
 import regex from "@/constants/regex";
-import { IEvent } from "@/types/Event";
+import { IEvent } from "@/types/event";
 
 interface ParsedEvent extends Omit<Omit<IEvent, "_id">, "teamSize"> {
 	teamSize: string;

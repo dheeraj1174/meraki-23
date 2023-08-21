@@ -1,7 +1,7 @@
 import { slugify, stylesConfig } from "@/utils/functions";
 import styles from "./styles.module.scss";
 import React, { useEffect, useState } from "react";
-import { IEvent } from "@/types/Event";
+import { IEvent } from "@/types/event";
 import Link from "next/link";
 import Typography from "@/library/Typography";
 import { useRouter } from "next/router";

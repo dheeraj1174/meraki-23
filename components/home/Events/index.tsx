@@ -3,7 +3,7 @@ import styles from "./styles.module.scss";
 import { stylesConfig } from "@/utils/functions";
 import Events from "@/components/Events";
 import Typography from "@/library/Typography";
-import { IEvent } from "@/types/Event";
+import { IEvent } from "@/types/event";
 
 interface HomeEventsProps {
 	events: IEvent[];

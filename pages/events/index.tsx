@@ -2,7 +2,7 @@ import React from "react";
 import Typography from "@/library/Typography";
 import { stylesConfig } from "@/utils/functions";
 import sampleEvents from "@/data/events";
-import { IEvent } from "@/types/Event";
+import { IEvent } from "@/types/event";
 import Events from "@/components/Events";
 import styles from "@/styles/pages/Events.module.scss";
 

@@ -3,7 +3,7 @@ import { ApiRequest, ApiResponse } from "@/interfaces/api";
 import Event from "@/models/Event";
 import Participant from "@/models/Participant";
 import Team from "@/models/Team";
-import { IEvent } from "@/types/Event";
+import { IEvent } from "@/types/event";
 import { createEventValidator } from "@/validations/event";
 
 export const getAllEvents = async (req: ApiRequest, res: ApiResponse) => {

@@ -1,5 +1,5 @@
 import http from "../http";
-import { TEAM_PARTICIPATION_STATUS } from "@/types/Team";
+import { TEAM_PARTICIPATION_STATUS } from "@/types/team";
 
 export const getAllParticipants = async () => {
 	try {

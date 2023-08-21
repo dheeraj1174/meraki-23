@@ -1,4 +1,4 @@
-import { IEvent } from "./Event";
+import { IEvent } from "./event";
 import { IUser } from "./auth";
 
 export interface ITeam {

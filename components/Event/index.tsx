@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Popup from "@/library/Popup";
 import { Input } from "@/library/form";
-import { IEvent } from "@/types/Event";
-import { ITeam } from "@/types/Team";
+import { IEvent } from "@/types/event";
+import { ITeam } from "@/types/team";
 import sampleUsers from "@/data/users";
 import { stylesConfig } from "@/utils/functions";
 import styles from "./styles.module.scss";
