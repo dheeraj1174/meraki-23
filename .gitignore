@@ -38,8 +38,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# sample data files
-/data/*.json
-/data/*.js
-/data/*.ts
-/data/*.tsx
+# # sample data files
+# /data/*.json
+# /data/*.js
+# /data/*.ts
+# /data/*.tsx
