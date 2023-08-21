@@ -7,9 +7,9 @@ const Layout: React.FC<any> = ({ children }) => {
 	return (
 		<>
 			<Seo
-				title="NextJS Boilerplate"
-				description="NextJS Boilerplate with TypeScript, ESLint, Prettier, Jest, React Testing Library, SASS, and more."
-				image="/images/og-image.png"
+				title="Meraki - Technical Fest of IIIT Una"
+				description="Meraki is the annual technical fest of IIIT Una. It is a 3-day event held in September. It is a platform for students to showcase their technical skills and knowledge."
+				image="/images/favicon.png"
 				icons={["icon", "shortcut icon", "apple-touch-icon"].map(
 					(item) => {
 						return {
@@ -23,16 +23,16 @@ const Layout: React.FC<any> = ({ children }) => {
 					card: "summary_large_image",
 					site: "@akshatmittal61",
 					author: "@akshatmittal61",
-					title: "NextJS Boilerplate",
+					title: "Meraki - Technical Fest of IIIT Una",
 					description:
-						"NextJS Boilerplate with TypeScript, ESLint, Prettier, Jest, React Testing Library, SASS, and more.",
+						"Meraki is the annual technical fest of IIIT Una. It is a 3-day event held in September. It is a platform for students to showcase their technical skills and knowledge.",
 					image: "/images/og-image.png",
 					url: frontendBaseUrl,
 				}}
 				og={{
-					title: "NextJS Boilerplate",
+					title: "Meraki - Technical Fest of IIIT Una",
 					description:
-						"NextJS Boilerplate with TypeScript, ESLint, Prettier, Jest, React Testing Library, SASS, and more.",
+						"Meraki is the annual technical fest of IIIT Una. It is a 3-day event held in September. It is a platform for students to showcase their technical skills and knowledge.",
 					images: [
 						{
 							url: "/images/og-image.png",
@@ -40,13 +40,14 @@ const Layout: React.FC<any> = ({ children }) => {
 							type: "image/png",
 							width: 1200,
 							height: 630,
-							alt: "NextJS Boilerplate",
+							alt: "Meraki - Technical Fest of IIIT Una",
 						},
 					],
 					url: frontendBaseUrl,
 					type: "website",
-					siteName: "NextJS Boilerplate",
+					siteName: "Meraki - Technical Fest of IIIT Una",
 				}}
+				themeColor="#121f3d"
 			/>
 			{children}
 			<Toaster position="top-center" />
