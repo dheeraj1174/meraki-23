@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "@/styles/pages/Home.module.scss";
 import { stylesConfig } from "@/utils/functions";
-import { Events, Hero } from "@/components/home";
+import { Account, Events, Hero } from "@/components/home";
 import sampleEvents from "@/data/events";
 import { IEvent } from "@/types/event";
 
@@ -16,6 +16,7 @@ const HomePage: React.FC<HomePageProps> = ({ events }) => {
 		<main className={classes("")}>
 			<Hero />
 			<Events events={events} />
+			<Account />
 		</main>
 	);
 };

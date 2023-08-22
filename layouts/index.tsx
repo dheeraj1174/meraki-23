@@ -1,9 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Seo from "./Seo";
 import { frontendBaseUrl } from "@/constants/variables";
 import { Toaster } from "react-hot-toast";
+import useStore from "@/hooks/store";
+import { fetchAuthenticatedUser } from "@/utils/api/auth";
 
 const Layout: React.FC<any> = ({ children }) => {
+	const { setIsLoggedIn, setIsCheckingLoggedIn, setUser } = useStore();
+
+	const loginUser = async () => {
+		try {
+			setIsCheckingLoggedIn(true);
+			const res = await fetchAuthenticatedUser();
+			setUser(res.user);
+			setIsLoggedIn(true);
+		} catch (error) {
+			console.error(error);
+			setIsLoggedIn(false);
+		} finally {
+			setIsCheckingLoggedIn(false);
+		}
+	};
+
+	useEffect(() => {
+		if (localStorage.getItem("token")) {
+			loginUser();
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
 	return (
 		<>
 			<Seo

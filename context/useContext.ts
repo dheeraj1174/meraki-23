@@ -17,12 +17,17 @@ const useContextData = () => {
 		setIsCheckingLoggedIn(false);
 	};
 
+	const handleIsCheckingLoggedIn = (isCheckingLoggedIn: boolean) => {
+		setIsCheckingLoggedIn(isCheckingLoggedIn);
+	};
+
 	return {
 		user,
 		setUser: handleUser,
 		isLoggedIn,
 		setIsLoggedIn: handleIsLoggedIn,
 		isCheckingLoggedIn,
+		setIsCheckingLoggedIn: handleIsCheckingLoggedIn,
 	};
 };
 
