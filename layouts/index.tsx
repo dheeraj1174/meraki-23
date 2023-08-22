@@ -14,7 +14,7 @@ const Layout: React.FC<any> = ({ children }) => {
 					(item) => {
 						return {
 							rel: item,
-							href: "/favicon.ico",
+							href: `${frontendBaseUrl}/favicon.ico`,
 							type: "icon/ico",
 						};
 					}
@@ -26,28 +26,47 @@ const Layout: React.FC<any> = ({ children }) => {
 					title: "Meraki - Technical Fest of IIIT Una",
 					description:
 						"Meraki is the annual technical fest of IIIT Una. It is a 3-day event held in September. It is a platform for students to showcase their technical skills and knowledge.",
-					image: "/images/og-image.png",
+					image: `${frontendBaseUrl}/og-image.png`,
 					url: frontendBaseUrl,
 				}}
 				og={{
 					title: "Meraki - Technical Fest of IIIT Una",
 					description:
 						"Meraki is the annual technical fest of IIIT Una. It is a 3-day event held in September. It is a platform for students to showcase their technical skills and knowledge.",
-					images: [
-						{
-							url: "/images/og-image.png",
-							secureUrl: "/images/og-image.png",
+					images: [16, 32, 70, 128, 144, 192, 512]
+						.map((size) => ({
+							url: `${frontendBaseUrl}/favicon-${size}.png`,
+							secureUrl: `${frontendBaseUrl}/favicon-${size}.png`,
 							type: "image/png",
-							width: 1200,
-							height: 630,
+							width: size,
+							height: size,
 							alt: "Meraki - Technical Fest of IIIT Una",
-						},
-					],
+						}))
+						.concat([
+							{
+								url: `${frontendBaseUrl}/card.png`,
+								secureUrl: `${frontendBaseUrl}/card.png`,
+								type: "image/png",
+								width: 800,
+								height: 600,
+								alt: "Meraki - Technical Fest of IIIT Una",
+							},
+							{
+								url: `${frontendBaseUrl}/og-image.png`,
+								secureUrl: `${frontendBaseUrl}/og-image.png`,
+								type: "image/png",
+								width: 1200,
+								height: 630,
+								alt: "Meraki - Technical Fest of IIIT Una",
+							},
+						]),
 					url: frontendBaseUrl,
 					type: "website",
 					siteName: "Meraki - Technical Fest of IIIT Una",
 				}}
 				themeColor="#121f3d"
+				canonical={frontendBaseUrl}
+				siteName="Meraki - Technical Fest of IIIT Una"
 			/>
 			{children}
 			<Toaster position="top-center" />
