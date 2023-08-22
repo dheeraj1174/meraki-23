@@ -289,7 +289,7 @@ const SignInPage: React.FC = () => {
 									loading={requestingOtp}
 								>
 									{resendOTPTimeout > 0
-										? `Retry in ${resendOTPTimeout} seconds`
+										? `Retry in ${resendOTPTimeout}`
 										: "Resend OTP"}
 								</Button>
 							) : null}
@@ -391,7 +391,7 @@ const SignInPage: React.FC = () => {
 							</div>
 							<Button
 								type="submit"
-								variant="light"
+								variant="dark"
 								loading={registering}
 							>
 								Create Account

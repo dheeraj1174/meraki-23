@@ -20,7 +20,8 @@ const classNames = stylesConfig(styles, "auth");
 
 const SignInPage: React.FC = () => {
 	const router = useRouter();
-	const { setUser, isCheckingLoggedIn, isLoggedIn } = useStore();
+	const { setUser, isCheckingLoggedIn, isLoggedIn, setIsLoggedIn } =
+		useStore();
 
 	const [inputCred, setInputCred] = useState<LoginValues>({
 		email: "",
@@ -38,8 +39,12 @@ const SignInPage: React.FC = () => {
 		try {
 			const user = await fetchAuthenticatedUser();
 			setUser(user);
+			setIsLoggedIn(true);
+			return Promise.resolve(user);
 		} catch (error) {
 			console.error(error);
+			setIsLoggedIn(false);
+			return Promise.reject(error);
 		}
 	};
 
@@ -50,8 +55,9 @@ const SignInPage: React.FC = () => {
 			await loginValidator(inputCred).catch((err) => {
 				throw err.map((err: any) => err.message).join(", ");
 			});
-			await loginApi(inputCred);
-			setGlobalUser();
+			const res = await loginApi(inputCred);
+			localStorage.setItem("token", res.token);
+			await setGlobalUser();
 			if (router.query.redirect)
 				router.push(router.query.redirect as string);
 			else router.push("/");

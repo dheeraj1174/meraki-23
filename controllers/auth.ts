@@ -204,7 +204,7 @@ export const verifyRegistrationOtp = async (
 			return res.status(400).json({ message: "Invalid OTP provided" });
 		if (foundOtp.verified)
 			return res.status(400).json({ message: "OTP already verified" });
-		if (foundOtp.date.getTime() + 5 * 60 * 1000 < Date.now())
+		if (foundOtp.updatedAt.getTime() + 5 * 60 * 1000 < Date.now())
 			return res.status(400).json({ message: "OTP expired" });
 		if (foundOtp.otp !== otp)
 			return res.status(400).json({ message: "Invalid OTP provided" });
@@ -287,7 +287,7 @@ export const verifyForgotPasswordOtp = async (
 			return res.status(400).json({ message: "Invalid OTP provided" });
 		if (foundOtp.verified)
 			return res.status(400).json({ message: "OTP already verified" });
-		if (foundOtp.date.getTime() + 5 * 60 * 1000 < Date.now())
+		if (foundOtp.updatedAt.getTime() + 5 * 60 * 1000 < Date.now())
 			return res.status(400).json({ message: "OTP expired" });
 		if (foundOtp.otp !== otp)
 			return res.status(400).json({ message: "Invalid OTP provided" });
@@ -336,7 +336,7 @@ export const resetPassword = async (req: ApiRequest, res: ApiResponse) => {
 			return res.status(400).json({ message: "Invalid OTP provided" });
 		if (!foundOtp.verified)
 			return res.status(400).json({ message: "OTP not verified" });
-		if (foundOtp.date.getTime() + 5 * 60 * 1000 < Date.now())
+		if (foundOtp.updatedAt.getTime() + 5 * 60 * 1000 < Date.now())
 			return res.status(400).json({ message: "OTP expired" });
 		if (foundOtp.otp !== otp)
 			return res.status(400).json({ message: "Invalid OTP provided" });

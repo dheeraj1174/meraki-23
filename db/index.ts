@@ -14,8 +14,6 @@ const connectDB = async () => {
 		.connect(dbUri, {
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
-			useFindAndModify: false,
-			useCreateIndex: true,
 		} as ConnectOptions)
 		.then((db) => {
 			console.log("Connected to MongoDB");

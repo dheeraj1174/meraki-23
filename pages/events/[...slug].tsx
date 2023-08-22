@@ -35,7 +35,7 @@ const EventPage: React.FC<EventPageProps> = ({ event }) => {
 					<button
 						className={classes("-header-back")}
 						onClick={() => {
-							router.back();
+							router.push("/");
 						}}
 					>
 						<PiCaretLeftBold />
