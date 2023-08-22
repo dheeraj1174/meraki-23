@@ -8,7 +8,7 @@ import { ApiRequest, ApiResponse } from "@/types/api";
 import regex from "@/constants/regex";
 import { IUser } from "@/types/auth";
 import otpGenerator from "otp-generator";
-// import { sendPasswordResetOtp, sendRegistrationOtp } from "@/utils/emails";
+import { sendPasswordResetOtp, sendRegistrationOtp } from "@/utils/emails";
 import Otp from "@/models/Otp";
 
 export const register = async (req: ApiRequest, res: ApiResponse) => {
@@ -163,7 +163,7 @@ export const getRegistrationOtp = async (req: ApiRequest, res: ApiResponse) => {
 			specialChars: false,
 			digits: true,
 		});
-		// await sendRegistrationOtp(email, otp);
+		await sendRegistrationOtp(email, otp);
 		if (foundOtp) {
 			await Otp.updateOne(
 				{ email, type: OTP_TYPES.REGISTER },
@@ -246,7 +246,7 @@ export const getForgotPasswordOtp = async (
 			specialChars: false,
 			digits: true,
 		});
-		// await sendPasswordResetOtp(email, otp);
+		await sendPasswordResetOtp(email, otp);
 		if (foundOtp) {
 			await Otp.updateOne(
 				{ email, type: OTP_TYPES.RESET_PASSWORD },
