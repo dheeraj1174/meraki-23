@@ -5,13 +5,16 @@ import Button from "@/library/Button";
 import Typography from "@/library/Typography";
 import { Input } from "@/library/form";
 import styles from "@/styles/pages/admin/Dashboard.module.scss";
+import { IEvent } from "@/types/event";
 import { patchUserDetails } from "@/utils/api/auth";
+import { getEvents } from "@/utils/api/events";
 import { stylesConfig } from "@/utils/functions";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { PiCaretLeftBold } from "react-icons/pi";
+import sampleEvents from "@/data/events";
 
 const classes = stylesConfig(styles, "admin-dashboard");
 
@@ -25,6 +28,7 @@ const AdminDashboard: React.FC = () => {
 		email: user?.email,
 		avatar: user?.avatar,
 	});
+	const [events, setEvents] = useState<IEvent[]>([]);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setProfileContents((prev) => ({
@@ -58,6 +62,17 @@ const AdminDashboard: React.FC = () => {
 		}
 	};
 
+	const getAllEvents = async () => {
+		try {
+			const res = await getEvents();
+			setEvents(res.data);
+			setEvents(sampleEvents); // TODO: Remove this line when API is ready
+		} catch (error: any) {
+			console.error(error);
+			toast.error(error?.message ?? "Something went wrong");
+		}
+	};
+
 	useEffect(() => {
 		if (!isCheckingLoggedIn) {
 			if (!isLoggedIn) {
@@ -73,6 +88,10 @@ const AdminDashboard: React.FC = () => {
 			avatar: user?.avatar,
 		});
 	}, [user]);
+
+	useEffect(() => {
+		getAllEvents();
+	}, [isLoggedIn]);
 
 	return (
 		<main className={classes("")}>
@@ -103,7 +122,7 @@ const AdminDashboard: React.FC = () => {
 					</header>
 					<section className={classes("-profile")}>
 						<form
-							className={classes("-form")}
+							className={classes("-profile-form")}
 							onSubmit={updateProfile}
 						>
 							<Input
@@ -156,8 +175,82 @@ const AdminDashboard: React.FC = () => {
 							src={profileContents.avatar ?? defaultAvatar}
 							alt={user?.name ?? ""}
 							size={256}
-							className={classes("-avatar")}
+							className={classes("-profile-avatar")}
 						/>
+					</section>
+					<hr className={classes("-divider")} />
+					<section className={classes("-events")}>
+						<div className={classes("-events-header")}>
+							<Typography
+								type="heading"
+								variant="display"
+								className={classes("-events-heading")}
+							>
+								Events
+							</Typography>
+							<Button
+								variant="dark"
+								onClick={() => {
+									router.push("/admin/events/new");
+								}}
+								size="medium"
+							>
+								Host a new event
+							</Button>
+						</div>
+						<div className={classes("-events-all")}>
+							{events.map((event) => (
+								<div
+									key={event._id}
+									className={classes("-events-card")}
+									style={{
+										backgroundImage: `url(${event.image})`,
+									}}
+								>
+									<Typography
+										type="heading"
+										variant="subtitle"
+										className={classes(
+											"-events-card-title"
+										)}
+									>
+										{event.name}
+									</Typography>
+									<Typography
+										type="heading"
+										variant="title-3	"
+										className={classes("-events-card-date")}
+									>
+										{new Date(
+											event.date
+										).toLocaleDateString()}
+									</Typography>
+									<Typography
+										type="body"
+										variant="large"
+										className={classes(
+											"-events-card-description"
+										)}
+									>
+										{event.description.slice(0, 100)}...
+									</Typography>
+									<Button
+										variant="light"
+										onClick={() => {
+											router.push(
+												`/admin/events/${event._id}`
+											);
+										}}
+										size="small"
+										className={classes(
+											"-events-card-button"
+										)}
+									>
+										View/Edit
+									</Button>
+								</div>
+							))}
+						</div>
 					</section>
 				</>
 			)}
