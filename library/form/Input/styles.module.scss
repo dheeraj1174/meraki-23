@@ -29,13 +29,14 @@
 
 	&__label {
 		@include typography(body, large, regular);
+		font-size: 24px !important;
 	}
 
 	&__input {
 		all: unset;
 		box-sizing: border-box;
 		width: 100%;
-		@include typography(body, medium, regular);
+		@include typography(body, large, regular);
 		transition: all 0.3s ease-in-out;
 	}
 

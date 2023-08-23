@@ -4,8 +4,7 @@ import { IUser } from "@/types/auth";
 const useContextData = () => {
 	const [user, setUser] = useState<IUser | null>(null);
 	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-	const [isCheckingLoggedIn, setIsCheckingLoggedIn] =
-		useState<boolean>(false);
+	const [isCheckingLoggedIn, setIsCheckingLoggedIn] = useState<boolean>(true);
 
 	const handleUser = (user: IUser | null) => {
 		setUser(user);

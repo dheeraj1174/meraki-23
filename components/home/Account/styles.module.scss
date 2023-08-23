@@ -9,13 +9,22 @@
 	background-attachment: fixed;
 	background-size: cover;
 	background-position: center;
+	background-image: url("/images/team-bg.jpg");
+	background-blend-mode: darken;
+	background-color: rgba(6, 12, 34, 0.9);
 
 	&-name {
 		text-align: center;
 		overflow: hidden;
 		white-space: nowrap;
 		transition: all 0.5s ease;
-		animation: expandText 3s ease-in forwards 1s;
+		animation: expandText 5s ease-in forwards 1s;
+		letter-spacing: 2px;
+		word-spacing: 6px;
+
+		&__text {
+			color: var(--color-white);
+		}
 	}
 }
 

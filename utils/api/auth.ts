@@ -33,7 +33,6 @@ export const fetchAuthenticatedUser = async () => {
 
 export const patchUserDetails = async (user: {
 	name?: string;
-	phone?: string;
 	avatar?: string;
 }) => {
 	try {

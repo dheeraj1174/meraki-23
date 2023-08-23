@@ -1,11 +1,11 @@
 import React from "react";
-import { stylesConfig } from "@/utils/functions";
-import styles from "./styles.module.scss";
 import useStore from "@/hooks/store";
 import Typography from "@/library/Typography";
 import { USER_ROLES } from "@/constants/enum";
 import Button from "@/library/Button";
 import { useRouter } from "next/router";
+import { stylesConfig } from "@/utils/functions";
+import styles from "./styles.module.scss";
 
 const classes = stylesConfig(styles, "home-account");
 
@@ -17,7 +17,11 @@ const HomeAccout: React.FC = () => {
 	return (
 		<section className={classes("")}>
 			<div className={classes("-name")}>
-				<Typography type="heading" variant="display">
+				<Typography
+					type="heading"
+					variant="display"
+					className={classes("-name__text")}
+				>
 					Hii, {user.name}
 				</Typography>
 			</div>
@@ -36,7 +40,7 @@ const HomeAccout: React.FC = () => {
 					onClick={() => {
 						router.push("/profile");
 					}}
-					variant="dark"
+					variant="light"
 					size="medium"
 				>
 					Go to your Profile

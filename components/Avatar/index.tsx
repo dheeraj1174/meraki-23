@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import { stylesConfig } from "@/utils/functions";
 import Image from "next/image";
@@ -36,9 +36,13 @@ const Avatar: React.FC<IAvatarProps> = ({
 		}
 	};
 
+	useEffect(() => {
+		setIsImageValid(true);
+	}, [src]);
+
 	return (
 		<div
-			className={classes("avatar", className)}
+			className={classes("avatar") + ` ${className ?? ""}`}
 			onClick={onClick}
 			style={{
 				width: getAvatarSize(),

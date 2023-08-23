@@ -137,7 +137,7 @@ export const updateDetails = async (req: ApiRequest, res: ApiResponse) => {
 		).select("-password");
 		return res
 			.status(200)
-			.json({ user: updatedUser, message: RESPONSE_MESSAGES.SUCCESS });
+			.json({ data: updatedUser, message: RESPONSE_MESSAGES.SUCCESS });
 	} catch (error) {
 		console.error(error);
 		return res
