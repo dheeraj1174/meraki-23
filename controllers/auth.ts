@@ -1,4 +1,4 @@
-import { OTP_TYPES, RESPONSE_MESSAGES } from "@/constants/enum";
+import { OTP_TYPES, RESPONSE_MESSAGES, USER_ROLES } from "@/constants/enum";
 import { loginValidator, registerValidator } from "@/validations/auth";
 import User from "@/models/User";
 import bcrypt from "bcrypt";
@@ -10,6 +10,7 @@ import { IUser } from "@/types/auth";
 import otpGenerator from "otp-generator";
 import { sendPasswordResetOtp, sendRegistrationOtp } from "@/utils/emails";
 import Otp from "@/models/Otp";
+import { admin_emails } from "@/constants/variables";
 
 export const register = async (req: ApiRequest, res: ApiResponse) => {
 	try {
@@ -36,7 +37,14 @@ export const register = async (req: ApiRequest, res: ApiResponse) => {
 		});
 		if (!foundOtp)
 			return res.status(400).json({ message: "Verify your email first" });
-		user = new User({ name, email, password });
+		user = new User({
+			name,
+			email,
+			password,
+			role: admin_emails.includes(email)
+				? USER_ROLES.ADMIN
+				: USER_ROLES.USER,
+		});
 		user.password = await bcrypt.hash(password, 10);
 		await user.save();
 		const payload = {

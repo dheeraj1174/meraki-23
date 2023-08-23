@@ -13,7 +13,29 @@ const HomeAccout: React.FC = () => {
 	const router = useRouter();
 	const { user, isLoggedIn } = useStore();
 
-	if (!isLoggedIn || !user) return null;
+	if (!isLoggedIn || !user)
+		return (
+			<div className={classes("")}>
+				<div className={classes("-name")}>
+					<Typography
+						type="heading"
+						variant="display"
+						className={classes("-name__text")}
+					>
+						Envision the rise of bright tech
+					</Typography>
+				</div>
+				<Button
+					onClick={() => {
+						router.push("/login");
+					}}
+					variant="light"
+					size="medium"
+				>
+					Join the hype
+				</Button>
+			</div>
+		);
 	return (
 		<section className={classes("")}>
 			<div className={classes("-name")}>
@@ -30,7 +52,7 @@ const HomeAccout: React.FC = () => {
 					onClick={() => {
 						router.push("/admin");
 					}}
-					variant="dark"
+					variant="light"
 					size="medium"
 				>
 					Go to your Dashboard

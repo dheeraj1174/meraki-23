@@ -65,7 +65,7 @@ const HomeHeroNavigation: React.FC = () => {
 	const [isNavbarVisible, setIsNavbarVisible] = useState(true);
 	const handleScroll = () => {
 		const { scrollY, innerHeight } = window;
-		if (scrollY < innerHeight / 2) {
+		if (scrollY < 0.1 * innerHeight) {
 			setIsNavbarVisible(true);
 		} else {
 			setIsNavbarVisible(false);
