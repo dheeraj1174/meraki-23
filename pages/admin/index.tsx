@@ -74,14 +74,6 @@ const AdminDashboard: React.FC = () => {
 	};
 
 	useEffect(() => {
-		if (!isCheckingLoggedIn) {
-			if (!isLoggedIn) {
-				router.push(`/login?redirect=${router.asPath}`);
-			}
-		}
-	}, [isCheckingLoggedIn, isLoggedIn, router]);
-
-	useEffect(() => {
 		setProfileContents({
 			name: user?.name,
 			email: user?.email,
@@ -218,7 +210,7 @@ const AdminDashboard: React.FC = () => {
 									</Typography>
 									<Typography
 										type="heading"
-										variant="title-3	"
+										variant="title-3"
 										className={classes("-events-card-date")}
 									>
 										{new Date(

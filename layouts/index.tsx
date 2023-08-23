@@ -4,8 +4,11 @@ import { frontendBaseUrl } from "@/constants/variables";
 import { Toaster } from "react-hot-toast";
 import useStore from "@/hooks/store";
 import { fetchAuthenticatedUser } from "@/utils/api/auth";
+import { useRouter } from "next/router";
+import { USER_ROLES } from "@/constants/enum";
 
 const Layout: React.FC<any> = ({ children }) => {
+	const router = useRouter();
 	const { setIsLoggedIn, setIsCheckingLoggedIn, setUser } = useStore();
 
 	const loginUser = async () => {
@@ -14,9 +17,11 @@ const Layout: React.FC<any> = ({ children }) => {
 			const res = await fetchAuthenticatedUser();
 			setUser(res.user);
 			setIsLoggedIn(true);
+			return res.user;
 		} catch (error) {
 			console.error(error);
 			setIsLoggedIn(false);
+			return null;
 		} finally {
 			setIsCheckingLoggedIn(false);
 		}
@@ -24,7 +29,18 @@ const Layout: React.FC<any> = ({ children }) => {
 
 	useEffect(() => {
 		if (localStorage.getItem("token")) {
-			loginUser();
+			loginUser()
+				.then((user) => {
+					if (
+						router.pathname.startsWith("/admin") &&
+						user.role !== USER_ROLES.ADMIN
+					) {
+						router.push("/profile");
+					}
+				})
+				.catch((error) => {
+					console.error(error);
+				});
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
