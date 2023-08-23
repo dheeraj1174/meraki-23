@@ -13,18 +13,20 @@ const HomeAccout: React.FC = () => {
 	const router = useRouter();
 	const { user, isLoggedIn } = useStore();
 
-	if (!isLoggedIn || !user)
-		return (
-			<div className={classes("")}>
-				<div className={classes("-name")}>
-					<Typography
-						type="heading"
-						variant="display"
-						className={classes("-name__text")}
-					>
-						Envision the rise of bright tech
-					</Typography>
-				</div>
+	return (
+		<section className={classes("")}>
+			<div className={classes("-name")}>
+				<Typography
+					type="heading"
+					variant="display"
+					className={classes("-name__text")}
+				>
+					{isLoggedIn
+						? `Hii, ${user?.name}`
+						: "Envision the rise of bright tech"}
+				</Typography>
+			</div>
+			{!isLoggedIn || !user ? (
 				<Button
 					onClick={() => {
 						router.push("/login");
@@ -34,20 +36,7 @@ const HomeAccout: React.FC = () => {
 				>
 					Join the hype
 				</Button>
-			</div>
-		);
-	return (
-		<section className={classes("")}>
-			<div className={classes("-name")}>
-				<Typography
-					type="heading"
-					variant="display"
-					className={classes("-name__text")}
-				>
-					Hii, {user.name}
-				</Typography>
-			</div>
-			{user.role === USER_ROLES.ADMIN ? (
+			) : user.role === USER_ROLES.ADMIN ? (
 				<Button
 					onClick={() => {
 						router.push("/admin");

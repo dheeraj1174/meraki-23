@@ -1,0 +1,73 @@
+@import "@/styles/config/mixins";
+@import "@/styles/config/animations";
+
+.admin-dashboard {
+	width: 100%;
+
+	&-header {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 0 24px;
+		padding: 42px 48px 56px 48px;
+
+		&-back {
+			@include init-button();
+			width: 36px;
+			height: 36px;
+			font-size: 48px;
+		}
+	}
+
+	&-heading {
+		display: inline-flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		text-align: center;
+	}
+
+	&-profile {
+		width: 100%;
+		display: flex;
+		justify-content: space-evenly;
+		align-items: center;
+		padding: 0 5%;
+	}
+
+	&-form {
+		width: 60%;
+		display: flex;
+		justify-content: flex-start;
+		align-items: flex-start;
+		flex-direction: column;
+		gap: 36px;
+
+		button {
+			margin: 0 8px;
+		}
+
+		& > * {
+			width: 75%;
+		}
+	}
+
+	&-avatar span {
+		font-size: 96px;
+	}
+
+	&-loading {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin: 25% auto;
+
+		svg {
+			width: 48px;
+			height: 48px;
+			animation: rotate 1s linear infinite;
+		}
+	}
+}
