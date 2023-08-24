@@ -3,15 +3,15 @@ import useStore from "@/hooks/store";
 import Button from "@/library/Button";
 import Typography from "@/library/Typography";
 import { Input, Textarea } from "@/library/form";
-import styles from "@/styles/pages/admin/Event.module.scss";
 import { createEvent } from "@/utils/api/events";
-import { stylesConfig } from "@/utils/functions";
 import { createEventValidator } from "@/validations/event";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { PiCaretLeftBold } from "react-icons/pi";
+import { stylesConfig } from "@/utils/functions";
+import styles from "@/styles/pages/admin/Event.module.scss";
 
 const classes = stylesConfig(styles, "admin-event-new");
 
@@ -80,7 +80,7 @@ const AdminNewEventPage: React.FC = () => {
 						<button
 							className={classes("-header-back")}
 							onClick={() => {
-								router.push("/dashboard");
+								router.push("/admin");
 							}}
 						>
 							<PiCaretLeftBold />
