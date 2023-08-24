@@ -9,6 +9,12 @@ const EventSchema = new mongoose.Schema(
 		description: {
 			type: String,
 		},
+		date: {
+			type: String,
+		},
+		image: {
+			type: String,
+		},
 		teamSize: {
 			type: Number,
 			required: true,

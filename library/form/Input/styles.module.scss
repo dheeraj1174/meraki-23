@@ -9,7 +9,9 @@
 	flex-flow: column;
 	position: relative;
 
-	label:has(~ input:required) {
+	label:has(~ input:required),
+	label:has(~ textarea:required),
+	label:has(~ select:required) {
 		&::after {
 			content: "*";
 			color: #f00;

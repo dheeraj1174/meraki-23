@@ -14,7 +14,6 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { PiCaretLeftBold } from "react-icons/pi";
-import sampleEvents from "@/data/events";
 
 const classes = stylesConfig(styles, "admin-dashboard");
 
@@ -66,7 +65,6 @@ const AdminDashboard: React.FC = () => {
 		try {
 			const res = await getEvents();
 			setEvents(res.data);
-			setEvents(sampleEvents); // TODO: Remove this line when API is ready
 		} catch (error: any) {
 			console.error(error);
 			toast.error(error?.message ?? "Something went wrong");

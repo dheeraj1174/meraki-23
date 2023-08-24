@@ -38,4 +38,6 @@ export interface TextareaProps extends React.HTMLProps<HTMLTextAreaElement> {
 		input?: React.CSSProperties;
 	};
 	variant?: "box" | "line";
+	error?: boolean;
+	errorMessage?: string;
 }

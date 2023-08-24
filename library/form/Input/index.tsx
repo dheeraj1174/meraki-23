@@ -210,6 +210,8 @@ const Textarea: React.FC<TextareaProps> = ({
 	label,
 	variant = "line",
 	styles,
+	error,
+	errorMessage,
 	...props
 }) => {
 	return (
@@ -230,6 +232,13 @@ const Textarea: React.FC<TextareaProps> = ({
 			<textarea
 				className={classes("__input")}
 				style={styles?.input}
+				onInvalid={(e) => {
+					e.currentTarget.setCustomValidity(errorMessage + "");
+				}}
+				onInput={(e) => {
+					e.currentTarget.setCustomValidity("");
+				}}
+				title={error ? errorMessage : props.title ?? ""}
 				{...props}
 			/>
 		</div>
