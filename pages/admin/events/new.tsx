@@ -80,7 +80,7 @@ const AdminNewEventPage: React.FC = () => {
 						<button
 							className={classes("-header-back")}
 							onClick={() => {
-								router.push("/");
+								router.push("/dashboard");
 							}}
 						>
 							<PiCaretLeftBold />
@@ -136,7 +136,7 @@ const AdminNewEventPage: React.FC = () => {
 							type="url"
 							onChange={handleChange}
 							placeholder="Enter Poster Image URL"
-							pattern="^(http:\/\/|https:\/\/)[\w\/.?&=-]+(\.(png|jpg|jpeg|gif|svg|webp))$"
+							pattern={regex.avatar.source}
 							error={
 								eventDetails.image === "" ||
 								!regex.avatar.test(eventDetails.image)

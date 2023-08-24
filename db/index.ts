@@ -24,7 +24,7 @@ const connectDB = async () => {
 			return err;
 		});
 
-	connection.isConnected = db.connections[0].readyState === 1;
+	connection.isConnected = db.connections?.[0].readyState === 1;
 };
 
 export default connectDB;

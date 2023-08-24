@@ -242,6 +242,7 @@ const AdminDashboard: React.FC = () => {
 							))}
 						</div>
 					</section>
+					<hr className={classes("-divider")} />
 				</>
 			)}
 		</main>

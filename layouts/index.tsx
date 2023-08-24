@@ -17,11 +17,11 @@ const Layout: React.FC<any> = ({ children }) => {
 			const res = await fetchAuthenticatedUser();
 			setUser(res.user);
 			setIsLoggedIn(true);
-			return res.user;
+			return Promise.resolve(res.user);
 		} catch (error) {
 			console.error(error);
 			setIsLoggedIn(false);
-			return null;
+			return Promise.reject(error);
 		} finally {
 			setIsCheckingLoggedIn(false);
 		}
@@ -39,6 +39,8 @@ const Layout: React.FC<any> = ({ children }) => {
 					}
 				})
 				.catch((error) => {
+					if (router.pathname.startsWith("/admin"))
+						router.push("/login");
 					console.error(error);
 				});
 		}

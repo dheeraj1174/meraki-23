@@ -8,7 +8,7 @@ const regex = {
 	// name should be a valid name, contain only letters and spaces and have a length of 2-30 characters
 	name: /^[a-zA-Z ]{2,30}$/,
 	// avatar should be a valid url or empty string, a valid url should start with http:// or https:// and end with .png, .jpg, .jpeg, .gif, .svg or .webp or it can be data:image/png;base64, or data:image/jpeg;base64, or data:image/gif;base64, or data:image/svg+xml;base64,
-	avatar: /^(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)(.png|.jpg|.jpeg|.gif|.svg|.webp)$|^data:image\/(png|jpeg|gif|svg\+xml);base64,/,
+	avatar: /^(http:\/\/|https:\/\/)[\w/.?&%=-]+(\.(png|jpg|jpeg|gif|svg|webp))$/,
 	// otp should be a valid otp, contain only numbers and have a length of 6 characters
 	otp: /^[0-9\b]+$/,
 };
