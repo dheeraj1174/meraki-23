@@ -11,7 +11,10 @@ const http = axios.create({
 http.interceptors.request.use(
 	async function (Config: any) {
 		const config = Config;
-		const token = localStorage.getItem("token");
+		const token =
+			typeof window !== "undefined"
+				? localStorage.getItem("token")
+				: undefined;
 		try {
 			if (token) {
 				config.headers["x-auth-token"] = `${token}`;

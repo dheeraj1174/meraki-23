@@ -1,7 +1,7 @@
 import React from "react";
 import Typography from "@/library/Typography";
 import { stylesConfig } from "@/utils/functions";
-import sampleEvents from "@/data/events";
+import { getEvents } from "@/utils/api/events";
 import { IEvent } from "@/types/event";
 import Events from "@/components/Events";
 import styles from "@/styles/pages/Events.module.scss";
@@ -31,9 +31,10 @@ export default EventsPage;
 
 export const getServerSideProps = async () => {
 	try {
+		const res = await getEvents();
 		return {
 			props: {
-				events: sampleEvents,
+				events: res.data,
 			},
 		};
 	} catch (error) {

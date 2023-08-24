@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Button from "@/library/Button";
 import Typography from "@/library/Typography";
-import sampleEvents from "@/data/events";
 import { IEvent } from "@/types/event";
 import { stylesConfig } from "@/utils/functions";
 import { PiCaretLeftBold } from "react-icons/pi";
@@ -9,6 +8,7 @@ import styles from "@/styles/pages/Event.module.scss";
 import { useRouter } from "next/router";
 import EventPopup from "@/components/Event";
 import useStore from "@/hooks/store";
+import { getEvent } from "@/utils/api/events";
 
 interface EventPageProps {
 	event: IEvent;
@@ -83,12 +83,11 @@ export default EventPage;
 export const getServerSideProps = async ({ params }: any) => {
 	const { slug } = params;
 	let [eventId] = slug;
-	const event = sampleEvents.find((event) => event._id === eventId);
-	if (!event) throw Error("Requested Event not a part of the fest");
+	const res = await getEvent(eventId);
 	try {
 		return {
 			props: {
-				event: event,
+				event: res.data,
 			},
 		};
 	} catch (error) {

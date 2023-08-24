@@ -2,7 +2,7 @@ import React from "react";
 import styles from "@/styles/pages/Home.module.scss";
 import { stylesConfig } from "@/utils/functions";
 import { Account, Events, Hero } from "@/components/home";
-import sampleEvents from "@/data/events";
+import { getEvents } from "@/utils/api/events";
 import { IEvent } from "@/types/event";
 
 interface HomePageProps {
@@ -25,9 +25,10 @@ export default HomePage;
 
 export const getServerSideProps = async () => {
 	try {
+		const res = await getEvents();
 		return {
 			props: {
-				events: sampleEvents,
+				events: res.data,
 			},
 		};
 	} catch (error) {

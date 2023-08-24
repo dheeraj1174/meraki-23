@@ -3,7 +3,6 @@ import Popup from "@/library/Popup";
 import { Input } from "@/library/form";
 import { IEvent } from "@/types/event";
 import { ITeam } from "@/types/team";
-import sampleUsers from "@/data/users";
 import ConfirmationModal from "../Confirmation";
 import { toast } from "react-hot-toast";
 import useStore from "@/hooks/store";
@@ -44,22 +43,6 @@ const EventPopup: React.FC<EventPopupProps> = ({ event, onClose }) => {
 			setGettingTeams(true);
 			const res = await getTeamsApi();
 			setTeams(res.data);
-			setTeams([
-				{
-					_id: "1",
-					name: "Team 1",
-					event: event,
-					createdBy: sampleUsers[0],
-					members: [sampleUsers[0], sampleUsers[1]],
-				},
-				{
-					_id: "2",
-					name: "Team 2",
-					event: event,
-					createdBy: sampleUsers[1],
-					members: [sampleUsers[1], sampleUsers[2]],
-				},
-			]); // TODO: Remove this line after API integration
 		} catch (error) {
 			console.error(error);
 			setTeams([]);
