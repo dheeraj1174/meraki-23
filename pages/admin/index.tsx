@@ -4,16 +4,16 @@ import useStore from "@/hooks/store";
 import Button from "@/library/Button";
 import Typography from "@/library/Typography";
 import { Input } from "@/library/form";
-import styles from "@/styles/pages/admin/Dashboard.module.scss";
 import { IEvent } from "@/types/event";
 import { patchUserDetails } from "@/utils/api/auth";
 import { getEvents } from "@/utils/api/events";
-import { stylesConfig } from "@/utils/functions";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { PiCaretLeftBold } from "react-icons/pi";
+import { stylesConfig } from "@/utils/functions";
+import styles from "@/styles/pages/admin/Dashboard.module.scss";
 
 const classes = stylesConfig(styles, "admin-dashboard");
 

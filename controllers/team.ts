@@ -42,6 +42,12 @@ export const createTeam = async (req: ApiRequest, res: ApiResponse) => {
 	try {
 		const { name, event } = req.body;
 		const foundEvent = await Event.findById(event);
+		if (!name) {
+			return res.status(400).json({ message: "Team name is required" });
+		}
+		if (!event) {
+			return res.status(400).json({ message: "Event is required" });
+		}
 		if (!foundEvent) {
 			return res.status(404).json({ message: "Event not found" });
 		}
@@ -54,7 +60,7 @@ export const createTeam = async (req: ApiRequest, res: ApiResponse) => {
 				message: "This event does not allows team participation",
 			});
 		}
-		if (foundParticipant) {
+		if (foundParticipant && foundParticipant.length > 0) {
 			return res.status(409).json({
 				message: "You have already registered in this event",
 			});
@@ -76,12 +82,23 @@ export const createTeam = async (req: ApiRequest, res: ApiResponse) => {
 			user: req.user?.id,
 			status: TEAM_PARTICIPATION_STATUS.ACCEPTED,
 		});
+		await newTeam.populate({
+			path: "createdBy",
+			select: "name email avatar",
+		});
+		await newTeam.populate({
+			path: "event",
+			select: "name description date image teamSize",
+		});
 		return res.status(201).json({
 			message: RESPONSE_MESSAGES.SUCCESS,
 			data: newTeam,
 		});
-	} catch (error) {
+	} catch (error: any) {
 		console.error(error);
+		if (error.kind === "ObjectId") {
+			return res.status(404).json({ message: "Event not found" });
+		}
 		return res
 			.status(500)
 			.json({ message: RESPONSE_MESSAGES.SERVER_ERROR });

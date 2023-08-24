@@ -31,9 +31,10 @@ export const getParticipantsForTeam = async (id: string) => {
 	}
 };
 
-export const participateInEvent = async (id: string) => {
+export const participateInEvent = async (id: string, teamId?: string) => {
 	try {
-		const response = await http.post(`/events/${id}/participate`);
+		const body = teamId ? { teamId } : {};
+		const response = await http.post(`/events/${id}/participate`, body);
 		return Promise.resolve(response.data);
 	} catch (error: any) {
 		console.error(error);

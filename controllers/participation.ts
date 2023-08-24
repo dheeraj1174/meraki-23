@@ -195,6 +195,14 @@ export const participateInEvent = async (req: ApiRequest, res: ApiResponse) => {
 				user: req.user?.id,
 				status: TEAM_PARTICIPATION_STATUS.ACCEPTED,
 			});
+			await newParticipant.populate({
+				path: "event",
+				select: "name description",
+			});
+			await newParticipant.populate({
+				path: "user",
+				select: "name email avatar",
+			});
 			return res.status(201).json({
 				message: RESPONSE_MESSAGES.SUCCESS,
 				data: newParticipant,
@@ -215,6 +223,18 @@ export const participateInEvent = async (req: ApiRequest, res: ApiResponse) => {
 				team: teamId,
 				user: req.user?.id,
 				status: TEAM_PARTICIPATION_STATUS.PENDING,
+			});
+			await newParticipant.populate({
+				path: "event",
+				select: "name description",
+			});
+			await newParticipant.populate({
+				path: "team",
+				select: "name",
+			});
+			await newParticipant.populate({
+				path: "user",
+				select: "name email avatar",
 			});
 			return res.status(201).json({
 				message: RESPONSE_MESSAGES.SUCCESS,

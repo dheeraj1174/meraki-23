@@ -75,7 +75,12 @@ export const createEvent = async (req: ApiRequest, res: ApiResponse) => {
 			description,
 			date,
 			image,
+			teamSize: +teamSize,
 			createdBy: req.user?.id,
+		});
+		await event.populate({
+			path: "createdBy",
+			select: "name email avatar",
 		});
 		return res.status(201).json({
 			message: RESPONSE_MESSAGES.SUCCESS,
@@ -123,6 +128,10 @@ export const updateEvent = async (req: ApiRequest, res: ApiResponse) => {
 			{ $set: updateDetails },
 			{ new: true }
 		);
+		await updatedEvent.populate({
+			path: "createdBy",
+			select: "name email avatar",
+		});
 		return res.status(200).json({
 			message: RESPONSE_MESSAGES.SUCCESS,
 			data: updatedEvent,
