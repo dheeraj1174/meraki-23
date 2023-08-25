@@ -312,3 +312,41 @@ export const handleParticipantStatusInTeam = async (
 			.json({ message: RESPONSE_MESSAGES.SERVER_ERROR });
 	}
 };
+
+export const getParticipantForEvent = async (
+	req: ApiRequest,
+	res: ApiResponse
+) => {
+	try {
+		const eventId = req.query.id;
+		if (!eventId)
+			return res
+				.status(400)
+				.json({ message: "Please select an event to participate in" });
+		const foundEvent = await Event.findById(eventId);
+		if (!foundEvent)
+			return res.status(404).json({ message: "Event not found" });
+		const foundParticipant = await Participant.findOne({
+			event: eventId,
+			user: req.user?.id,
+		});
+		if (!foundParticipant) {
+			return res
+				.status(404)
+				.json({ message: "You are not registered for this event" });
+		}
+		console.log(foundParticipant);
+		return res.status(200).json({
+			message: RESPONSE_MESSAGES.SUCCESS,
+			data: foundParticipant,
+		});
+	} catch (error: any) {
+		console.error(error);
+		if (error.kind === "ObjectId") {
+			return res.status(404).json({ message: "Not found" });
+		}
+		return res
+			.status(500)
+			.json({ message: RESPONSE_MESSAGES.SERVER_ERROR });
+	}
+};

@@ -1,8 +1,13 @@
-import { RESPONSE_MESSAGES, TEAM_PARTICIPATION_STATUS } from "@/constants/enum";
+import {
+	RESPONSE_MESSAGES,
+	TEAM_PARTICIPATION_STATUS,
+	USER_ROLES,
+} from "@/constants/enum";
 import { ApiRequest, ApiResponse } from "@/interfaces/api";
 import Event from "@/models/Event";
 import Participant from "@/models/Participant";
 import Team from "@/models/Team";
+import User from "@/models/User";
 
 export const getAllTeams = async (req: ApiRequest, res: ApiResponse) => {
 	try {
@@ -115,6 +120,15 @@ export const removeTeam = async (req: ApiRequest, res: ApiResponse) => {
 		if (!foundTeam) {
 			return res.status(404).json({ message: "No Team found" });
 		}
+		const foundUser = await User.findById(req.user?.id);
+		if (
+			foundTeam.createdBy.toString() !== req.user?.id.toString() &&
+			foundUser.role !== USER_ROLES.ADMIN
+		) {
+			return res.status(403).json({
+				message: "Only the creator can delete this team",
+			});
+		}
 		await Participant.deleteMany({ team: teamId });
 		await Team.findByIdAndDelete(teamId);
 		return res.status(204).json({ message: RESPONSE_MESSAGES.SUCCESS });
@@ -122,6 +136,35 @@ export const removeTeam = async (req: ApiRequest, res: ApiResponse) => {
 		console.error(error);
 		if (error.kind === "ObjectId") {
 			return res.status(404).json({ message: "Team not found" });
+		}
+		return res
+			.status(500)
+			.json({ message: RESPONSE_MESSAGES.SERVER_ERROR });
+	}
+};
+
+export const getTeamNamesForEvent = async (
+	req: ApiRequest,
+	res: ApiResponse
+) => {
+	try {
+		const eventId = req.query.id;
+		if (!eventId) {
+			return res.status(400).json({ message: "Event is required" });
+		}
+		const foundEvent = await Event.findById(eventId);
+		if (!foundEvent) {
+			return res.status(404).json({ message: "Event not found" });
+		}
+		const teams = await Team.find({ event: eventId }).select("name");
+		return res.status(200).json({
+			message: RESPONSE_MESSAGES.SUCCESS,
+			data: teams,
+		});
+	} catch (error: any) {
+		console.error(error);
+		if (error.kind === "ObjectId") {
+			return res.status(404).json({ message: "Event not found" });
 		}
 		return res
 			.status(500)

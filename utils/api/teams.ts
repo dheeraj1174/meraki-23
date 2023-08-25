@@ -20,6 +20,26 @@ export const getTeam = async (id: string) => {
 	}
 };
 
+export const getTeamsForEvent = async (id: string) => {
+	try {
+		const response = await http.get(`/events/${id}/teams`);
+		return Promise.resolve(response.data);
+	} catch (error: any) {
+		console.error(error);
+		return Promise.reject(error.response.data);
+	}
+};
+
+export const getTeamNamesForEvent = async (id: string) => {
+	try {
+		const response = await http.get(`/events/${id}/teams-name`);
+		return Promise.resolve(response.data);
+	} catch (error: any) {
+		console.error(error);
+		return Promise.reject(error.response.data);
+	}
+};
+
 export const createTeam = async (data: { name: string; event: string }) => {
 	try {
 		const response = await http.post("/teams", data);

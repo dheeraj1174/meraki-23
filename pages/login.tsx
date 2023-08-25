@@ -37,10 +37,10 @@ const SignInPage: React.FC = () => {
 
 	const setGlobalUser = async () => {
 		try {
-			const user = await fetchAuthenticatedUser();
-			setUser(user);
+			const res = await fetchAuthenticatedUser();
+			setUser(res.user);
 			setIsLoggedIn(true);
-			return Promise.resolve(user);
+			return Promise.resolve(res.user);
 		} catch (error) {
 			console.error(error);
 			setIsLoggedIn(false);

@@ -58,3 +58,13 @@ export const participantStatusInTeam = async (
 		return Promise.reject(error.response.data);
 	}
 };
+
+export const getParticipantForEvent = async (eventId: string) => {
+	try {
+		const response = await http.get(`/participation/${eventId}`);
+		return Promise.resolve(response.data);
+	} catch (error: any) {
+		console.error(error);
+		return Promise.reject(error.response.data);
+	}
+};

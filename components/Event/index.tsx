@@ -7,14 +7,18 @@ import ConfirmationModal from "../Confirmation";
 import { toast } from "react-hot-toast";
 import useStore from "@/hooks/store";
 import {
-	getTeams as getTeamsApi,
+	getTeamNamesForEvent as getTeamsApi,
 	createTeam as createTeamApi,
 } from "@/utils/api/teams";
-import { participateInEvent as participateInEventApi } from "@/utils/api/participation";
+import {
+	getParticipantForEvent,
+	participateInEvent as participateInEventApi,
+} from "@/utils/api/participation";
 import { stylesConfig } from "@/utils/functions";
 import styles from "./styles.module.scss";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import Button from "@/library/Button";
+import Typography from "@/library/Typography";
 
 interface EventPopupProps {
 	event: IEvent;
@@ -23,6 +27,12 @@ interface EventPopupProps {
 
 const classes = stylesConfig(styles, "event-popup");
 
+const Loader: React.FC = () => (
+	<div className={classes("-loading")}>
+		<AiOutlineLoading3Quarters className={classes("-loading-icon")} />
+	</div>
+);
+
 const EventPopup: React.FC<EventPopupProps> = ({ event, onClose }) => {
 	const { user } = useStore();
 
@@ -30,24 +40,41 @@ const EventPopup: React.FC<EventPopupProps> = ({ event, onClose }) => {
 	const [creatingTeam, setCreatingTeam] = useState(false);
 	const [registering, setRegistering] = useState(false);
 	const [isInputDisabled, setIsInputDisabled] = useState(false);
+	const [checkingParticipationsStatus, setCheckingParticipationsStatus] =
+		useState(false);
+
 	const [registrationDetails, setRegistrationDetails] = useState({
 		eventId: event._id,
 		teamId: null,
 	});
 	const [newTeamName, setNewTeamName] = useState("");
+	const [hasParticipated, setHasParticipated] = useState(false);
 
 	const [teams, setTeams] = useState<ITeam[]>([]);
 
 	const getAllTeams = async () => {
 		try {
 			setGettingTeams(true);
-			const res = await getTeamsApi();
+			const res = await getTeamsApi(event._id);
 			setTeams(res.data);
 		} catch (error) {
 			console.error(error);
 			setTeams([]);
 		} finally {
 			setGettingTeams(false);
+		}
+	};
+
+	const getParticipationStatus = async () => {
+		try {
+			setCheckingParticipationsStatus(true);
+			const res = await getParticipantForEvent(event._id);
+			if (res.data && res.data.user) setHasParticipated(true);
+		} catch (error) {
+			console.error(error);
+			setHasParticipated(false);
+		} finally {
+			setCheckingParticipationsStatus(false);
 		}
 	};
 
@@ -64,6 +91,7 @@ const EventPopup: React.FC<EventPopupProps> = ({ event, onClose }) => {
 				teamId: res.data._id,
 			});
 			toast.success("Team created successfully!");
+			onClose();
 		} catch (error: any) {
 			console.error(error);
 			toast.error(error?.message ?? "Something went wrong");
@@ -83,6 +111,7 @@ const EventPopup: React.FC<EventPopupProps> = ({ event, onClose }) => {
 				registrationDetails.teamId
 			);
 			toast.success(`Registered in ${res.data.team.name} successfully!`);
+			onClose();
 		} catch (error: any) {
 			console.error(error);
 			toast.error(error?.message ?? "Something went wrong");
@@ -97,6 +126,7 @@ const EventPopup: React.FC<EventPopupProps> = ({ event, onClose }) => {
 			setRegistering(true);
 			const res = await participateInEventApi(event._id);
 			toast.success(`You have registered in ${res.data.event.name}`);
+			onClose();
 		} catch (error: any) {
 			console.error(error);
 			toast.error(error?.message ?? "Something went wrong");
@@ -118,10 +148,28 @@ const EventPopup: React.FC<EventPopupProps> = ({ event, onClose }) => {
 
 	useEffect(() => {
 		getAllTeams();
+		getParticipationStatus();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [event._id]);
 
-	return event.teamSize === 1 ? (
+	return checkingParticipationsStatus ? (
+		<Popup onClose={onClose}>
+			<Loader />
+		</Popup>
+	) : hasParticipated ? (
+		<Popup onClose={onClose}>
+			<Typography
+				type="heading"
+				variant="subtitle"
+				style={{
+					textAlign: "center",
+					margin: "auto",
+				}}
+			>
+				You have already registered for this event
+			</Typography>
+		</Popup>
+	) : event.teamSize === 1 ? (
 		<ConfirmationModal
 			title="Register"
 			body={`Participate in ${event.name} as ${user?.name}?`}
@@ -138,11 +186,7 @@ const EventPopup: React.FC<EventPopupProps> = ({ event, onClose }) => {
 			height="80%"
 		>
 			{gettingTeams ? (
-				<div className={classes("-loading")}>
-					<AiOutlineLoading3Quarters
-						className={classes("-loading-icon")}
-					/>
-				</div>
+				<Loader />
 			) : (
 				<>
 					<form className={classes("-form")} onSubmit={handleSubmit}>

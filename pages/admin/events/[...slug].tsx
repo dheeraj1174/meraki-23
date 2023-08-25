@@ -14,8 +14,15 @@ import regex from "@/constants/regex";
 import Button from "@/library/Button";
 import { defaultAvatar } from "@/constants/variables";
 import Image from "next/image";
+import { getParticipantsForEvent } from "@/utils/api/participation";
 
 const classes = stylesConfig(styles, "admin-event");
+
+const Loader: React.FC = () => (
+	<div className={classes("-loading")}>
+		<AiOutlineLoading3Quarters className={classes("-loading-icon")} />
+	</div>
+);
 
 const AdminEventPage: React.FC = () => {
 	const router = useRouter();
@@ -25,6 +32,8 @@ const AdminEventPage: React.FC = () => {
 
 	const [gettingDetails, setGettingDetails] = useState(false);
 	const [updatingDetails, setUpdatingDetails] = useState(false);
+	const [gettingRegistrations, setGettingRegistrations] = useState(false);
+
 	const [eventDetails, setEventDetails] = useState<Partial<IEvent>>({
 		name: "",
 		description: "",
@@ -33,6 +42,7 @@ const AdminEventPage: React.FC = () => {
 		teamSize: 0,
 	});
 	const [poster, setPoster] = useState(eventDetails.image);
+	const [registrations, setRegistrations] = useState([]);
 
 	const handleChange = (e: any) => {
 		setEventDetails((prev) => ({
@@ -72,19 +82,29 @@ const AdminEventPage: React.FC = () => {
 		}
 	};
 
+	const getAllRegistrations = async () => {
+		try {
+			setGettingRegistrations(true);
+			const res = await getParticipantsForEvent(eventId);
+			setRegistrations(res.data);
+		} catch (error: any) {
+			console.error(error);
+			toast.error(error.message ?? "Something went wrong");
+		} finally {
+			setGettingRegistrations(false);
+		}
+	};
+
 	useEffect(() => {
 		getEventDetails();
+		getAllRegistrations();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
 		<main className={classes("")}>
 			{isCheckingLoggedIn || gettingDetails ? (
-				<div className={classes("-loading")}>
-					<AiOutlineLoading3Quarters
-						className={classes("-loading-icon")}
-					/>
-				</div>
+				<Loader />
 			) : (
 				<>
 					<header className={classes("-header")}>
@@ -201,6 +221,15 @@ const AdminEventPage: React.FC = () => {
 						/>
 					</section>
 					<hr className={classes("-divider")} />
+					{gettingRegistrations ? (
+						<Loader />
+					) : (
+						<section className={classes("-registrations")}>
+							{registrations.map((registration: any) => (
+								<>{registration.user.name}</>
+							))}
+						</section>
+					)}
 				</>
 			)}
 		</main>

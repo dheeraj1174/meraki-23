@@ -168,7 +168,7 @@ const SignInPage: React.FC = () => {
 						label="Enter your email"
 						value={inputCred.email}
 						onChange={handleInputChange}
-						disabled={isOtpValid}
+						disabled={isOtpValid || otpSent}
 						error={
 							inputCred.email.length > 0 &&
 							!regex.email.test(inputCred.email)
