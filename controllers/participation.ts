@@ -102,7 +102,7 @@ export const getParticipantsForEvent = async (
 	res: ApiResponse
 ) => {
 	try {
-		const eventId = req.query.id;
+		const eventId: any = req.query.id;
 		if (!eventId)
 			return res
 				.status(400)
@@ -110,20 +110,27 @@ export const getParticipantsForEvent = async (
 		const foundEvent = await Event.findById(eventId);
 		if (!foundEvent)
 			return res.status(404).json({ message: "Event not found" });
-		const allparticipants = await Participant.find({ event: eventId })
-			.populate({
-				path: "event",
-				select: "name description",
-			})
-			.populate({
-				path: "user",
-				select: "name email avatar",
-			})
-			.populate({
-				path: "team",
-				select: "name",
-				match: { team: { $exists: true } },
-			});
+		const allparticipants = await Participant.aggregate([
+			{ $match: { event: new mongoose.Types.ObjectId(eventId) } },
+			{
+				$lookup: {
+					from: "users",
+					localField: "user",
+					foreignField: "_id",
+					as: "user",
+				},
+			},
+			{ $unwind: "$user" },
+			{
+				$group: {
+					_id: "$user._id",
+					name: { $first: "$user.name" },
+					email: { $first: "$user.email" },
+					avatar: { $first: "$user.avatar" },
+					status: { $first: "$status" },
+				},
+			},
+		]);
 		return res.status(200).json({
 			message: RESPONSE_MESSAGES.SUCCESS,
 			data: allparticipants,

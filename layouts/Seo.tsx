@@ -112,6 +112,8 @@ const Seo: React.FC<ISeoProps> = ({
 			<meta name="twitter:description" content={twitter?.description} />
 			<meta name="twitter:image" content={twitter?.image} />
 			<meta name="twitter:url" content={twitter?.url} />
+
+			<base target="_blank" />
 		</Head>
 	);
 };

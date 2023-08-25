@@ -15,6 +15,8 @@ import Button from "@/library/Button";
 import { defaultAvatar } from "@/constants/variables";
 import Image from "next/image";
 import { getParticipantsForEvent } from "@/utils/api/participation";
+import { getTeamsForEvent } from "@/utils/api/teams";
+import Member from "@/components/Member";
 
 const classes = stylesConfig(styles, "admin-event");
 
@@ -85,8 +87,14 @@ const AdminEventPage: React.FC = () => {
 	const getAllRegistrations = async () => {
 		try {
 			setGettingRegistrations(true);
-			const res = await getParticipantsForEvent(eventId);
-			setRegistrations(res.data);
+			if (!eventDetails.teamSize) return;
+			else if (eventDetails.teamSize === 1) {
+				const res = await getParticipantsForEvent(eventId);
+				setRegistrations(res.data);
+			} else if (eventDetails.teamSize > 1) {
+				const res = await getTeamsForEvent(eventId);
+				setRegistrations(res.data);
+			}
 		} catch (error: any) {
 			console.error(error);
 			toast.error(error.message ?? "Something went wrong");
@@ -97,9 +105,12 @@ const AdminEventPage: React.FC = () => {
 
 	useEffect(() => {
 		getEventDetails();
-		getAllRegistrations();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
+	useEffect(() => {
+		getAllRegistrations();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [eventDetails]);
 
 	return (
 		<main className={classes("")}>
@@ -225,11 +236,57 @@ const AdminEventPage: React.FC = () => {
 						<Loader />
 					) : (
 						<section className={classes("-registrations")}>
-							{registrations.map((registration: any) => (
-								<>{registration.user.name}</>
-							))}
+							{registrations.length === 0 ? (
+								<Typography
+									type="heading"
+									variant="title-2"
+									style={{
+										margin: "auto",
+										textAlign: "center",
+									}}
+								>
+									No registrations yet
+								</Typography>
+							) : !eventDetails.teamSize ? (
+								<Loader />
+							) : eventDetails.teamSize === 1 ? (
+								registrations.map((registration: any) => (
+									<Member
+										_id={registration._id}
+										name={registration.name}
+										email={registration.email}
+										avatar={registration.avatar}
+										status={registration.status}
+										key={registration._id}
+									/>
+								))
+							) : (
+								registrations.map((team: any) => (
+									<>
+										<Typography
+											type="heading"
+											variant="title-3"
+										>
+											{team.name}
+										</Typography>
+										{team.participants.map(
+											(participant: any) => (
+												<Member
+													_id={participant._id}
+													name={participant.name}
+													email={participant.email}
+													avatar={participant.avatar}
+													status={participant.status}
+													key={participant._id}
+												/>
+											)
+										)}
+									</>
+								))
+							)}
 						</section>
 					)}
+					<hr className={classes("-divider")} />
 				</>
 			)}
 		</main>
