@@ -10,10 +10,10 @@ import { getEvents } from "@/utils/api/events";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { PiCaretLeftBold } from "react-icons/pi";
 import { stylesConfig } from "@/utils/functions";
 import styles from "@/styles/pages/admin/Dashboard.module.scss";
+import Loader from "@/components/Loader";
 
 const classes = stylesConfig(styles, "admin-dashboard");
 
@@ -21,6 +21,7 @@ const AdminDashboard: React.FC = () => {
 	const router = useRouter();
 	const { user, setUser, isCheckingLoggedIn, isLoggedIn } = useStore();
 
+	const [gettingEvents, setGettingEvents] = useState(false);
 	const [updatingProfile, setUpdatingProfile] = useState(false);
 	const [profileContents, setProfileContents] = useState({
 		name: user?.name,
@@ -63,11 +64,14 @@ const AdminDashboard: React.FC = () => {
 
 	const getAllEvents = async () => {
 		try {
+			setGettingEvents(true);
 			const res = await getEvents();
 			setEvents(res.data);
 		} catch (error: any) {
 			console.error(error);
 			toast.error(error?.message ?? "Something went wrong");
+		} finally {
+			setGettingEvents(false);
 		}
 	};
 
@@ -86,11 +90,7 @@ const AdminDashboard: React.FC = () => {
 	return (
 		<main className={classes("")}>
 			{isCheckingLoggedIn ? (
-				<div className={classes("-loading")}>
-					<AiOutlineLoading3Quarters
-						className={classes("-loading-icon")}
-					/>
-				</div>
+				<Loader />
 			) : (
 				<>
 					<header className={classes("-header")}>
@@ -189,57 +189,63 @@ const AdminDashboard: React.FC = () => {
 							</Button>
 						</div>
 						<div className={classes("-events-all")}>
-							{events.map((event) => (
-								<div
-									key={event._id}
-									className={classes("-events-card")}
-									style={{
-										backgroundImage: `url(${event.image})`,
-									}}
-								>
-									<Typography
-										type="heading"
-										variant="subtitle"
-										className={classes(
-											"-events-card-title"
-										)}
-									>
-										{event.name}
-									</Typography>
-									<Typography
-										type="heading"
-										variant="title-3"
-										className={classes("-events-card-date")}
-									>
-										{new Date(
-											event.date
-										).toLocaleDateString()}
-									</Typography>
-									<Typography
-										type="body"
-										variant="large"
-										className={classes(
-											"-events-card-description"
-										)}
-									>
-										{event.description.slice(0, 100)}...
-									</Typography>
-									<Button
-										variant="light"
-										onClick={() => {
-											router.push(
-												`/admin/events/${event._id}`
-											);
+							{gettingEvents ? (
+								<Loader />
+							) : (
+								events.map((event) => (
+									<div
+										key={event._id}
+										className={classes("-events-card")}
+										style={{
+											backgroundImage: `url(${event.image})`,
 										}}
-										size="small"
-										className={classes(
-											"-events-card-button"
-										)}
 									>
-										View/Edit
-									</Button>
-								</div>
-							))}
+										<Typography
+											type="heading"
+											variant="subtitle"
+											className={classes(
+												"-events-card-title"
+											)}
+										>
+											{event.name}
+										</Typography>
+										<Typography
+											type="heading"
+											variant="title-3"
+											className={classes(
+												"-events-card-date"
+											)}
+										>
+											{new Date(
+												event.date
+											).toLocaleDateString()}
+										</Typography>
+										<Typography
+											type="body"
+											variant="large"
+											className={classes(
+												"-events-card-description"
+											)}
+										>
+											{event.description.slice(0, 100)}...
+										</Typography>
+										<Button
+											variant="light"
+											onClick={() => {
+												router.push(
+													`/admin/events/${event._id}`
+												);
+											}}
+											size="small"
+											className={classes(
+												"-events-card-button"
+											)}
+										>
+											View/Edit
+										</Button>
+									</div>
+								))
+							)}
 						</div>
 					</section>
 					<hr className={classes("-divider")} />

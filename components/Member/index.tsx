@@ -27,12 +27,12 @@ const Member: React.FC<MemberProps> = ({
 	return (
 		<div className={classes("")}>
 			<div className={classes("-left")}>
-				<Avatar src={avatar} alt={name} size="medium" />
-				<Typography type="heading" variant="title-2">
+				<Avatar src={avatar} alt={name} size="large" />
+				<Typography type="heading" variant="title-1">
 					{name}
 				</Typography>
 				<a href={`mailto:${email}`} className={classes("-email")}>
-					<Typography type="heading" variant="title-3">
+					<Typography type="body" variant="medium">
 						{email}
 					</Typography>
 				</a>

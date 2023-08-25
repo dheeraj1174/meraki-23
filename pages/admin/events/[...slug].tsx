@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Typography from "@/library/Typography";
 import { PiCaretLeftBold } from "react-icons/pi";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { AiOutlineDelete } from "react-icons/ai";
 import useStore from "@/hooks/store";
 import { useRouter } from "next/router";
 import { toast } from "react-hot-toast";
-import { stylesConfig } from "@/utils/functions";
-import styles from "@/styles/pages/admin/Event.module.scss";
 import { IEvent } from "@/types/event";
 import { getEvent, updateEvent } from "@/utils/api/events";
 import { Input, Textarea } from "@/library/form";
@@ -17,14 +15,12 @@ import Image from "next/image";
 import { getParticipantsForEvent } from "@/utils/api/participation";
 import { getTeamsForEvent } from "@/utils/api/teams";
 import Member from "@/components/Member";
+import Responsive from "@/layouts/Responsive";
+import { stylesConfig } from "@/utils/functions";
+import styles from "@/styles/pages/admin/Event.module.scss";
+import Loader from "@/components/Loader";
 
 const classes = stylesConfig(styles, "admin-event");
-
-const Loader: React.FC = () => (
-	<div className={classes("-loading")}>
-		<AiOutlineLoading3Quarters className={classes("-loading-icon")} />
-	</div>
-);
 
 const AdminEventPage: React.FC = () => {
 	const router = useRouter();
@@ -236,6 +232,17 @@ const AdminEventPage: React.FC = () => {
 						<Loader />
 					) : (
 						<section className={classes("-registrations")}>
+							<div className={classes("-registrations-header")}>
+								<Typography
+									type="heading"
+									variant="display"
+									className={classes(
+										"-registrations-heading"
+									)}
+								>
+									Registrations
+								</Typography>
+							</div>
 							{registrations.length === 0 ? (
 								<Typography
 									type="heading"
@@ -250,37 +257,67 @@ const AdminEventPage: React.FC = () => {
 							) : !eventDetails.teamSize ? (
 								<Loader />
 							) : eventDetails.teamSize === 1 ? (
-								registrations.map((registration: any) => (
-									<Member
-										_id={registration._id}
-										name={registration.name}
-										email={registration.email}
-										avatar={registration.avatar}
-										status={registration.status}
-										key={registration._id}
-									/>
-								))
+								<Responsive.Row>
+									{registrations.map((registration: any) => (
+										<Responsive.Col
+											key={registration._id}
+											sm={100}
+											md={50}
+											lg={33}
+											xlg={33}
+										>
+											<Member
+												_id={registration._id}
+												name={registration.name}
+												email={registration.email}
+												avatar={registration.avatar}
+												status={registration.status}
+											/>
+										</Responsive.Col>
+									))}
+								</Responsive.Row>
 							) : (
 								registrations.map((team: any) => (
 									<>
 										<Typography
 											type="heading"
-											variant="title-3"
+											variant="title-2"
+											className={classes("-team-name")}
 										>
 											{team.name}
+											<AiOutlineDelete />
 										</Typography>
-										{team.participants.map(
-											(participant: any) => (
-												<Member
-													_id={participant._id}
-													name={participant.name}
-													email={participant.email}
-													avatar={participant.avatar}
-													status={participant.status}
-													key={participant._id}
-												/>
-											)
-										)}
+										<Responsive.Row>
+											{team.participants.map(
+												(participant: any) => (
+													<Responsive.Col
+														key={participant._id}
+														sm={100}
+														md={50}
+														lg={33}
+														xlg={33}
+													>
+														<Member
+															_id={
+																participant._id
+															}
+															name={
+																participant.name
+															}
+															email={
+																participant.email
+															}
+															avatar={
+																participant.avatar
+															}
+															status={
+																participant.status
+															}
+														/>
+													</Responsive.Col>
+												)
+											)}
+										</Responsive.Row>
 									</>
 								))
 							)}
