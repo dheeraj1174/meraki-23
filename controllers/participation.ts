@@ -3,6 +3,7 @@ import Event from "@/models/Event";
 import Participant from "@/models/Participant";
 import Team from "@/models/Team";
 import { ApiRequest, ApiResponse } from "@/types/api";
+import mongoose from "mongoose";
 
 export const getAllParticipants = async (req: ApiRequest, res: ApiResponse) => {
 	try {
@@ -35,7 +36,7 @@ export const getAllParticipants = async (req: ApiRequest, res: ApiResponse) => {
 
 export const getTeamsForEvent = async (req: ApiRequest, res: ApiResponse) => {
 	try {
-		const eventId = req.query.id;
+		const eventId: any = req.query.id;
 		if (!eventId)
 			return res
 				.status(400)
@@ -43,32 +44,47 @@ export const getTeamsForEvent = async (req: ApiRequest, res: ApiResponse) => {
 		const foundEvent = await Event.findById(eventId);
 		if (!foundEvent)
 			return res.status(404).json({ message: "Event not found" });
-		const allTeams = await Participant.find({ event: eventId })
-			.populate({
-				path: "event",
-				select: "name description",
-			})
-			.populate({
-				path: "user",
-				select: "name email avatar",
-			})
-			.populate({
-				path: "team",
-				select: "name",
-				match: { team: { $exists: true } },
-			});
-		const groupedTeams = allTeams.reduce((acc: any, curr: any) => {
-			if (curr.team) {
-				if (!acc[curr.team.name]) {
-					acc[curr.team.name] = [];
-				}
-				acc[curr.team.name].push(curr);
-			}
-			return acc;
-		}, {});
+		const allTeams = await Participant.aggregate([
+			{ $match: { event: new mongoose.Types.ObjectId(eventId) } },
+			{
+				$lookup: {
+					from: "teams",
+					localField: "team",
+					foreignField: "_id",
+					as: "team",
+				},
+			},
+			{
+				$lookup: {
+					from: "users",
+					localField: "user",
+					foreignField: "_id",
+					as: "user",
+				},
+			},
+			{ $unwind: "$team" },
+			{ $unwind: "$user" },
+			{
+				$group: {
+					_id: "$team._id",
+					name: { $first: "$team.name" },
+					createdBy: { $first: "$team.createdBy" },
+					participants: {
+						$push: {
+							_id: "$_id",
+							userId: "$user._id",
+							name: "$user.name",
+							email: "$user.email",
+							avatar: "$user.avatar",
+							status: "$status",
+						},
+					},
+				},
+			},
+		]);
 		return res.status(200).json({
 			message: RESPONSE_MESSAGES.SUCCESS,
-			data: groupedTeams,
+			data: allTeams,
 		});
 	} catch (error: any) {
 		console.error(error);
