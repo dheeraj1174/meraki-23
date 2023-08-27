@@ -450,7 +450,8 @@ export const removeParticipantFromEvent = async (
 			const foundTeam = await Team.findById(teamId);
 			if (
 				loggedInUser.role !== USER_ROLES.ADMIN &&
-				foundTeam.createdBy.toString() !== req.user?.id
+				foundTeam.createdBy.toString() !== req.user?.id &&
+				foundParticipant.user.toString() !== req.user?.id
 			) {
 				return res.status(403).json({
 					message:

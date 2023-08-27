@@ -1,6 +1,7 @@
 import Avatar from "@/components/Avatar";
 import Loader from "@/components/Loader";
 import Member from "@/components/Member";
+import { TEAM_PARTICIPATION_STATUS } from "@/constants/enum";
 import { defaultAvatar } from "@/constants/variables";
 import useStore from "@/hooks/store";
 import Responsive from "@/layouts/Responsive";
@@ -9,12 +10,44 @@ import Typography from "@/library/Typography";
 import { Input } from "@/library/form";
 import styles from "@/styles/pages/Profile.module.scss";
 import { patchUserDetails } from "@/utils/api/auth";
+import {
+	removeParticipantFromEvent,
+	approveParticipant as approveParticipantApi,
+} from "@/utils/api/participation";
 import { getMyRegistrations } from "@/utils/api/users";
 import { stylesConfig } from "@/utils/functions";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { PiCaretLeftBold } from "react-icons/pi";
+
+interface IRegistration {
+	event: {
+		id: string;
+		name: string;
+		teamSize: number | string;
+	};
+	participant?: {
+		id: string;
+		userId: string;
+		name: string;
+		email: string;
+		avatar: string;
+	};
+	team?: {
+		id: string;
+		name: string;
+		createdBy: string;
+		members: {
+			id: string;
+			userId: string;
+			name: string;
+			email: string;
+			avatar: string;
+			status: string;
+		}[];
+	};
+}
 
 const classes = stylesConfig(styles, "profile");
 
@@ -29,35 +62,7 @@ const ProfilePage: React.FC = () => {
 		email: user?.email,
 		avatar: user?.avatar,
 	});
-	const [registrations, setRegistrations] = useState<
-		{
-			event: {
-				id: string;
-				name: string;
-				teamSize: number | string;
-			};
-			participant?: {
-				id: string;
-				userId: string;
-				name: string;
-				email: string;
-				avatar: string;
-			};
-			team?: {
-				id: string;
-				name: string;
-				createdBy: string;
-				members: {
-					id: string;
-					userId: string;
-					name: string;
-					email: string;
-					avatar: string;
-					status: string;
-				}[];
-			};
-		}[]
-	>([]);
+	const [registrations, setRegistrations] = useState<IRegistration[]>([]);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setProfileContents((prev) => ({
@@ -101,6 +106,75 @@ const ProfilePage: React.FC = () => {
 			toast.error(error?.message ?? "Something went wrong");
 		} finally {
 			setGettingRegistrations(false);
+		}
+	};
+
+	const approveParticipant = async (
+		teamSize: number,
+		participantId: string
+	) => {
+		try {
+			const res = await approveParticipantApi(participantId);
+			if (!teamSize) {
+				toast.error("Something went wrong");
+				return;
+			} else if (teamSize === 1) {
+				toast.error("Something went wrong");
+				return;
+			} else if (teamSize > 1) {
+				const newRegistrations: IRegistration[] = registrations.map(
+					(team) => {
+						const newTeam = team;
+						newTeam.team?.members.forEach((member) => {
+							if (member.id === participantId) {
+								member.status =
+									TEAM_PARTICIPATION_STATUS.ACCEPTED;
+							}
+						});
+						return newTeam;
+					}
+				);
+				setRegistrations(newRegistrations);
+			}
+			return Promise.resolve(res.message ?? "Approved participant");
+		} catch (error: any) {
+			console.error(error);
+			return Promise.reject(error.message ?? "Something went wrong");
+		}
+	};
+
+	const removeParticipant = async (
+		teamSize: number,
+		participantId: string
+	) => {
+		try {
+			const res = await removeParticipantFromEvent(participantId);
+			if (!teamSize) {
+				toast.error("Something went wrong");
+				return;
+			} else if (teamSize === 1) {
+				const newRegistrations: IRegistration[] = registrations.filter(
+					(registration) =>
+						registration.participant?.id !== participantId
+				);
+				setRegistrations(newRegistrations);
+			} else if (teamSize > 1) {
+				const newRegistrations: IRegistration[] = registrations.map(
+					(team) => {
+						const newTeam = team;
+						if (newTeam.team?.members)
+							newTeam.team.members = newTeam.team.members.filter(
+								(member) => member.id !== participantId
+							);
+						return newTeam;
+					}
+				);
+				setRegistrations(newRegistrations);
+			}
+			return Promise.resolve(res.message ?? "Removed participant");
+		} catch (error: any) {
+			console.error(error);
+			return Promise.reject(error.message ?? "Something went wrong");
 		}
 	};
 
@@ -230,6 +304,14 @@ const ProfilePage: React.FC = () => {
 								</Typography>
 							) : (
 								registrations.map((registration) => {
+									if (
+										!registration.participant &&
+										!registration.team?.members.some(
+											(member) =>
+												member.userId === user?._id
+										)
+									)
+										return null;
 									return (
 										<div
 											className={classes(
@@ -316,6 +398,31 @@ const ProfilePage: React.FC = () => {
 																	.participant
 																	.avatar
 															}
+															onRemove={() => {
+																toast.promise(
+																	removeParticipant(
+																		+registration
+																			.event
+																			.teamSize,
+																		registration
+																			.participant
+																			?.id as string
+																	),
+																	{
+																		loading:
+																			"Removing participant...",
+																		success:
+																			(
+																				message
+																			) =>
+																				message,
+																		error: (
+																			message
+																		) =>
+																			message,
+																	}
+																);
+															}}
 														/>
 													</Responsive.Col>
 												) : (
@@ -344,6 +451,138 @@ const ProfilePage: React.FC = () => {
 																		avatar={
 																			member.avatar
 																		}
+																		status={(() => {
+																			if (
+																				registration
+																					.team
+																					?.createdBy ===
+																				member.userId
+																			)
+																				return "Team Leader";
+																			else if (
+																				member.status ===
+																				TEAM_PARTICIPATION_STATUS.ACCEPTED
+																			)
+																				return "Accepted";
+																			else if (
+																				member.status ===
+																				TEAM_PARTICIPATION_STATUS.PENDING
+																			)
+																				return "Confirmation Pending";
+																			else if (
+																				member.status ===
+																				TEAM_PARTICIPATION_STATUS.REJECTED
+																			)
+																				return "Rejected";
+																			else
+																				return "Unknown";
+																		})()}
+																		theme={(() => {
+																			if (
+																				registration
+																					.team
+																					?.createdBy ===
+																				member.userId
+																			)
+																				return "success";
+																			else if (
+																				member.status ===
+																				TEAM_PARTICIPATION_STATUS.ACCEPTED
+																			)
+																				return "success";
+																			else if (
+																				member.status ===
+																				TEAM_PARTICIPATION_STATUS.PENDING
+																			)
+																				return "warning";
+																			else if (
+																				member.status ===
+																				TEAM_PARTICIPATION_STATUS.REJECTED
+																			)
+																				return "danger";
+																			else
+																				return "info";
+																		})()}
+																		onApprove={(() => {
+																			if (
+																				user?._id !==
+																				registration
+																					.team
+																					?.createdBy
+																			) {
+																				return undefined;
+																			}
+																			if (
+																				member.status ===
+																				TEAM_PARTICIPATION_STATUS.ACCEPTED
+																			) {
+																				return undefined;
+																			}
+																			return () =>
+																				toast.promise(
+																					approveParticipant(
+																						+registration
+																							.event
+																							.teamSize,
+																						member.id
+																					),
+																					{
+																						loading:
+																							"Approving participant...",
+																						success:
+																							(
+																								message
+																							) =>
+																								message,
+																						error: (
+																							message
+																						) =>
+																							message,
+																					}
+																				);
+																		})()}
+																		onRemove={(() => {
+																			if (
+																				member.id ===
+																				registration
+																					.team
+																					?.createdBy
+																			) {
+																				return undefined;
+																			}
+																			if (
+																				user?._id !==
+																					registration
+																						.team
+																						?.createdBy &&
+																				user?._id !==
+																					member.userId
+																			) {
+																				return undefined;
+																			}
+																			return () =>
+																				toast.promise(
+																					removeParticipant(
+																						+registration
+																							.event
+																							.teamSize,
+																						member.id
+																					),
+																					{
+																						loading:
+																							"Removing participant...",
+																						success:
+																							(
+																								message
+																							) =>
+																								message,
+																						error: (
+																							message
+																						) =>
+																							message,
+																					}
+																				);
+																		})()}
 																	/>
 																</Responsive.Col>
 															);
