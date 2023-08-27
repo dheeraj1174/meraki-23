@@ -1,5 +1,8 @@
 import { RESPONSE_MESSAGES } from "@/constants/enum";
-import { removeParticipantFromEvent } from "@/controllers/participation";
+import {
+	approveParticipant,
+	removeParticipantFromEvent,
+} from "@/controllers/participation";
 import connectDB from "@/db";
 import authMiddleware from "@/middleware/auth";
 import { ApiRequest, ApiResponse } from "@/types/api";
@@ -10,6 +13,8 @@ const handler = async (req: ApiRequest, res: ApiResponse) => {
 		const { method } = req;
 
 		switch (method) {
+			case "PATCH":
+				return authMiddleware(approveParticipant)(req, res);
 			case "DELETE":
 				return authMiddleware(removeParticipantFromEvent)(req, res);
 			default:

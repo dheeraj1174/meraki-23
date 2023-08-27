@@ -379,6 +379,50 @@ export const getParticipantForEvent = async (
 	}
 };
 
+export const approveParticipant = async (req: ApiRequest, res: ApiResponse) => {
+	try {
+		const participantId = req.query.id;
+		const foundParticipant = await Participant.findById(participantId);
+		if (!foundParticipant) {
+			return res.status(404).json({ message: "Participant not found" });
+		}
+		const loggedInUser = await User.findById(req.user?.id);
+		const eventId = foundParticipant.event.toString();
+		const foundEvent = await Event.findById(eventId);
+		if (foundEvent.teamSize === 1) {
+			return res.status(400).json({
+				message: "This event only accepts individual participants",
+			});
+		} else {
+			const teamId = foundParticipant.team.toString();
+			const foundTeam = await Team.findById(teamId);
+			if (
+				loggedInUser.role !== USER_ROLES.ADMIN &&
+				foundTeam.createdBy.toString() !== req.user?.id
+			) {
+				return res.status(403).json({
+					message:
+						"You are not authorized to approve this participant",
+				});
+			}
+			foundParticipant.status = TEAM_PARTICIPATION_STATUS.ACCEPTED;
+			await foundParticipant.save();
+			return res.status(200).json({
+				message: RESPONSE_MESSAGES.SUCCESS,
+				data: foundParticipant,
+			});
+		}
+	} catch (error: any) {
+		console.error(error);
+		if (error.kind === "ObjectId") {
+			return res.status(404).json({ message: "Not found" });
+		}
+		return res
+			.status(500)
+			.json({ message: RESPONSE_MESSAGES.SERVER_ERROR });
+	}
+};
+
 export const removeParticipantFromEvent = async (
 	req: ApiRequest,
 	res: ApiResponse

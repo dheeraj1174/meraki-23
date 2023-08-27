@@ -11,7 +11,8 @@ interface MemberProps {
 	name: string;
 	email: string;
 	avatar: string;
-	status: string;
+	status?: string;
+	theme?: "success" | "danger" | "warning" | "info";
 	onRemove?: (_: string) => void;
 	onApprove?: (_: string) => void;
 }
@@ -23,6 +24,8 @@ const Member: React.FC<MemberProps> = ({
 	name,
 	email,
 	avatar,
+	status,
+	theme = "info",
 	onRemove,
 	onApprove,
 }) => {
@@ -40,7 +43,7 @@ const Member: React.FC<MemberProps> = ({
 	);
 	return (
 		<>
-			<div className={classes("")}>
+			<div className={classes("", `--${theme}`)}>
 				<div className={classes("-left")}>
 					<Avatar src={avatar} alt={name} size="large" />
 					<Typography type="heading" variant="title-1">
@@ -53,6 +56,31 @@ const Member: React.FC<MemberProps> = ({
 					</a>
 				</div>
 				<div className={classes("-right")}>
+					{status ? (
+						<div
+							className={classes("-status", `-status--${theme}`)}
+						>
+							<svg
+								className={classes(
+									"-status-dot",
+									`-status-dot--${status}`
+								)}
+								width="8"
+								height="8"
+								viewBox="0 0 8 8"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<circle
+									cx="4"
+									cy="4"
+									r="4"
+									fill="currentColor"
+								/>
+							</svg>
+							{status}
+						</div>
+					) : null}
 					{onApprove ? (
 						<button
 							className={classes("-btn", "-btn--success")}
