@@ -14,12 +14,14 @@ import { PiCaretLeftBold } from "react-icons/pi";
 import { stylesConfig } from "@/utils/functions";
 import styles from "@/styles/pages/admin/Dashboard.module.scss";
 import Loader from "@/components/Loader";
+import { FiLogOut } from "react-icons/fi";
 
 const classes = stylesConfig(styles, "admin-dashboard");
 
 const AdminDashboard: React.FC = () => {
 	const router = useRouter();
-	const { user, setUser, isCheckingLoggedIn, isLoggedIn } = useStore();
+	const { user, setUser, isCheckingLoggedIn, isLoggedIn, logout } =
+		useStore();
 
 	const [gettingEvents, setGettingEvents] = useState(false);
 	const [updatingProfile, setUpdatingProfile] = useState(false);
@@ -60,6 +62,12 @@ const AdminDashboard: React.FC = () => {
 		} finally {
 			setUpdatingProfile(false);
 		}
+	};
+
+	const logoutUser = (e: any = undefined) => {
+		e?.preventDefault();
+		logout();
+		router.push("/");
 	};
 
 	const getAllEvents = async () => {
@@ -109,6 +117,14 @@ const AdminDashboard: React.FC = () => {
 						>
 							Admin Dashboard
 						</Typography>
+						<Button
+							icon={<FiLogOut />}
+							variant="dark"
+							size="small"
+							onClick={logoutUser}
+						>
+							Logout
+						</Button>
 					</header>
 					<section className={classes("-profile")}>
 						<form

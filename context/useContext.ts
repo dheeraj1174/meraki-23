@@ -20,6 +20,12 @@ const useContextData = () => {
 		setIsCheckingLoggedIn(isCheckingLoggedIn);
 	};
 
+	const logout = () => {
+		setUser(null);
+		setIsLoggedIn(false);
+		localStorage.removeItem("token");
+	};
+
 	return {
 		user,
 		setUser: handleUser,
@@ -27,6 +33,7 @@ const useContextData = () => {
 		setIsLoggedIn: handleIsLoggedIn,
 		isCheckingLoggedIn,
 		setIsCheckingLoggedIn: handleIsCheckingLoggedIn,
+		logout,
 	};
 };
 

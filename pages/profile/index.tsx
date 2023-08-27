@@ -19,6 +19,7 @@ import { stylesConfig } from "@/utils/functions";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+import { FiLogOut } from "react-icons/fi";
 import { PiCaretLeftBold } from "react-icons/pi";
 
 interface IRegistration {
@@ -53,7 +54,8 @@ const classes = stylesConfig(styles, "profile");
 
 const ProfilePage: React.FC = () => {
 	const router = useRouter();
-	const { user, setUser, isCheckingLoggedIn, isLoggedIn } = useStore();
+	const { user, setUser, isCheckingLoggedIn, isLoggedIn, logout } =
+		useStore();
 
 	const [updatingProfile, setUpdatingProfile] = useState(false);
 	const [gettingRegistrations, setGettingRegistrations] = useState(false);
@@ -94,6 +96,12 @@ const ProfilePage: React.FC = () => {
 		} finally {
 			setUpdatingProfile(false);
 		}
+	};
+
+	const logoutUser = (e: any = undefined) => {
+		e?.preventDefault();
+		logout();
+		router.push("/");
 	};
 
 	const getAllRegistrations = async () => {
@@ -214,6 +222,14 @@ const ProfilePage: React.FC = () => {
 				>
 					My Profile
 				</Typography>
+				<Button
+					icon={<FiLogOut />}
+					variant="dark"
+					size="small"
+					onClick={logoutUser}
+				>
+					Logout
+				</Button>
 			</div>
 			{isLoggedIn && user ? (
 				<>

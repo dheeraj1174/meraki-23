@@ -8,6 +8,7 @@ const GlobalContext = createContext({
 	setIsLoggedIn: (_: boolean) => {},
 	isCheckingLoggedIn: false as boolean,
 	setIsCheckingLoggedIn: (_: boolean) => {},
+	logout: () => {},
 });
 
 export default GlobalContext;
