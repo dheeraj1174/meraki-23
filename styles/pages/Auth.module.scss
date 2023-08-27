@@ -23,7 +23,7 @@
 		@include typography(heading, title-3);
 
 		&__text {
-			color: #fff;
+			color: #fff !important;
 		}
 
 		@include responsive(phone) {

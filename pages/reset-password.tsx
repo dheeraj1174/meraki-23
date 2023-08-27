@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Avatar from "@/components/Avatar";
 import Button from "@/library/Button";
 import { Input } from "@/library/form";
 import Link from "next/link";
@@ -13,9 +12,9 @@ import {
 } from "@/utils/api/auth";
 import { resetPasswordValidator } from "@/validations/auth";
 import { BiHide, BiShow } from "react-icons/bi";
-import Typography from "@/library/Typography";
 import { toast } from "react-hot-toast";
 import useStore from "@/hooks/store";
+import AuthLayout from "@/layouts/Auth";
 import styles from "@/styles/pages/Auth.module.scss";
 import { stylesConfig } from "@/utils/functions";
 
@@ -129,272 +128,240 @@ const SignInPage: React.FC = () => {
 	}, [isCheckingLoggedIn, isLoggedIn, router]);
 
 	return (
-		<main className={classNames("")}>
-			<section className={classNames("-graphic")}>
-				<Typography
-					type="heading"
-					variant="display"
-					className={classNames("-graphic__text")}
-				>
-					Meraki 23
-					<br />
-					Experience the wilderness of the web
-				</Typography>
-			</section>
-			<section className={classNames("-content")}>
-				<div className={classNames("-content-head")}>
-					<h1 className={classNames("-content-head__icon")}>
-						<Avatar
-							src="https://github.com/akshatmittal61.png"
-							alt="Akshat mittal"
-							onClick={() => router.push("/")}
-						/>
-					</h1>
-					<h1 className={classNames("-content-head__title")}>
-						Reset Password
-					</h1>
-					<h3 className={classNames("-content-head__subtitle")}>
-						Enter your email to reset your password
-					</h3>
-				</div>
-				<form
-					className={classNames("-content-form")}
-					onSubmit={handleSubmit}
-				>
-					<Input
-						type="email"
-						name="email"
-						placeholder="Email"
-						label="Enter your email"
-						value={inputCred.email}
-						onChange={handleInputChange}
-						disabled={isOtpValid || otpSent}
-						error={
-							inputCred.email.length > 0 &&
-							!regex.email.test(inputCred.email)
-						}
-						errorMessage="Email is not valid"
-					/>
+		<AuthLayout
+			title="Reset Password"
+			subtitle="Enter your email to reset your password"
+		>
+			<form
+				className={classNames("-content-form")}
+				onSubmit={handleSubmit}
+			>
+				<Input
+					type="email"
+					name="email"
+					placeholder="Email"
+					label="Enter your email"
+					value={inputCred.email}
+					onChange={handleInputChange}
+					disabled={isOtpValid || otpSent}
+					error={
+						inputCred.email.length > 0 &&
+						!regex.email.test(inputCred.email)
+					}
+					errorMessage="Email is not valid"
+				/>
 
-					{showOTPBox && !isOtpValid ? (
-						<div
-							className={classNames("-content-form-group")}
-							style={{
-								justifyContent: "space-between",
-								flexFlow: "row nowrap",
-								gap: "0",
-							}}
-						>
-							{otp.map((data, index) => (
-								<Input
-									key={index}
-									type="text"
-									name={`otp${index}`}
-									autoFocus={index === 0}
-									value={data}
-									style={{
-										width: "3rem",
-										textAlign: "center",
-									}}
-									styles={{
-										box: { alignItems: "center" },
-									}}
-									onKeyUp={(e: any) => {
-										if (e.target.value.length === 1) {
-											if (
-												e.target.value >= 0 &&
-												e.target.value <= 9
-											) {
-												if (e.target.name === "otp5") {
-													e.target.blur();
-												} else {
-													document
-														.getElementsByName(
-															"otp" +
-																(+e.target.name[
-																	e.target
-																		.name
-																		.length -
-																		1
-																] +
-																	1)
-														)[0]
-														.focus();
-												}
-											} else {
-												e.target.value = "";
-											}
-										}
-									}}
-									onChange={(e: any) => {
+				{showOTPBox && !isOtpValid ? (
+					<div
+						className={classNames("-content-form-group")}
+						style={{
+							justifyContent: "space-between",
+							flexFlow: "row nowrap",
+							gap: "0",
+						}}
+					>
+						{otp.map((data, index) => (
+							<Input
+								key={index}
+								type="text"
+								name={`otp${index}`}
+								autoFocus={index === 0}
+								value={data}
+								style={{
+									width: "3rem",
+									textAlign: "center",
+								}}
+								styles={{
+									box: { alignItems: "center" },
+								}}
+								onKeyUp={(e: any) => {
+									if (e.target.value.length === 1) {
 										if (
-											e.target.value.length === 6 &&
-											index === 0 &&
-											e.target.value
-												.split("")
-												.every(
-													(val: any) =>
-														val >= 0 && val <= 9
-												)
+											e.target.value >= 0 &&
+											e.target.value <= 9
 										) {
-											const otpArray =
-												e.target.value.split("");
-											setOtp(otpArray);
-											document
-												.getElementsByName("otp5")[0]
-												.focus();
-											return;
-										} else if (
-											e.target.value === "" ||
-											regex.otp.test(e.target.value)
-										) {
-											const otpArray = [...otp];
-											if (e.target.value === "")
-												otpArray[index] = "";
-											else if (
-												+e.target.value >= 0 &&
-												+e.target.value <= 9
-											)
-												otpArray[index] =
-													e.target.value;
-											setOtp(otpArray);
+											if (e.target.name === "otp5") {
+												e.target.blur();
+											} else {
+												document
+													.getElementsByName(
+														"otp" +
+															(+e.target.name[
+																e.target.name
+																	.length - 1
+															] +
+																1)
+													)[0]
+													.focus();
+											}
+										} else {
+											e.target.value = "";
 										}
-									}}
-									onFocus={(e) => e.target.select()}
-								/>
-							))}
-						</div>
-					) : null}
-					{!isOtpValid && regex.email.test(inputCred.email) ? (
-						<div className={classNames("-content-form-group")}>
-							{showOTPBox ? (
-								<Button
-									variant="light"
-									type="button"
-									disabled={
-										!inputCred.email.length ||
-										!regex.email.test(inputCred.email) ||
-										resendOTPTimeout > 0
 									}
-									onClick={requestOTP}
-									loading={requestingOtp}
-								>
-									{resendOTPTimeout > 0
-										? `Retry in ${resendOTPTimeout}`
-										: "Resend OTP"}
-								</Button>
-							) : null}
-							{otpSent ? (
-								<Button
-									variant="dark"
-									type="button"
-									disabled={
-										!inputCred.email.length ||
-										!regex.email.test(inputCred.email) ||
-										requestingOtp ||
-										!regex.otp.test(otp.join(""))
-									}
-									onClick={() => verifyOTP(otp)}
-									loading={verifyingOtp}
-								>
-									Verify OTP
-								</Button>
-							) : (
-								<Button
-									variant="dark"
-									type="button"
-									disabled={
-										showOTPBox ||
-										!inputCred.email.length ||
-										!regex.email.test(inputCred.email) ||
-										requestingOtp
-									}
-									onClick={requestOTP}
-									loading={requestingOtp}
-								>
-									Request OTP
-								</Button>
-							)}
-						</div>
-					) : null}
-					{isOtpValid ? (
-						<>
-							<div className={classNames("-content-form-group")}>
-								<Input
-									type={showPassword ? "text" : "password"}
-									name="password"
-									placeholder="Password"
-									value={inputCred.password}
-									onChange={handleInputChange}
-									error={
-										inputCred.password.length > 0 &&
-										!regex.password.test(inputCred.password)
-									}
-									errorMessage="Password must be atleast 8 characters and must contain atleast one uppercase, one lowercase, one number and one special character"
-									icon={
-										showPassword ? (
-											<BiHide
-												onClick={() =>
-													setShowPassword(false)
-												}
-											/>
-										) : (
-											<BiShow
-												onClick={() =>
-													setShowPassword(true)
-												}
-											/>
+								}}
+								onChange={(e: any) => {
+									if (
+										e.target.value.length === 6 &&
+										index === 0 &&
+										e.target.value
+											.split("")
+											.every(
+												(val: any) =>
+													val >= 0 && val <= 9
+											)
+									) {
+										const otpArray =
+											e.target.value.split("");
+										setOtp(otpArray);
+										document
+											.getElementsByName("otp5")[0]
+											.focus();
+										return;
+									} else if (
+										e.target.value === "" ||
+										regex.otp.test(e.target.value)
+									) {
+										const otpArray = [...otp];
+										if (e.target.value === "")
+											otpArray[index] = "";
+										else if (
+											+e.target.value >= 0 &&
+											+e.target.value <= 9
 										)
+											otpArray[index] = e.target.value;
+										setOtp(otpArray);
 									}
-								/>
-								<Input
-									type={showPassword ? "text" : "password"}
-									name="confirmPassword"
-									placeholder="Confirm Password"
-									value={inputCred.confirmPassword}
-									onChange={handleInputChange}
-									error={
-										typeof inputCred.confirmPassword ===
-											"string" &&
-										inputCred.confirmPassword.length > 0 &&
-										inputCred.confirmPassword !==
-											inputCred.password
-									}
-									errorMessage="Passwords do not match"
-									icon={
-										showPassword ? (
-											<BiHide
-												onClick={() =>
-													setShowPassword(false)
-												}
-											/>
-										) : (
-											<BiShow
-												onClick={() =>
-													setShowPassword(true)
-												}
-											/>
-										)
-									}
-								/>
-							</div>
+								}}
+								onFocus={(e) => e.target.select()}
+							/>
+						))}
+					</div>
+				) : null}
+				{!isOtpValid && regex.email.test(inputCred.email) ? (
+					<div className={classNames("-content-form-group")}>
+						{showOTPBox ? (
 							<Button
-								type="submit"
-								variant="dark"
-								loading={updating}
+								variant="light"
+								type="button"
+								disabled={
+									!inputCred.email.length ||
+									!regex.email.test(inputCred.email) ||
+									resendOTPTimeout > 0
+								}
+								onClick={requestOTP}
+								loading={requestingOtp}
 							>
-								Reset Password
+								{resendOTPTimeout > 0
+									? `Retry in ${resendOTPTimeout}`
+									: "Resend OTP"}
 							</Button>
-						</>
-					) : null}
-				</form>
-				<div className={classNames("-content-footer")}>
-					<p className={classNames("-content-footer__text")}>
-						Dont have an account? <Link href="/signup">Signup</Link>
-					</p>
-				</div>
-			</section>
-		</main>
+						) : null}
+						{otpSent ? (
+							<Button
+								variant="dark"
+								type="button"
+								disabled={
+									!inputCred.email.length ||
+									!regex.email.test(inputCred.email) ||
+									requestingOtp ||
+									!regex.otp.test(otp.join(""))
+								}
+								onClick={() => verifyOTP(otp)}
+								loading={verifyingOtp}
+							>
+								Verify OTP
+							</Button>
+						) : (
+							<Button
+								variant="dark"
+								type="button"
+								disabled={
+									showOTPBox ||
+									!inputCred.email.length ||
+									!regex.email.test(inputCred.email) ||
+									requestingOtp
+								}
+								onClick={requestOTP}
+								loading={requestingOtp}
+							>
+								Request OTP
+							</Button>
+						)}
+					</div>
+				) : null}
+				{isOtpValid ? (
+					<>
+						<div className={classNames("-content-form-group")}>
+							<Input
+								type={showPassword ? "text" : "password"}
+								name="password"
+								placeholder="Password"
+								value={inputCred.password}
+								onChange={handleInputChange}
+								error={
+									inputCred.password.length > 0 &&
+									!regex.password.test(inputCred.password)
+								}
+								errorMessage="Password must be atleast 8 characters and must contain atleast one uppercase, one lowercase, one number and one special character"
+								icon={
+									showPassword ? (
+										<BiHide
+											onClick={() =>
+												setShowPassword(false)
+											}
+										/>
+									) : (
+										<BiShow
+											onClick={() =>
+												setShowPassword(true)
+											}
+										/>
+									)
+								}
+							/>
+							<Input
+								type={showPassword ? "text" : "password"}
+								name="confirmPassword"
+								placeholder="Confirm Password"
+								value={inputCred.confirmPassword}
+								onChange={handleInputChange}
+								error={
+									typeof inputCred.confirmPassword ===
+										"string" &&
+									inputCred.confirmPassword.length > 0 &&
+									inputCred.confirmPassword !==
+										inputCred.password
+								}
+								errorMessage="Passwords do not match"
+								icon={
+									showPassword ? (
+										<BiHide
+											onClick={() =>
+												setShowPassword(false)
+											}
+										/>
+									) : (
+										<BiShow
+											onClick={() =>
+												setShowPassword(true)
+											}
+										/>
+									)
+								}
+							/>
+						</div>
+						<Button type="submit" variant="dark" loading={updating}>
+							Reset Password
+						</Button>
+					</>
+				) : null}
+			</form>
+			<div className={classNames("-content-footer")}>
+				<p className={classNames("-content-footer__text")}>
+					Dont have an account? <Link href="/signup">Signup</Link>
+				</p>
+			</div>
+		</AuthLayout>
 	);
 };
 
