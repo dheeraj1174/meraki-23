@@ -17,7 +17,10 @@ import {
 	removeParticipantFromEvent,
 	approveParticipant as approveParticipantApi,
 } from "@/utils/api/participation";
-import { getTeamsForEvent } from "@/utils/api/teams";
+import {
+	getTeamsForEvent,
+	removeTeam as removeTeamApi,
+} from "@/utils/api/teams";
 import Member from "@/components/Member";
 import Responsive from "@/layouts/Responsive";
 import { stylesConfig } from "@/utils/functions";
@@ -171,12 +174,34 @@ const AdminEventPage: React.FC = () => {
 		}
 	};
 
+	const removeTeam = async (teamId: string) => {
+		try {
+			const res = await removeTeamApi(teamId);
+			if (!eventDetails.teamSize) {
+				toast.error("Something went wrong");
+				return;
+			} else if (eventDetails.teamSize === 1) {
+				toast.error("Something went wrong");
+				return;
+			} else if (eventDetails.teamSize > 1) {
+				const newRegistrations = registrations.filter(
+					(registration: any) => registration._id !== teamId
+				);
+				setRegistrations(newRegistrations);
+			}
+			return Promise.resolve(res.message ?? "Removed team");
+		} catch (error: any) {
+			console.error(error);
+			return Promise.reject(error.message ?? "Something went wrong");
+		}
+	};
+
 	useEffect(() => {
 		if (isLoggedIn) getEventDetails();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isCheckingLoggedIn]);
 	useEffect(() => {
-		getAllRegistrations();
+		if (eventDetails.teamSize) getAllRegistrations();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [eventDetails]);
 
@@ -373,7 +398,25 @@ const AdminEventPage: React.FC = () => {
 												)}
 											>
 												{team.name}
-												<AiOutlineDelete />
+												<AiOutlineDelete
+													onClick={() => {
+														toast.promise(
+															removeTeam(
+																team._id
+															),
+															{
+																loading:
+																	"Removing team...",
+																success: (
+																	message
+																) => message,
+																error: (
+																	message
+																) => message,
+															}
+														);
+													}}
+												/>
 											</Typography>
 											<Responsive.Row>
 												{team.participants.map(

@@ -123,6 +123,24 @@ export const updateEvent = async (req: ApiRequest, res: ApiResponse) => {
 				updateDetails[key] = req.body[key];
 			}
 		});
+		const foundEvent = await Event.findById(eventId);
+		if (
+			+foundEvent.teamSize === 1 &&
+			updateDetails.teamSize &&
+			+updateDetails.teamSize > 1
+		) {
+			return res.status(400).json({
+				message: "Cannot set team size greater than 1 for solo events",
+			});
+		} else if (
+			+foundEvent.teamSize > 1 &&
+			updateDetails.teamSize &&
+			+updateDetails.teamSize === 1
+		) {
+			return res.status(400).json({
+				message: "Cannot set team size to 1 for team events",
+			});
+		}
 		const updatedEvent = await Event.findByIdAndUpdate(
 			eventId,
 			{ $set: updateDetails },

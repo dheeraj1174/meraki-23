@@ -7,6 +7,7 @@ export const defaultAvatar = "/vectors/user.svg";
 
 export const admin_emails = [
 	"akshatmittal2506@gmail.com",
+	"meraki@iiitu.ac.in",
 	"clubforce@iiitu.ac.in",
 	"aavesh@iiitu.ac.in",
 ];

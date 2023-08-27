@@ -83,6 +83,17 @@
 			align-items: flex-start;
 			flex-direction: column;
 			gap: 12px;
+
+			&-subheading {
+				display: flex;
+				justify-content: flex-start;
+				align-items: center;
+				gap: 8px;
+				svg {
+					@include init-button();
+					cursor: pointer;
+				}
+			}
 		}
 	}
 

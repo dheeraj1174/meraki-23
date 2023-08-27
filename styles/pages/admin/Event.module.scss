@@ -87,8 +87,14 @@
 		&-name {
 			width: 100%;
 			display: flex;
-			justify-content: space-between;
+			justify-content: flex-start;
 			align-items: center;
+			gap: 24px;
+
+			svg {
+				@include init-button();
+				cursor: pointer;
+			}
 		}
 	}
 

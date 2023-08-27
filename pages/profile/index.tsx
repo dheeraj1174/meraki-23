@@ -15,12 +15,14 @@ import {
 	approveParticipant as approveParticipantApi,
 } from "@/utils/api/participation";
 import { getMyRegistrations } from "@/utils/api/users";
+import { removeTeam as removeTeamApi } from "@/utils/api/teams";
 import { stylesConfig } from "@/utils/functions";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { FiLogOut } from "react-icons/fi";
 import { PiCaretLeftBold } from "react-icons/pi";
+import { AiOutlineDelete } from "react-icons/ai";
 
 interface IRegistration {
 	event: {
@@ -180,6 +182,28 @@ const ProfilePage: React.FC = () => {
 				setRegistrations(newRegistrations);
 			}
 			return Promise.resolve(res.message ?? "Removed participant");
+		} catch (error: any) {
+			console.error(error);
+			return Promise.reject(error.message ?? "Something went wrong");
+		}
+	};
+
+	const removeTeam = async (teamSize: number, teamId: string) => {
+		try {
+			const res = await removeTeamApi(teamId);
+			if (!teamSize) {
+				toast.error("Something went wrong");
+				return;
+			} else if (teamSize === 1) {
+				toast.error("Something went wrong");
+				return;
+			} else if (teamSize > 1) {
+				const newRegistrations: IRegistration[] = registrations.filter(
+					(registration) => registration.team?.id !== teamId
+				);
+				setRegistrations(newRegistrations);
+			}
+			return Promise.resolve(res.message ?? "Removed team");
 		} catch (error: any) {
 			console.error(error);
 			return Promise.reject(error.message ?? "Something went wrong");
@@ -369,6 +393,38 @@ const ProfilePage: React.FC = () => {
 															registration.team
 																?.name
 														}
+														{registration.team
+															?.createdBy ===
+														user?._id ? (
+															<AiOutlineDelete
+																onClick={() => {
+																	toast.promise(
+																		removeTeam(
+																			+registration
+																				.event
+																				.teamSize,
+																			registration
+																				.team
+																				?.id ??
+																				""
+																		),
+																		{
+																			loading:
+																				"Removing team...",
+																			success:
+																				(
+																					message
+																				) =>
+																					message,
+																			error: (
+																				message
+																			) =>
+																				message,
+																		}
+																	);
+																}}
+															/>
+														) : null}
 													</Typography>
 													<Typography
 														type="heading"

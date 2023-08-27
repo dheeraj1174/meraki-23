@@ -243,6 +243,14 @@ export const participateInEvent = async (req: ApiRequest, res: ApiResponse) => {
 			const foundTeam = await Team.findById(teamId);
 			if (!foundTeam)
 				return res.status(404).json({ message: "Team not found" });
+			const noOfParticipants = await Participant.countDocuments({
+				team: teamId,
+			});
+			if (noOfParticipants >= foundEvent.teamSize) {
+				return res.status(409).json({
+					message: "Team is already full",
+				});
+			}
 			const newParticipant = await Participant.create({
 				event: eventId,
 				team: teamId,
