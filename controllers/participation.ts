@@ -1,7 +1,12 @@
-import { RESPONSE_MESSAGES, TEAM_PARTICIPATION_STATUS } from "@/constants/enum";
+import {
+	RESPONSE_MESSAGES,
+	TEAM_PARTICIPATION_STATUS,
+	USER_ROLES,
+} from "@/constants/enum";
 import Event from "@/models/Event";
 import Participant from "@/models/Participant";
 import Team from "@/models/Team";
+import User from "@/models/User";
 import { ApiRequest, ApiResponse } from "@/types/api";
 import mongoose from "mongoose";
 
@@ -123,7 +128,7 @@ export const getParticipantsForEvent = async (
 			{ $unwind: "$user" },
 			{
 				$group: {
-					_id: "$user._id",
+					_id: "$_id",
 					name: { $first: "$user.name" },
 					email: { $first: "$user.email" },
 					avatar: { $first: "$user.avatar" },
@@ -235,10 +240,7 @@ export const participateInEvent = async (req: ApiRequest, res: ApiResponse) => {
 				return res
 					.status(400)
 					.json({ message: "Please select a team to join" });
-			const foundTeam = await Participant.findOne({
-				event: eventId,
-				team: teamId,
-			});
+			const foundTeam = await Team.findById(teamId);
 			if (!foundTeam)
 				return res.status(404).json({ message: "Team not found" });
 			const newParticipant = await Participant.create({
@@ -299,7 +301,11 @@ export const handleParticipantStatusInTeam = async (
 		});
 		if (!foundParticipant)
 			return res.status(404).json({ message: "Participant not found" });
-		if (foundParticipant.createdBy.toString() !== req.user?.id)
+		const loggedInUser = await User.findById(req.user?.id);
+		if (
+			foundParticipant.createdBy.toString() !== req.user?.id &&
+			loggedInUser.role !== USER_ROLES.ADMIN
+		)
 			return res.status(403).json({
 				message: "You are not authorized to approve this participant",
 			});
@@ -358,8 +364,66 @@ export const getParticipantForEvent = async (
 				.status(404)
 				.json({ message: "You are not registered for this event" });
 		}
-		console.log(foundParticipant);
 		return res.status(200).json({
+			message: RESPONSE_MESSAGES.SUCCESS,
+			data: foundParticipant,
+		});
+	} catch (error: any) {
+		console.error(error);
+		if (error.kind === "ObjectId") {
+			return res.status(404).json({ message: "Not found" });
+		}
+		return res
+			.status(500)
+			.json({ message: RESPONSE_MESSAGES.SERVER_ERROR });
+	}
+};
+
+export const removeParticipantFromEvent = async (
+	req: ApiRequest,
+	res: ApiResponse
+) => {
+	try {
+		const participantId = req.query.id;
+		const foundParticipant = await Participant.findById(participantId);
+		if (!foundParticipant)
+			return res.status(404).json({ message: "Participant not found" });
+		const loggedInUser = await User.findById(req.user?.id);
+		const eventId = foundParticipant.event;
+		const foundEvent = await Event.findById(eventId);
+		if (foundEvent.teamSize === 1) {
+			if (
+				foundParticipant.user.toString() !== req.user?.id &&
+				loggedInUser.role !== USER_ROLES.ADMIN
+			) {
+				return res.status(403).json({
+					message:
+						"You are not authorized to remove this participant",
+				});
+			}
+		} else {
+			const teamId = foundParticipant.team;
+			const foundTeam = await Team.findById(teamId);
+			if (
+				loggedInUser.role !== USER_ROLES.ADMIN &&
+				foundTeam.createdBy.toString() !== req.user?.id
+			) {
+				return res.status(403).json({
+					message:
+						"You are not authorized to remove this participant",
+				});
+			}
+			if (
+				foundParticipant.user.toString() ===
+				foundTeam.createdBy.toString()
+			) {
+				return res.status(403).json({
+					message: "Team creator cannot be removed from the team.",
+				});
+			}
+		}
+		await Participant.findByIdAndDelete(foundParticipant._id);
+		return res.status(204).json({
 			message: RESPONSE_MESSAGES.SUCCESS,
 			data: foundParticipant,
 		});

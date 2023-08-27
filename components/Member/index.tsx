@@ -1,8 +1,10 @@
 import React from "react";
 import { stylesConfig } from "@/utils/functions";
-import styles from "./styles.module.scss";
 import Avatar from "../Avatar";
 import Typography from "@/library/Typography";
+import { useConfirmationModal } from "../Confirmation";
+import { FcCheckmark, FcEmptyTrash } from "react-icons/fc";
+import styles from "./styles.module.scss";
 
 interface MemberProps {
 	_id: string;
@@ -24,42 +26,56 @@ const Member: React.FC<MemberProps> = ({
 	onRemove,
 	onApprove,
 }) => {
+	const removeConfirmation = useConfirmationModal(
+		`Remove ${name}`,
+		`Are you sure you want to remove ${name}?`,
+		() => onRemove?.(_id),
+		() => {}
+	);
+	const approveConfirmation = useConfirmationModal(
+		`Approve ${name}`,
+		`Are you sure you want to approve ${name}?`,
+		() => onApprove?.(_id),
+		() => {}
+	);
 	return (
-		<div className={classes("")}>
-			<div className={classes("-left")}>
-				<Avatar src={avatar} alt={name} size="large" />
-				<Typography type="heading" variant="title-1">
-					{name}
-				</Typography>
-				<a href={`mailto:${email}`} className={classes("-email")}>
-					<Typography type="body" variant="medium">
-						{email}
+		<>
+			<div className={classes("")}>
+				<div className={classes("-left")}>
+					<Avatar src={avatar} alt={name} size="large" />
+					<Typography type="heading" variant="title-1">
+						{name}
 					</Typography>
-				</a>
-			</div>
-			<div className={classes("-right")}>
-				{onApprove ? (
-					<button
-						className={classes("-btn", "-btn--success")}
-						onClick={() => onApprove(_id)}
-					>
-						<Typography type="heading" variant="title-3">
+					<a href={`mailto:${email}`} className={classes("-email")}>
+						<Typography type="body" variant="medium">
+							{email}
+						</Typography>
+					</a>
+				</div>
+				<div className={classes("-right")}>
+					{onApprove ? (
+						<button
+							className={classes("-btn", "-btn--success")}
+							onClick={() => approveConfirmation.openPopup()}
+						>
+							<FcCheckmark />
 							Approve
-						</Typography>
-					</button>
-				) : null}
-				{onRemove ? (
-					<button
-						className={classes("-btn", "-btn--danger")}
-						onClick={() => onRemove(_id)}
-					>
-						<Typography type="heading" variant="title-3">
+						</button>
+					) : null}
+					{onRemove ? (
+						<button
+							className={classes("-btn", "-btn--danger")}
+							onClick={() => removeConfirmation.openPopup()}
+						>
+							<FcEmptyTrash />
 							Remove
-						</Typography>
-					</button>
-				) : null}
+						</button>
+					) : null}
+				</div>
 			</div>
-		</div>
+			{removeConfirmation.showPopup ? removeConfirmation.Modal : null}
+			{approveConfirmation.showPopup ? approveConfirmation.Modal : null}
+		</>
 	);
 };
 

@@ -1,4 +1,5 @@
 @import "@/styles/config/mixins";
+@import "@/styles/config/typography";
 
 .member {
 	width: 100%;
@@ -56,15 +57,22 @@
 
 	&-btn {
 		@include init-button();
+		@include typography(body, large, regular);
 		border-radius: 500px;
 		padding: 10px 14px;
+		gap: 8px;
+
+		svg {
+			width: 20px;
+			height: 20px;
+		}
 
 		&--success {
-			background-color: var(--color-green);
+			background-color: var(--green-100);
 		}
 
 		&--danger {
-			background-color: var(--color-red);
+			background-color: var(--red-100);
 		}
 	}
 }

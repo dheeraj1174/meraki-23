@@ -12,7 +12,10 @@ import regex from "@/constants/regex";
 import Button from "@/library/Button";
 import { defaultAvatar } from "@/constants/variables";
 import Image from "next/image";
-import { getParticipantsForEvent } from "@/utils/api/participation";
+import {
+	getParticipantsForEvent,
+	removeParticipantFromEvent,
+} from "@/utils/api/participation";
 import { getTeamsForEvent } from "@/utils/api/teams";
 import Member from "@/components/Member";
 import Responsive from "@/layouts/Responsive";
@@ -24,7 +27,7 @@ const classes = stylesConfig(styles, "admin-event");
 
 const AdminEventPage: React.FC = () => {
 	const router = useRouter();
-	const { isCheckingLoggedIn } = useStore();
+	const { isCheckingLoggedIn, isLoggedIn } = useStore();
 	const { slug } = router.query;
 	const eventId = slug?.[0] as string;
 
@@ -40,7 +43,7 @@ const AdminEventPage: React.FC = () => {
 		teamSize: 0,
 	});
 	const [poster, setPoster] = useState(eventDetails.image);
-	const [registrations, setRegistrations] = useState([]);
+	const [registrations, setRegistrations] = useState<any[]>([]);
 
 	const handleChange = (e: any) => {
 		setEventDetails((prev) => ({
@@ -56,7 +59,7 @@ const AdminEventPage: React.FC = () => {
 			setEventDetails(res.data);
 			setPoster(res.data.image);
 		} catch (error: any) {
-			console.log(error);
+			console.error(error);
 			toast.error(error.message ?? "Something went wrong");
 			router.push("/admin");
 		} finally {
@@ -73,7 +76,7 @@ const AdminEventPage: React.FC = () => {
 			setPoster(res.data.image);
 			toast.success(res.message);
 		} catch (error: any) {
-			console.log(error);
+			console.error(error);
 			toast.error(error.message ?? "Something went wrong");
 		} finally {
 			setUpdatingDetails(false);
@@ -99,10 +102,41 @@ const AdminEventPage: React.FC = () => {
 		}
 	};
 
+	const removeParticipant = async (participantId: string) => {
+		try {
+			const res = await removeParticipantFromEvent(participantId);
+			if (!eventDetails.teamSize) {
+				toast.error("Something went wrong");
+				return;
+			} else if (eventDetails.teamSize === 1) {
+				const newRegistrations = registrations.filter(
+					(registration: any) => registration._id !== participantId
+				);
+				setRegistrations(newRegistrations);
+			} else if (eventDetails.teamSize > 1) {
+				const newRegistrations: any[] = registrations.map(
+					(team: any) => {
+						const newTeam = team;
+						newTeam.participants = team.participants.filter(
+							(participant: any) =>
+								participant._id !== participantId
+						);
+						return newTeam;
+					}
+				);
+				setRegistrations(newRegistrations);
+			}
+			return Promise.resolve(res.message ?? "Removed participant");
+		} catch (error: any) {
+			console.error(error);
+			return Promise.reject(error.message ?? "Something went wrong");
+		}
+	};
+
 	useEffect(() => {
-		getEventDetails();
+		if (isLoggedIn) getEventDetails();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [isCheckingLoggedIn]);
 	useEffect(() => {
 		getAllRegistrations();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -272,54 +306,96 @@ const AdminEventPage: React.FC = () => {
 												email={registration.email}
 												avatar={registration.avatar}
 												status={registration.status}
+												onRemove={(id) => {
+													toast.promise(
+														removeParticipant(id),
+														{
+															loading:
+																"Removing participant...",
+															success: (
+																message
+															) => message,
+															error: (message) =>
+																message,
+														}
+													);
+												}}
 											/>
 										</Responsive.Col>
 									))}
 								</Responsive.Row>
 							) : (
-								registrations.map((team: any) => (
-									<>
-										<Typography
-											type="heading"
-											variant="title-2"
-											className={classes("-team-name")}
-										>
-											{team.name}
-											<AiOutlineDelete />
-										</Typography>
-										<Responsive.Row>
-											{team.participants.map(
-												(participant: any) => (
-													<Responsive.Col
-														key={participant._id}
-														sm={100}
-														md={50}
-														lg={33}
-														xlg={33}
-													>
-														<Member
-															_id={
+								registrations.map((team: any) =>
+									team.participants.length > 0 ? (
+										<>
+											<Typography
+												type="heading"
+												variant="title-2"
+												className={classes(
+													"-team-name"
+												)}
+											>
+												{team.name}
+												<AiOutlineDelete />
+											</Typography>
+											<Responsive.Row>
+												{team.participants.map(
+													(participant: any) => (
+														<Responsive.Col
+															key={
 																participant._id
 															}
-															name={
-																participant.name
-															}
-															email={
-																participant.email
-															}
-															avatar={
-																participant.avatar
-															}
-															status={
-																participant.status
-															}
-														/>
-													</Responsive.Col>
-												)
-											)}
-										</Responsive.Row>
-									</>
-								))
+															sm={100}
+															md={50}
+															lg={33}
+															xlg={33}
+														>
+															<Member
+																_id={
+																	participant._id
+																}
+																name={
+																	participant.name
+																}
+																email={
+																	participant.email
+																}
+																avatar={
+																	participant.avatar
+																}
+																status={
+																	participant.status
+																}
+																onRemove={(
+																	id
+																) => {
+																	toast.promise(
+																		removeParticipant(
+																			id
+																		),
+																		{
+																			loading:
+																				"Removing participant...",
+																			success:
+																				(
+																					message
+																				) =>
+																					message,
+																			error: (
+																				message
+																			) =>
+																				message,
+																		}
+																	);
+																}}
+															/>
+														</Responsive.Col>
+													)
+												)}
+											</Responsive.Row>
+										</>
+									) : null
+								)
 							)}
 						</section>
 					)}

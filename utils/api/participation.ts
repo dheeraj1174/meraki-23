@@ -68,3 +68,13 @@ export const getParticipantForEvent = async (eventId: string) => {
 		return Promise.reject(error.response.data);
 	}
 };
+
+export const removeParticipantFromEvent = async (participantId: string) => {
+	try {
+		const response = await http.delete(`/participants/${participantId}`);
+		return Promise.resolve(response.data);
+	} catch (error: any) {
+		console.error(error);
+		return Promise.reject(error.response.data);
+	}
+};
