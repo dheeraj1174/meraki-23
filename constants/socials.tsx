@@ -1,4 +1,4 @@
-import { FiGithub, FiLink, FiLinkedin } from "react-icons/fi";
+import { FiGlobe, FiInstagram } from "react-icons/fi";
 
 const socials: {
 	name: string;
@@ -6,19 +6,14 @@ const socials: {
 	icon: any;
 }[] = [
 	{
-		name: "GitHub",
-		url: "https://github.com/akshatmittal61",
-		icon: <FiGithub />,
+		name: "Website",
+		url: "https://iiitu.ac.in",
+		icon: <FiGlobe />,
 	},
 	{
-		name: "LinkedIn",
-		url: "https://www.linkedin.com/in/akshatmittal61/",
-		icon: <FiLinkedin />,
-	},
-	{
-		name: "Portfolio",
-		url: "https://akshatmittal61.vercel.app/",
-		icon: <FiLink />,
+		name: "Instagram",
+		url: "https://www.instagram.com/meraki_iiitu/",
+		icon: <FiInstagram />,
 	},
 ];
 

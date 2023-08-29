@@ -3,14 +3,17 @@ import Image from "next/image";
 import Typography from "@/library/Typography";
 import socials from "@/constants/socials";
 import { toast } from "react-hot-toast";
-import styles from "@/styles/pages/Contact.module.scss";
 import { stylesConfig } from "@/utils/functions";
 import { Input, Textarea } from "@/library/form";
 import Button from "@/library/Button";
+import { FiHome } from "react-icons/fi";
+import { useRouter } from "next/router";
+import styles from "@/styles/pages/Contact.module.scss";
 
 const classes = stylesConfig(styles, "contact");
 
 const ContactUsPage: React.FC = () => {
+	const router = useRouter();
 	const [email, setEmail] = useState({
 		name: "",
 		email: "",
@@ -31,6 +34,14 @@ const ContactUsPage: React.FC = () => {
 
 	return (
 		<main className={classes("")}>
+			<button
+				className={classes("-home")}
+				onClick={() => {
+					router.push("/");
+				}}
+			>
+				<FiHome />
+			</button>
 			<div className={classes("-left")}>
 				<Image
 					src="https://www.stonewoodproducts.com/wp-content/uploads/2018/11/montauk-structured-wide-plank-rift-sawn-flooring-375x455.jpg"
@@ -66,7 +77,7 @@ const ContactUsPage: React.FC = () => {
 							placeholder="Enter your message"
 							value={email.message}
 							onChange={handleChange}
-							rows={5}
+							rows={3}
 						/>
 						<Button
 							variant="dark"
