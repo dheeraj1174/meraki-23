@@ -6,6 +6,7 @@ import useStore from "@/hooks/store";
 import { fetchAuthenticatedUser } from "@/utils/api/auth";
 import { useRouter } from "next/router";
 import { USER_ROLES } from "@/constants/enum";
+import Navbar from "@/components/Navbar";
 
 const Layout: React.FC<any> = ({ children }) => {
 	const router = useRouter();
@@ -111,6 +112,7 @@ const Layout: React.FC<any> = ({ children }) => {
 				canonical={frontendBaseUrl}
 				siteName="Meraki - Technical Fest of IIIT Una"
 			/>
+			{router.pathname.startsWith("/faqs") ? <Navbar /> : null}
 			{children}
 			<Toaster position="top-center" />
 		</>

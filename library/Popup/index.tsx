@@ -52,7 +52,6 @@ export const Popup: React.FC<PopupProps> = ({
 				ref={popupRef}
 				tabIndex={-1}
 				onKeyDown={(e) => {
-					console.log(e);
 					if (e.key === "Escape") {
 						handleClose();
 					}

@@ -6,14 +6,12 @@ import { toast } from "react-hot-toast";
 import { stylesConfig } from "@/utils/functions";
 import { Input, Textarea } from "@/library/form";
 import Button from "@/library/Button";
-import { FiHome } from "react-icons/fi";
-import { useRouter } from "next/router";
+import { NavBarMenu } from "@/components/Navbar";
 import styles from "@/styles/pages/Contact.module.scss";
 
 const classes = stylesConfig(styles, "contact");
 
 const ContactUsPage: React.FC = () => {
-	const router = useRouter();
 	const [email, setEmail] = useState({
 		name: "",
 		email: "",
@@ -34,14 +32,7 @@ const ContactUsPage: React.FC = () => {
 
 	return (
 		<main className={classes("")}>
-			<button
-				className={classes("-home")}
-				onClick={() => {
-					router.push("/");
-				}}
-			>
-				<FiHome />
-			</button>
+			<NavBarMenu className={classes("-menu")} theme="light" />
 			<div className={classes("-left")}>
 				<Image
 					src="https://www.stonewoodproducts.com/wp-content/uploads/2018/11/montauk-structured-wide-plank-rift-sawn-flooring-375x455.jpg"

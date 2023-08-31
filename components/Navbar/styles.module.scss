@@ -1,0 +1,107 @@
+@import "@/styles/config/mixins";
+
+.header {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 14px 60px;
+	background-color: #000;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 20;
+
+	&-nav {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: relative;
+
+		&-btn {
+			@include init-button();
+			gap: 8px;
+			padding: 4px 6px;
+			@include font(inherit, 20px, 400, 150%);
+
+			&-text {
+				border-bottom: 1px solid;
+				padding: 0 4px;
+			}
+
+			svg {
+				width: 24px;
+				height: 24px;
+			}
+		}
+
+		&-list {
+			position: absolute;
+			top: 0;
+			left: -8px;
+			display: flex;
+			justify-content: flex-start;
+			align-items: flex-start;
+			flex-direction: column;
+			border: 0.5px solid var(--nav-shadow);
+			box-shadow: var(--shadow-elevation-8dp);
+			transition: height 0.5s ease-in-out, opacity 0.25s ease-in-out;
+			@include font(inherit, 18px, 400, 150%);
+
+			&-item {
+				width: 100%;
+				display: flex;
+				justify-content: flex-start;
+				align-items: center;
+				padding: 8px 24px 8px 20px;
+				gap: 16px;
+				white-space: nowrap;
+				cursor: pointer;
+
+				svg {
+					width: 18px;
+					height: 18px;
+				}
+
+				&:hover {
+					background-color: var(--nav-shadow);
+				}
+			}
+		}
+
+		&--light {
+			color: var(--color-black);
+			--nav-shadow: rgba(0, 0, 0, 0.05);
+		}
+
+		&--dark {
+			color: var(--color-white);
+			--nav-shadow: rgba(255, 255, 255, 0.05);
+		}
+
+		&--light &-btn {
+			color: var(--color-black);
+			border-color: var(--color-black);
+		}
+
+		&--dark &-btn {
+			color: var(--color-white);
+			border-color: var(--color-white);
+		}
+
+		&--light &-list {
+			background-color: #fff;
+			color: var(--color-black);
+		}
+
+		&--dark &-list {
+			background-color: #000;
+			color: var(--color-white);
+		}
+	}
+
+	&-logo {
+		cursor: pointer;
+		user-select: none;
+	}
+}
