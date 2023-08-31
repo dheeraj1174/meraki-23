@@ -9,8 +9,20 @@ const EventSchema = new mongoose.Schema(
 		description: {
 			type: String,
 		},
-		date: {
+		brochure: {
 			type: String,
+		},
+		registrationsStart: {
+			type: Date,
+		},
+		registrationsEnd: {
+			type: Date,
+		},
+		eventStart: {
+			type: Date,
+		},
+		eventEnd: {
+			type: Date,
 		},
 		image: {
 			type: String,

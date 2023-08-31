@@ -50,12 +50,26 @@ export const getEventById = async (req: ApiRequest, res: ApiResponse) => {
 
 export const createEvent = async (req: ApiRequest, res: ApiResponse) => {
 	try {
-		const { name, description, date, image, teamSize } = req.body;
+		const {
+			name,
+			description,
+			brochure,
+			registrationsStart,
+			registrationsEnd,
+			eventStart,
+			eventEnd,
+			image,
+			teamSize,
+		} = req.body;
 		let errors: any = null;
 		await createEventValidator({
 			name,
 			description,
-			date,
+			brochure,
+			registrationsStart,
+			registrationsEnd,
+			eventStart,
+			eventEnd,
 			image,
 			teamSize,
 		}).catch((err) => {
@@ -73,7 +87,11 @@ export const createEvent = async (req: ApiRequest, res: ApiResponse) => {
 		const event = await Event.create({
 			name,
 			description,
-			date,
+			brochure,
+			registrationsStart,
+			registrationsEnd,
+			eventStart,
+			eventEnd,
 			image,
 			teamSize: +teamSize,
 			createdBy: req.user?.id,
@@ -108,13 +126,21 @@ export const updateEvent = async (req: ApiRequest, res: ApiResponse) => {
 		type KeysToUpdate =
 			| "name"
 			| "description"
-			| "date"
+			| "brochure"
+			| "registrationsStart"
+			| "registrationsEnd"
+			| "eventStart"
+			| "eventEnd"
 			| "image"
 			| "teamSize";
 		const keysToUpdate: KeysToUpdate[] = [
 			"name",
 			"description",
-			"date",
+			"brochure",
+			"registrationsStart",
+			"registrationsEnd",
+			"eventStart",
+			"eventEnd",
 			"image",
 			"teamSize",
 		];

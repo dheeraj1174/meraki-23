@@ -203,6 +203,16 @@ export const participateInEvent = async (req: ApiRequest, res: ApiResponse) => {
 		const foundEvent = await Event.findById(eventId);
 		if (!foundEvent)
 			return res.status(404).json({ message: "Event not found" });
+		const currentDate = new Date();
+		if (currentDate < foundEvent.registrationsStart) {
+			return res.status(400).json({
+				message: "Registrations for this event have not started yet",
+			});
+		} else if (currentDate > foundEvent.registrationsEnd) {
+			return res.status(403).json({
+				message: "Registrations for this event have ended",
+			});
+		}
 		const foundParticipant = await Participant.findOne({
 			event: eventId,
 			user: req.user?.id,

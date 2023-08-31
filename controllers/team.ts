@@ -47,6 +47,16 @@ export const createTeam = async (req: ApiRequest, res: ApiResponse) => {
 	try {
 		const { name, event } = req.body;
 		const foundEvent = await Event.findById(event);
+		const currentDate = new Date();
+		if (currentDate < foundEvent.registrationsStart) {
+			return res.status(400).json({
+				message: "Registrations for this event have not started yet",
+			});
+		} else if (currentDate > foundEvent.registrationsEnd) {
+			return res.status(403).json({
+				message: "Registrations for this event have ended",
+			});
+		}
 		if (!name) {
 			return res.status(400).json({ message: "Team name is required" });
 		}

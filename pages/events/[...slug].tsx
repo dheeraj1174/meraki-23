@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import Button from "@/library/Button";
 import Typography from "@/library/Typography";
 import { IEvent } from "@/types/event";
-import { stylesConfig } from "@/utils/functions";
 import { PiCaretLeftBold } from "react-icons/pi";
-import styles from "@/styles/pages/Event.module.scss";
 import { useRouter } from "next/router";
 import EventPopup from "@/components/Event";
 import useStore from "@/hooks/store";
 import { getEvent } from "@/utils/api/events";
+import { stylesConfig } from "@/utils/functions";
+import styles from "@/styles/pages/Event.module.scss";
 
 interface EventPageProps {
 	event: IEvent;
@@ -56,6 +56,43 @@ const EventPage: React.FC<EventPageProps> = ({ event }) => {
 					>
 						{event.description}
 					</Typography>
+					<Typography
+						type="body"
+						variant="large"
+						className={classes("-description")}
+					>
+						TeamSize: {event.teamSize}
+					</Typography>
+					{event.registrationsStart || event.registrationsEnd ? (
+						<Typography
+							type="body"
+							variant="large"
+							className={classes("-description")}
+						>
+							Registrations: {event.registrationsStart} -{" "}
+							{event.registrationsEnd}
+						</Typography>
+					) : null}
+					{event.eventStart || event.eventEnd ? (
+						<Typography
+							type="body"
+							variant="large"
+							className={classes("-description")}
+						>
+							Event timeline: {event.eventStart} -{" "}
+							{event.eventEnd}
+						</Typography>
+					) : null}
+					{event.brochure ? (
+						<Button
+							variant="light"
+							onClick={() => {
+								window.open(event.brochure, "_blank");
+							}}
+						>
+							Event Brochure
+						</Button>
+					) : null}
 				</div>
 				<Button
 					className={classes("-cta")}
