@@ -9,7 +9,6 @@ import { useOnClickOutside } from "@/hooks/mouse-events";
 
 const classes = stylesConfig(styles, "header");
 
-// use nav element props
 interface INavBarMenuProps extends React.AllHTMLAttributes<HTMLElement> {
 	links?: {
 		icon: any;
@@ -23,6 +22,8 @@ interface INavBarMenuProps extends React.AllHTMLAttributes<HTMLElement> {
 	};
 	theme?: "light" | "dark";
 }
+
+interface NavbarProps extends React.AllHTMLAttributes<HTMLElement> {}
 
 export const NavBarMenu: React.FC<INavBarMenuProps> = ({
 	links = navLinks,
@@ -85,10 +86,10 @@ export const NavBarMenu: React.FC<INavBarMenuProps> = ({
 	);
 };
 
-const Navbar: React.FC = () => {
+const Navbar: React.FC<NavbarProps> = ({ className, ...props }) => {
 	const router = useRouter();
 	return (
-		<header className={classes("")}>
+		<header className={classes("") + ` ${className}`} {...props}>
 			<NavBarMenu />
 			<Image
 				src="/favicon.png"
