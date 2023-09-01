@@ -15,6 +15,7 @@ import { stylesConfig } from "@/utils/functions";
 import styles from "@/styles/pages/admin/Dashboard.module.scss";
 import Loader from "@/components/Loader";
 import { FiLogOut } from "react-icons/fi";
+import moment from "moment";
 
 const classes = stylesConfig(styles, "admin-dashboard");
 
@@ -232,9 +233,9 @@ const AdminDashboard: React.FC = () => {
 												"-events-card-date"
 											)}
 										>
-											{new Date(
-												event.date
-											).toLocaleDateString()}
+											{moment(event.eventStart).format(
+												"DD MMMM YYYY"
+											)}
 										</Typography>
 										<Typography
 											type="body"

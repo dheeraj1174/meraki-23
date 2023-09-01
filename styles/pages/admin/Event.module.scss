@@ -36,12 +36,20 @@
 		padding: 0 5%;
 
 		&-form {
-			width: 50%;
+			width: 70%;
 			display: flex;
 			justify-content: flex-start;
 			align-items: flex-start;
 			flex-direction: column;
 			gap: 36px;
+
+			&-group {
+				width: 100%;
+				display: flex;
+				justify-content: flex-start;
+				align-items: center;
+				gap: 32px;
+			}
 
 			button {
 				margin: 0 8px;
@@ -106,6 +114,14 @@
 		align-items: center;
 		flex-direction: column;
 		gap: 24px;
+
+		&-group {
+			width: 100%;
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
+			gap: 32px;
+		}
 
 		textarea {
 			resize: vertical;

@@ -4,7 +4,10 @@ import Event from "@/models/Event";
 import Participant from "@/models/Participant";
 import Team from "@/models/Team";
 import { IEvent } from "@/types/event";
-import { createEventValidator } from "@/validations/event";
+import {
+	createEventValidator,
+	updateEventValidator,
+} from "@/validations/event";
 
 export const getAllEvents = async (req: ApiRequest, res: ApiResponse) => {
 	try {
@@ -76,7 +79,7 @@ export const createEvent = async (req: ApiRequest, res: ApiResponse) => {
 			errors = err;
 		});
 		if (errors) {
-			return res.status(400).json({ errors });
+			return res.status(400).json({ message: errors[0].message });
 		}
 		const foundEvent = await Event.findOne({ name });
 		if (foundEvent) {
@@ -121,6 +124,14 @@ export const updateEvent = async (req: ApiRequest, res: ApiResponse) => {
 		}
 		if (event.createdBy.toString() !== req.user?.id) {
 			return res.status(401).json({ message: "Not authorized" });
+		}
+		let errors: any = null;
+		await updateEventValidator(req.body).catch((err) => {
+			errors = err;
+		});
+		if (errors) {
+			console.log(req.body, errors);
+			return res.status(400).json({ message: errors[0].message });
 		}
 		const updateDetails: Partial<IEvent> = {};
 		type KeysToUpdate =

@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import EventPopup from "@/components/Event";
 import useStore from "@/hooks/store";
 import { getEvent } from "@/utils/api/events";
+import moment from "moment";
 import { stylesConfig } from "@/utils/functions";
 import styles from "@/styles/pages/Event.module.scss";
 
@@ -69,8 +70,12 @@ const EventPage: React.FC<EventPageProps> = ({ event }) => {
 							variant="large"
 							className={classes("-description")}
 						>
-							Registrations: {event.registrationsStart} -{" "}
-							{event.registrationsEnd}
+							Registrations:{" "}
+							{moment(event.registrationsStart).format(
+								"D MMM YY"
+							)}{" "}
+							-{" "}
+							{moment(event.registrationsEnd).format("D MMM YY")}
 						</Typography>
 					) : null}
 					{event.eventStart || event.eventEnd ? (
@@ -79,8 +84,9 @@ const EventPage: React.FC<EventPageProps> = ({ event }) => {
 							variant="large"
 							className={classes("-description")}
 						>
-							Event timeline: {event.eventStart} -{" "}
-							{event.eventEnd}
+							Event timeline:{" "}
+							{moment(event.eventStart).format("D MMM YY")}{" "}
+							{moment(event.eventEnd).format("D MMM YY")}
 						</Typography>
 					) : null}
 					{event.brochure ? (

@@ -23,10 +23,10 @@ import {
 } from "@/utils/api/teams";
 import Member from "@/components/Member";
 import Responsive from "@/layouts/Responsive";
-import { stylesConfig } from "@/utils/functions";
-import styles from "@/styles/pages/admin/Event.module.scss";
 import Loader from "@/components/Loader";
 import { TEAM_PARTICIPATION_STATUS } from "@/constants/enum";
+import { stylesConfig, switchDateFormat } from "@/utils/functions";
+import styles from "@/styles/pages/admin/Event.module.scss";
 
 const classes = stylesConfig(styles, "admin-event");
 
@@ -36,6 +36,13 @@ const AdminEventPage: React.FC = () => {
 	const { slug } = router.query;
 	const eventId = slug?.[0] as string;
 
+	const dateKeys = [
+		"registrationsStart",
+		"registrationsEnd",
+		"eventStart",
+		"eventEnd",
+	];
+
 	const [gettingDetails, setGettingDetails] = useState(false);
 	const [updatingDetails, setUpdatingDetails] = useState(false);
 	const [gettingRegistrations, setGettingRegistrations] = useState(false);
@@ -43,7 +50,11 @@ const AdminEventPage: React.FC = () => {
 	const [eventDetails, setEventDetails] = useState<Partial<IEvent>>({
 		name: "",
 		description: "",
-		date: "",
+		registrationsStart: "",
+		registrationsEnd: "",
+		eventStart: "",
+		eventEnd: "",
+		brochure: "",
 		image: "",
 		teamSize: 0,
 	});
@@ -57,11 +68,32 @@ const AdminEventPage: React.FC = () => {
 		}));
 	};
 
+	const parseDates = (
+		obj: any,
+		keys: string[],
+		from: "utc" | "locale" = "utc",
+		to: "utc" | "locale" = "locale"
+	) => {
+		const newObj = { ...obj };
+		keys.forEach((key) => {
+			if (newObj[key]) {
+				newObj[key] = switchDateFormat(newObj[key], from, to);
+			}
+		});
+		return newObj;
+	};
+
 	const getEventDetails = async () => {
 		try {
 			setGettingDetails(true);
 			const res = await getEvent(eventId);
-			setEventDetails(res.data);
+			const newEventDetails = parseDates(
+				res.data,
+				dateKeys,
+				"utc",
+				"locale"
+			);
+			setEventDetails(newEventDetails);
 			setPoster(res.data.image);
 		} catch (error: any) {
 			console.error(error);
@@ -76,8 +108,20 @@ const AdminEventPage: React.FC = () => {
 		e?.preventDefault();
 		try {
 			setUpdatingDetails(true);
-			const res = await updateEvent(eventId, eventDetails);
-			setEventDetails(res.data);
+			const updatedEventDetails = parseDates(
+				eventDetails,
+				dateKeys,
+				"locale",
+				"utc"
+			);
+			const res = await updateEvent(eventId, updatedEventDetails);
+			const newEventDetails = parseDates(
+				res.data,
+				dateKeys,
+				"utc",
+				"locale"
+			);
+			setEventDetails(newEventDetails);
 			setPoster(res.data.image);
 			toast.success(res.message);
 		} catch (error: any) {
@@ -257,35 +301,95 @@ const AdminEventPage: React.FC = () => {
 								errorMessage="Description is required"
 								required
 							/>
-							<Input
-								label="Event Date"
-								name="date"
-								id="date"
-								value={eventDetails.date}
-								type="date"
-								onChange={handleChange}
-								placeholder="Select Event Date"
-								required
-							/>
-							<Input
-								label="Event Poster Image URL"
-								name="image"
-								id="image"
-								value={eventDetails.image}
-								type="url"
-								onChange={handleChange}
-								placeholder="Enter Poster Image URL"
-								pattern={regex.avatar.source}
-								error={(() => {
-									if (!eventDetails.image) return true;
-									if (eventDetails.image === "") return true;
-									if (!regex.avatar.test(eventDetails.image))
-										return true;
-									return false;
-								})()}
-								errorMessage="Image URL is required and must be a valid image URL (jpeg, jpg, gif, png, webp)"
-								required
-							/>
+							<div className={classes("-details-form-group")}>
+								<Input
+									label="Registrations Start"
+									name="registrationsStart"
+									id="registrationsStart"
+									value={eventDetails.registrationsStart}
+									type="datetime-local"
+									onChange={handleChange}
+									placeholder="Enter Registrations Start"
+									error={
+										eventDetails.registrationsStart === ""
+									}
+									errorMessage="Registrations Start is required"
+									required
+								/>
+								<Input
+									label="Registrations End"
+									name="registrationsEnd"
+									id="registrationsEnd"
+									value={eventDetails.registrationsEnd}
+									type="datetime-local"
+									onChange={handleChange}
+									placeholder="Enter Registrations End"
+									error={eventDetails.registrationsEnd === ""}
+									errorMessage="Registrations End is required"
+									required
+								/>
+							</div>
+							<div className={classes("-details-form-group")}>
+								<Input
+									label="Event Start"
+									name="eventStart"
+									id="eventStart"
+									value={eventDetails.eventStart}
+									type="datetime-local"
+									onChange={handleChange}
+									placeholder="Enter Event Start"
+									error={eventDetails.eventStart === ""}
+									errorMessage="Event Start is required"
+									required
+								/>
+								<Input
+									label="Event End"
+									name="eventEnd"
+									id="eventEnd"
+									value={eventDetails.eventEnd}
+									type="datetime-local"
+									onChange={handleChange}
+									placeholder="Enter Event End"
+									error={eventDetails.eventEnd === ""}
+									errorMessage="Event End is required"
+									required
+								/>
+							</div>
+							<div className={classes("-details-form-group")}>
+								<Input
+									label="Event Brochure URL"
+									name="brochure"
+									id="brochure"
+									value={eventDetails.brochure}
+									type="url"
+									onChange={handleChange}
+									placeholder="Enter Brochure URL"
+								/>
+								<Input
+									label="Event Poster Image URL"
+									name="image"
+									id="image"
+									value={eventDetails.image}
+									type="url"
+									onChange={handleChange}
+									placeholder="Enter Poster Image URL"
+									pattern={regex.avatar.source}
+									error={(() => {
+										if (!eventDetails.image) return true;
+										if (eventDetails.image === "")
+											return true;
+										if (
+											!regex.avatar.test(
+												eventDetails.image
+											)
+										)
+											return true;
+										return false;
+									})()}
+									errorMessage="Image URL is required and must be a valid image URL (jpeg, jpg, gif, png, webp)"
+									required
+								/>
+							</div>
 							<Input
 								label="Team Size"
 								name="teamSize"

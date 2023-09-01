@@ -94,3 +94,24 @@ export const omitKeys = (obj: any, keys: string[]) => {
 // function to round off a number to given decimal places
 export const roundOff = (num: number, decimalPlaces: number) =>
 	Math.round(num * 10 ** decimalPlaces) / 10 ** decimalPlaces;
+
+// function to switch date time between UTC and Locale
+export const switchDateFormat = (
+	date: string,
+	from: "utc" | "locale",
+	to: "utc" | "locale"
+) => {
+	if (from === "utc" && to === "locale") {
+		let utcSeconds = new Date(date).getTime() / 1000;
+		let isoLocal = new Date(
+			utcSeconds * 1000 - new Date().getTimezoneOffset() * 60000
+		)
+			.toISOString()
+			.slice(0, -1);
+		return isoLocal;
+	} else if (from === "locale" && to === "utc") {
+		return new Date(date).toISOString();
+	} else {
+		return date;
+	}
+};

@@ -15,7 +15,7 @@ const HomePage: React.FC<HomePageProps> = ({ events }) => {
 	return (
 		<main className={classes("")}>
 			<Hero />
-			<Events events={events} />
+			{events.length > 0 ? <Events events={events} /> : null}
 			<Account />
 		</main>
 	);

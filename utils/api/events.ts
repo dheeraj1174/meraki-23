@@ -1,3 +1,4 @@
+import { IEvent } from "@/types/event";
 import http from "../http";
 
 export const getEvents = async () => {
@@ -20,13 +21,7 @@ export const getEvent = async (id: string) => {
 	}
 };
 
-export const createEvent = async (data: {
-	name: string;
-	description: string;
-	date: string;
-	image: string;
-	teamSize: string | number;
-}) => {
+export const createEvent = async (data: Omit<IEvent, "_id">) => {
 	try {
 		const response = await http.post("/events", data);
 		return Promise.resolve(response.data);
@@ -38,13 +33,7 @@ export const createEvent = async (data: {
 
 export const updateEvent = async (
 	id: string,
-	data: {
-		name?: string;
-		description?: string;
-		date?: string;
-		image?: string;
-		teamSize?: string | number;
-	}
+	data: Partial<Omit<IEvent, "_id">>
 ) => {
 	try {
 		const response = await http.patch(`/events/${id}`, data);
