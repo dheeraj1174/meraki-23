@@ -1,5 +1,6 @@
 import { createContext } from "react";
 import { IUser } from "@/types/auth";
+import { IEvent } from "@/types/event";
 
 const GlobalContext = createContext({
 	user: null as IUser | null,
@@ -8,6 +9,9 @@ const GlobalContext = createContext({
 	setIsLoggedIn: (_: boolean) => {},
 	isCheckingLoggedIn: false as boolean,
 	setIsCheckingLoggedIn: (_: boolean) => {},
+	events: [] as IEvent[],
+	setEvents: (_: IEvent[]) => {},
+	getEvents: () => {},
 	logout: () => {},
 });
 

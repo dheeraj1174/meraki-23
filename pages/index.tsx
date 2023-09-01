@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "@/styles/pages/Home.module.scss";
 import { stylesConfig } from "@/utils/functions";
 import { Account, Events, Hero } from "@/components/home";
 import { getEvents } from "@/utils/api/events";
 import { IEvent } from "@/types/event";
+import useStore from "@/hooks/store";
 
 interface HomePageProps {
 	events: IEvent[];
@@ -12,6 +13,13 @@ interface HomePageProps {
 const classes = stylesConfig(styles, "home");
 
 const HomePage: React.FC<HomePageProps> = ({ events }) => {
+	const { setEvents } = useStore();
+
+	useEffect(() => {
+		setEvents(events);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
 	return (
 		<main className={classes("")}>
 			<Hero />

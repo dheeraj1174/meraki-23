@@ -5,21 +5,21 @@ import styles from "@/styles/pages/About.module.scss";
 import { DotsSquare } from "@/assets/vectors/Dots";
 import Typography from "@/library/Typography";
 import Link from "next/link";
+import useStore from "@/hooks/store";
+import { IEvent } from "@/types/event";
+import { useRouter } from "next/router";
 
 const classes = stylesConfig(styles, "about");
 
 const AboutPage: React.FC = () => {
-	const images = [
-		"https://images.prismic.io/worldcoin-company-website/cfb5aaac-7497-4bb8-9890-ac4235a57520_what-is-a-hackathon%402x.jpg",
-		"https://assetsio.reedpopcdn.com/race-clicker-codes.jpg",
-		"https://e0.pxfuel.com/wallpapers/2/511/desktop-wallpaper-abstract-technical-ultra-tech.jpg",
-		"https://sprinkdigital.com/blog/wp-content/uploads/2021/02/UI-UX.png",
-	];
-	const [slideImage, setSlideImage] = useState("");
+	const router = useRouter();
+	const { getEvents, events } = useStore();
+	const [activeSlide, setActiveSlide] = useState<IEvent | null>(null);
 
 	useEffect(() => {
+		if (events.length === 0) getEvents();
 		const interval = setInterval(() => {
-			setSlideImage(images[Math.floor(Math.random() * images.length)]);
+			setActiveSlide(events[Math.floor(Math.random() * events.length)]);
 		}, 5000);
 		return () => clearInterval(interval);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -186,7 +186,13 @@ const AboutPage: React.FC = () => {
 			<div className={classes("-right")}>
 				<div
 					className={classes("-slideshow")}
-					style={{ backgroundImage: `url(${slideImage})` }}
+					style={{
+						backgroundImage: `url(${
+							activeSlide?.image ?? "/favicon.png"
+						})`,
+					}}
+					title={activeSlide?.name}
+					onClick={() => router.push(`/events/${activeSlide?._id}`)}
 				>
 					<span></span>
 					<span></span>
