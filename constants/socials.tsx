@@ -1,10 +1,15 @@
-import { FiGlobe, FiInstagram } from "react-icons/fi";
+import { FiGlobe, FiInstagram, FiMail } from "react-icons/fi";
 
 const socials: {
 	name: string;
 	url: string;
 	icon: any;
 }[] = [
+	{
+		name: "Email",
+		url: "mailto:meraki@iiitu.ac.in",
+		icon: <FiMail />,
+	},
 	{
 		name: "Website",
 		url: "https://iiitu.ac.in",

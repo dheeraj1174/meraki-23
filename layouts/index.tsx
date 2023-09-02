@@ -7,6 +7,7 @@ import { fetchAuthenticatedUser } from "@/utils/api/auth";
 import { useRouter } from "next/router";
 import { USER_ROLES } from "@/constants/enum";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const Layout: React.FC<any> = ({ children }) => {
 	const router = useRouter();
@@ -114,6 +115,17 @@ const Layout: React.FC<any> = ({ children }) => {
 			/>
 			{router.pathname.startsWith("/faqs") ? <Navbar /> : null}
 			{children}
+			{["/", "/about", "/events", "/team", "/gallery"].includes(
+				router.pathname
+			) ? (
+				<Footer
+					style={
+						router.pathname === "/"
+							? { scrollSnapAlign: "start" }
+							: {}
+					}
+				/>
+			) : null}
 			<Toaster position="top-center" />
 		</>
 	);
