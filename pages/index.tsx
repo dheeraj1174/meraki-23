@@ -1,7 +1,14 @@
 import React, { useEffect } from "react";
 import styles from "@/styles/pages/Home.module.scss";
 import { stylesConfig } from "@/utils/functions";
-import { About, Account, Contact, Events, Hero } from "@/components/home";
+import {
+	About,
+	Account,
+	Contact,
+	Events,
+	Hero,
+	Sponsors,
+} from "@/components/home";
 import { getEvents } from "@/utils/api/events";
 import { IEvent } from "@/types/event";
 import useStore from "@/hooks/store";
@@ -26,6 +33,7 @@ const HomePage: React.FC<HomePageProps> = ({ events }) => {
 			<About />
 			{events.length > 0 ? <Events events={events} /> : null}
 			<Account />
+			<Sponsors />
 			<Contact />
 		</main>
 	);
