@@ -1,13 +1,13 @@
 import React from "react";
 import { stylesConfig } from "@/utils/functions";
-import styles from "./styles.module.scss";
 import { DotsSquare } from "@/assets/vectors/Dots";
 import Image from "next/image";
 import sponsors from "@/constants/sponsors";
+import styles from "@/styles/pages/Sponsors.module.scss";
 
-const classes = stylesConfig(styles, "home-sponsosrs");
+const classes = stylesConfig(styles, "sponsosrs");
 
-const HomeSponsors: React.FC = () => {
+const SponsorsPage: React.FC = () => {
 	return (
 		<section className={classes("")} id="sponsors">
 			<div className={classes("-container")}>
@@ -50,4 +50,4 @@ const HomeSponsors: React.FC = () => {
 	);
 };
 
-export default HomeSponsors;
+export default SponsorsPage;

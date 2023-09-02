@@ -115,9 +115,7 @@ const Layout: React.FC<any> = ({ children }) => {
 			/>
 			{router.pathname.startsWith("/faqs") ? <Navbar /> : null}
 			{children}
-			{["/", "/about", "/events", "/team", "/gallery"].includes(
-				router.pathname
-			) ? (
+			{["/", "/events", "/team", "/gallery"].includes(router.pathname) ? (
 				<Footer
 					style={
 						router.pathname === "/"
