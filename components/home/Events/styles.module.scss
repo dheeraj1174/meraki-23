@@ -6,11 +6,4 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	flex-flow: column;
-	gap: 24px;
-	padding: 24px;
-
-	&-title {
-		@include font(Orbitron, 64px, 700);
-	}
 }
