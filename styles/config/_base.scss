@@ -1,3 +1,5 @@
+@import "./mixins";
+
 *,
 *::before,
 *::after {
@@ -18,11 +20,14 @@
 	--font-red-hat-text: "Red Hat Text", sans-serif;
 	--font-orbitron: "Orbitron", sans-serif;
 	--font-cormorant: "Cormorant", serif;
+
+	@include responsive(phone) {
+		--nav-height: 70px;
+	}
 }
 
 html {
 	width: 100%;
-	// overflow-x: hidden;
 	scroll-behavior: smooth;
 	scroll-snap-type: y mandatory;
 }

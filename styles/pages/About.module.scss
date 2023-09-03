@@ -1,3 +1,5 @@
+@import "@/styles/config/mixins";
+
 .about {
 	width: 100%;
 	display: flex;
@@ -14,6 +16,11 @@
 		justify-content: flex-start;
 		align-items: flex-start;
 		flex-direction: column;
+
+		@include responsive(phone) {
+			width: 100%;
+			padding: 0 5%;
+		}
 	}
 
 	&-content {
@@ -25,6 +32,11 @@
 		flex-direction: column;
 		gap: 24px;
 		scroll-snap-align: start;
+
+		@include responsive(phone) {
+			justify-content: flex-start;
+			padding: calc(var(--nav-height) + 24px) 0 0 0;
+		}
 	}
 
 	&-right {
@@ -34,6 +46,15 @@
 		position: fixed;
 		top: var(--nav-height);
 		right: 0;
+
+		@include responsive(phone) {
+			background: linear-gradient(
+				0deg,
+				rgba(0, 0, 0, 0.9) 0%,
+				rgba(0, 0, 0, 0.9) 40%,
+				transparent 40%
+			);
+		}
 
 		&-dots {
 			position: absolute;
@@ -57,6 +78,13 @@
 		cursor: pointer;
 		box-shadow: var(--shadow-elevation-4dp);
 
+		@include responsive(phone) {
+			width: 40vw;
+			height: 40vw;
+			top: unset;
+			bottom: 0;
+		}
+
 		span {
 			position: absolute;
 
@@ -65,16 +93,30 @@
 				top: -2rem;
 				width: 12px;
 				height: calc(100% + 4rem);
+
+				@include responsive(phone) {
+					width: 8px;
+					top: -1rem;
+					height: calc(100% + 2rem);
+				}
 			}
 
 			&:first-child {
 				left: -2rem;
 				background-color: var(--theme-black);
+
+				@include responsive(phone) {
+					left: -1rem;
+				}
 			}
 
 			&:last-child {
 				right: -2rem;
 				background-color: var(--theme-white);
+
+				@include responsive(phone) {
+					right: -1rem;
+				}
 			}
 
 			&:nth-child(2),
@@ -89,6 +131,13 @@
 					left: -2rem;
 					width: calc(50% + 2rem);
 					height: 12px;
+
+					@include responsive(phone) {
+						top: -1rem;
+						left: -1rem;
+						width: calc(50% + 1rem);
+						height: 8px;
+					}
 				}
 
 				&::before {
@@ -103,6 +152,10 @@
 
 			&:nth-child(3) {
 				bottom: calc(-4rem + 12px);
+
+				@include responsive(phone) {
+					bottom: calc(-2rem + 8px);
+				}
 			}
 		}
 	}
