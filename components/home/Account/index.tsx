@@ -26,18 +26,17 @@ const HomeAccout: React.FC = () => {
 				<div className={classes("-container")}>
 					<span className={classes("-title")}>Welcome to MERAKI</span>
 					<span className={classes("-description")}>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit.
-						Ducimus molestiae labore sapiente corrupti explicabo
-						minus illo fugit laudantium illum vitae nemo magnam,
-						molestias voluptate cumque officiis ipsa ullam et
-						placeat!
-						<br />
-						<br />
+						By joining us, you gain access to event registration,
+						exclusive content, and the opportunity to connect with
+						fellow tech enthusiasts at MERAKI. Log in today and
+						explore all the exciting features we have to offer.
 						{isLoggedIn ? (
-							<>Hii {user?.name}</>
-						) : (
-							<>Join the Hype!</>
-						)}
+							<>
+								<br />
+								<br />
+								Hii {user?.name}
+							</>
+						) : null}
 					</span>
 					<Button
 						className={classes("-button")}
@@ -55,7 +54,7 @@ const HomeAccout: React.FC = () => {
 						{!isLoggedIn
 							? "Join us Today!"
 							: user?.role === USER_ROLES.ADMIN
-							? "Explore Admin Dashboard"
+							? "Go to Admin Dashboard"
 							: "Visit your profile"}
 					</Button>
 				</div>

@@ -35,11 +35,10 @@ const HomeSponsors: React.FC = () => {
 						<DotsSquare />
 					</h1>
 					<p className={classes("-description")}>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit.
-						Doloremque provident cupiditate fuga, ullam earum
-						voluptatibus obcaecati consectetur quidem soluta
-						aspernatur repudiandae praesentium nobis maiores fugiat.
-						Reiciendis blanditiis ea quisquam quia?
+						We extend our sincere thanks to our sponsors, whose
+						generous support fuels the success of MERAKI. We deeply
+						appreciate their commitment to innovation and
+						technology.
 					</p>
 				</div>
 			</div>

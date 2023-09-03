@@ -20,6 +20,7 @@
 		display: flex;
 		justify-content: flex-start;
 		align-items: flex-start;
+		flex-direction: row-reverse;
 	}
 
 	&-eclipse {
@@ -192,6 +193,7 @@
 		align-items: flex-start;
 		flex-direction: column;
 		gap: 36px;
+		padding: 0 5%;
 	}
 
 	&-title {
@@ -206,9 +208,9 @@
 
 	&-description {
 		@include font(
-			var(--font-cormorant),
+			var(--font-red-hat-text),
 			24px,
-			500,
+			400,
 			125%,
 			var(--theme-white)
 		);

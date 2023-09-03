@@ -51,9 +51,9 @@
 
 	&-subtitle {
 		@include font(
-			var(--font-cormorant),
+			var(--font-red-hat-text),
 			24px,
-			500,
+			400,
 			125%,
 			var(--theme-black)
 		);

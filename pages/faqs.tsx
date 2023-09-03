@@ -28,7 +28,9 @@ const FaqsPage: React.FC = () => {
 								}
 							>
 								<div className={classes("-flex")}>
-									<h3>{faq.question}</h3>
+									<h3>
+										{index + 1}. {faq.title}
+									</h3>
 								</div>
 								{active === index ? (
 									<BsArrowDown />
@@ -37,6 +39,7 @@ const FaqsPage: React.FC = () => {
 								)}
 							</div>
 							<div className={classes("-answer")}>
+								<h2>{faq.question}</h2>
 								<p>{faq.answer}</p>
 							</div>
 							<hr />

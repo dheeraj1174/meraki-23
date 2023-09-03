@@ -1,105 +1,51 @@
-/* 
-<div class="accordion-item" id="question1">
-					<a class="accordion-link" href="#question1">
-						<div class="flex">
-							<h3>BRANDING</h3>
-							<ul>
-								<li>#Figma</li>
-								<li>#Sketch</li>
-								<li>#Adobe</li>
-								<li>#Invision</li>
-								<li>#Protopie</li>
-							</ul>
-						</div>
-						<i class="icon ion-md-arrow-forward"></i>
-						<i class="icon ion-md-arrow-down"></i>
-					</a>
-					<div class="answer">
-						<p> We believe in the greater good, we strive to do something for people, we aim to make their lives easier and more enjoyable, we love businesses that keep this</p>
-					</div>
-					<hr>
-				</div>
-				<div class="accordion-item" id="question2">
-					<a class="accordion-link" href="#question2">
-						<div class="flex">
-							<h3>UX/UI DESIGN</h3>
-							<ul>
-								<li>#Figma</li>
-								<li>#Sketch</li>
-								<li>#Adobe</li>
-								<li>#Invision</li>
-								<li>#Protopie</li>
-							</ul>
-						</div>
-						<i class="icon ion-md-arrow-forward"></i>
-						<i class="icon ion-md-arrow-down"></i>
-					</a>
-					<div class="answer">
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.</p>
-					</div>
-					<hr>
-				</div>
-				<div class="accordion-item" id="question3">
-					<a class="accordion-link" href="#question3">
-						<div class="flex">
-							<h3>FRONTEND DEVELOPMENT</h3>
-							<ul>
-								<li>#Figma</li>
-								<li>#Sketch</li>
-								<li>#Adobe</li>
-								<li>#Invision</li>
-								<li>#Protopie</li>
-							</ul>
-						</div>
-						<i class="icon ion-md-arrow-forward"></i>
-						<i class="icon ion-md-arrow-down"></i>
-					</a>
-					<div class="answer">
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.</p>
-					</div>
-					<hr>
-				</div>
-				<div class="accordion-item" id="question4">
-					<a class="accordion-link" href="#question4">
-						<div>
-							<h3>BACKEND DEVELOPMENT</h3>
-							<ul>
-								<li>#Figma</li>
-								<li>#Sketch</li>
-								<li>#Adobe</li>
-								<li>#Invision</li>
-								<li>#Protopie</li>
-							</ul>
-						</div>
-						<i class="icon ion-md-arrow-forward"></i>
-						<i class="icon ion-md-arrow-down"></i>
-					</a>
-					<div class="answer">
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.</p>
-					</div>
-					<hr>
-				</div>
- */
-
 const faqs: {
+	title: string;
 	question: string;
 	answer: string;
 }[] = [
 	{
-		question: "BRANDING",
-		answer: "We believe in the greater good, we strive to do something for people, we aim to make their lives easier and more enjoyable, we love businesses that keep this",
+		title: "Registration Fee",
+		question: "Is there a registration fee to participate in events?",
+		answer: "Registration fees may or may not be required. It depends on different events. Please check the event registration page on our website for specific pricing details",
 	},
 	{
-		question: "UX/UI DESIGN",
-		answer: "We believe in the greater good, we strive to do something for people, we aim to make their lives easier and more enjoyable, we love businesses that keep this",
+		title: "Deadline",
+		question: "Is there a deadline for registration?",
+		answer: "Registration deadlines for each event will be specified on our website. We recommend registering early to secure your spot.",
 	},
 	{
-		question: "FRONTEND DEVELOPMENT",
-		answer: "We believe in the greater good, we strive to do something for people, we aim to make their lives easier and more enjoyable, we love businesses that keep this",
+		title: "Prizes",
+		question:
+			"What are the prizes and awards for winning events at Meraki?",
+		answer: "Prizes and awards for Meraki events vary and may include cash prizes, certificates, and recognition. Details about prizes will be provided for each event on the website.",
 	},
 	{
-		question: "BACKEND DEVELOPMENT",
-		answer: "We believe in the greater good, we strive to do something for people, we aim to make their lives easier and more enjoyable, we love businesses that keep this",
+		title: "Contact",
+		question:
+			"How can I contact the organizers of different events for more information?",
+		answer: "You can reach out to us through the contact information provided on our website. We're here to answer any additional questions or provide assistance.",
+	},
+	{
+		title: "Registration",
+		question: "How can I register for different events at Meraki?",
+		answer: "You can register for different events through the forms that will be circulated during the fest. Or you can register by visiting the Meraki website and selecting the specific event you want to participate in. Follow the registration instructions provided for each event.",
+	},
+	{
+		title: "Eligibility",
+		question:
+			"Are there any prerequisites or specific skills required to participate in events?",
+		answer: "The prerequisites and skill levels required vary for each event. Please review the event descriptions on our website for details on requirements and eligibility.",
+	},
+	{
+		title: "Prerequisites",
+		question: "What should I prepare for the events ?",
+		answer: "it depends on the events you are going to participate. Mostly all events need some or other technical skills including different softwares. It also includes knowledge of some technical components in few events. You can check for the same at events section in our website.",
+	},
+	{
+		title: "Team Size",
+		question:
+			"Is there a limit to number of events a student can participate?",
+		answer: "No, there is no limit for your participation number. But keep in mind you need to be present during the event, provided you had registered.",
 	},
 ];
 

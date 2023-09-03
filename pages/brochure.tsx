@@ -7,7 +7,7 @@ export default Brochure;
 export const getServerSideProps = async () => {
 	return {
 		redirect: {
-			destination: "https://akshatmittal61.vercel.app/",
+			destination: "/brochure.pdf",
 			permanent: true,
 		},
 	};

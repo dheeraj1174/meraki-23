@@ -65,21 +65,23 @@ export const NavBarMenu: React.FC<INavBarMenuProps> = ({
 					ref={menuRef}
 					style={styles?.list}
 				>
-					{links.map((link) => (
-						<li
-							key={link.path}
-							className={classes("-nav-list-item")}
-							onClick={() => {
-								router.push(link.path);
-								setActiveRoute(link.path);
-								setIsMenuOpen(false);
-							}}
-							style={styles?.listItem}
-						>
-							{link.icon}
-							{link.label}
-						</li>
-					))}
+					{links
+						.filter((link) => link.path !== activeRoute)
+						.map((link) => (
+							<li
+								key={link.path}
+								className={classes("-nav-list-item")}
+								onClick={() => {
+									router.push(link.path);
+									setActiveRoute(link.path);
+									setIsMenuOpen(false);
+								}}
+								style={styles?.listItem}
+							>
+								{link.icon}
+								{link.label}
+							</li>
+						))}
 				</ul>
 			) : null}
 		</nav>

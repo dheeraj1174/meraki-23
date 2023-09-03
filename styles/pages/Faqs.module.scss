@@ -75,10 +75,16 @@
 		background-color: #000;
 		transition: max-height 650ms;
 
+		h2 {
+			color: #fff;
+			font-size: 20px;
+			padding: 12px 16px 8px 16px;
+		}
+
 		p {
 			color: #fff;
 			font-size: 15px;
-			padding: 2rem;
+			padding: 8px 16px 16px 16px;
 		}
 	}
 
