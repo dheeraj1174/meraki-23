@@ -6,7 +6,7 @@ import Typography from "@/library/Typography";
 import { Input } from "@/library/form";
 import { IEvent } from "@/types/event";
 import { patchUserDetails } from "@/utils/api/auth";
-import { getEvents } from "@/utils/api/events";
+import { deleteEvent, getEvents } from "@/utils/api/events";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -15,6 +15,7 @@ import { stylesConfig } from "@/utils/functions";
 import styles from "@/styles/pages/admin/Dashboard.module.scss";
 import Loader from "@/components/Loader";
 import { FiLogOut } from "react-icons/fi";
+import { EventCard } from "@/components/admin";
 
 const classes = stylesConfig(styles, "admin-dashboard");
 
@@ -80,6 +81,17 @@ const AdminDashboard: React.FC = () => {
 			toast.error(error?.message ?? "Something went wrong");
 		} finally {
 			setGettingEvents(false);
+		}
+	};
+
+	const deleteEventHandler = async (id: string) => {
+		try {
+			const res = await deleteEvent(id);
+			setEvents((prev) => prev.filter((event) => event._id !== id));
+			return Promise.resolve(res.message ?? "Event deleted");
+		} catch (error: any) {
+			console.error(error);
+			return Promise.reject(error.message ?? "Something went wrong");
 		}
 	};
 
@@ -209,57 +221,22 @@ const AdminDashboard: React.FC = () => {
 								<Loader />
 							) : (
 								events.map((event) => (
-									<div
+									<EventCard
 										key={event._id}
-										className={classes("-events-card")}
-										style={{
-											backgroundImage: `url(${event.image})`,
+										{...event}
+										onDelete={(id) => {
+											toast.promise(
+												deleteEventHandler(id),
+												{
+													loading:
+														"Deleting Event...",
+													success: (message) =>
+														message,
+													error: (message) => message,
+												}
+											);
 										}}
-									>
-										<Typography
-											type="heading"
-											variant="subtitle"
-											className={classes(
-												"-events-card-title"
-											)}
-										>
-											{event.name}
-										</Typography>
-										<Typography
-											type="heading"
-											variant="title-3"
-											className={classes(
-												"-events-card-date"
-											)}
-										>
-											{new Date(event.eventStart)
-												.toString()
-												.slice(0, 21)}
-										</Typography>
-										<Typography
-											type="body"
-											variant="large"
-											className={classes(
-												"-events-card-description"
-											)}
-										>
-											{event.description.slice(0, 100)}...
-										</Typography>
-										<Button
-											variant="light"
-											onClick={() => {
-												router.push(
-													`/admin/events/${event._id}`
-												);
-											}}
-											size="small"
-											className={classes(
-												"-events-card-button"
-											)}
-										>
-											View/Edit
-										</Button>
-									</div>
+									/>
 								))
 							)}
 						</div>

@@ -77,37 +77,6 @@
 			flex-flow: row wrap;
 			gap: 24px;
 		}
-
-		&-card {
-			width: 45%;
-			border: 1px solid var(--color-black);
-			display: flex;
-			justify-content: flex-start;
-			align-items: flex-start;
-			flex-direction: column;
-			gap: 16px;
-			padding: 16px 16px 96px 16px;
-			position: relative;
-			background-size: cover;
-			background-position: center;
-			background-repeat: no-repeat;
-			background-blend-mode: darken;
-			background-color: rgba(0, 0, 0, 0.75);
-
-			@include responsive(phone) {
-				width: 95%;
-			}
-
-			span {
-				color: var(--color-white);
-			}
-
-			&-button {
-				position: absolute;
-				bottom: 16px;
-				right: 16px;
-			}
-		}
 	}
 
 	&-loading {

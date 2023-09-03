@@ -28,7 +28,7 @@ const faqs: {
 	{
 		title: "Registration",
 		question: "How can I register for different events at Meraki?",
-		answer: "You can register for different events through the forms that will be circulated during the fest. Or you can register by visiting the Meraki website and selecting the specific event you want to participate in. Follow the registration instructions provided for each event.",
+		answer: "You can register by visiting the Meraki website or Meraki's Instagram page and selecting the specific event you want to participate in. Follow the registration instructions provided for each event.",
 	},
 	{
 		title: "Eligibility",

@@ -26,17 +26,22 @@ const HomeAccout: React.FC = () => {
 				<div className={classes("-container")}>
 					<span className={classes("-title")}>Welcome to MERAKI</span>
 					<span className={classes("-description")}>
-						By joining us, you gain access to event registration,
-						exclusive content, and the opportunity to connect with
-						fellow tech enthusiasts at MERAKI. Log in today and
-						explore all the exciting features we have to offer.
 						{isLoggedIn ? (
 							<>
-								<br />
-								<br />
-								Hii {user?.name}
+								Welcome back, {user?.name}! We&apos;re thrilled
+								to see you again. Your journey with us
+								continues, and we&apos;re here to make it even
+								more rewarding.
 							</>
-						) : null}
+						) : (
+							<>
+								By joining us, you gain access to event
+								registration, exclusive content, and the
+								opportunity to connect with fellow tech
+								enthusiasts at MERAKI. Log in today and explore
+								all the exciting features we have to offer.
+							</>
+						)}
 					</span>
 					<Button
 						className={classes("-button")}
