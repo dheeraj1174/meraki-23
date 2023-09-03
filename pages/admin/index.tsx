@@ -12,15 +12,17 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { PiCaretLeftBold } from "react-icons/pi";
 import { stylesConfig } from "@/utils/functions";
-import styles from "@/styles/pages/admin/Dashboard.module.scss";
 import Loader from "@/components/Loader";
 import { FiLogOut } from "react-icons/fi";
 import { EventCard } from "@/components/admin";
+import useDevice from "@/hooks/device";
+import styles from "@/styles/pages/admin/Dashboard.module.scss";
 
 const classes = stylesConfig(styles, "admin-dashboard");
 
 const AdminDashboard: React.FC = () => {
 	const router = useRouter();
+	const { type: device } = useDevice();
 	const { user, setUser, isCheckingLoggedIn, isLoggedIn, logout } =
 		useStore();
 
@@ -192,7 +194,7 @@ const AdminDashboard: React.FC = () => {
 						<Avatar
 							src={profileContents.avatar ?? defaultAvatar}
 							alt={user?.name ?? ""}
-							size={256}
+							size={device === "mobile" ? 128 : 256}
 							className={classes("-profile-avatar")}
 						/>
 					</section>

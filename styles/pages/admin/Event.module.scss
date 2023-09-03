@@ -12,6 +12,10 @@
 		padding: 0 24px;
 		padding: 42px 48px;
 
+		@include responsive(phone) {
+			padding: 24px 12px;
+		}
+
 		&-back {
 			@include init-button();
 			width: 36px;
@@ -35,6 +39,12 @@
 		align-items: center;
 		padding: 0 5%;
 
+		@include responsive(phone) {
+			flex-direction: column-reverse;
+			padding: 0;
+			gap: 36px;
+		}
+
 		&-form {
 			width: 70%;
 			display: flex;
@@ -42,6 +52,11 @@
 			align-items: flex-start;
 			flex-direction: column;
 			gap: 36px;
+
+			@include responsive(phone) {
+				width: 90%;
+				align-items: center;
+			}
 
 			&-group {
 				width: 100%;
@@ -57,6 +72,12 @@
 
 			& > * {
 				width: 75%;
+
+				@include responsive(phone) {
+					width: 100%;
+					flex-direction: column;
+					gap: 16px;
+				}
 			}
 		}
 
@@ -66,6 +87,10 @@
 			object-fit: cover;
 			border: 1px solid var(--color-text);
 			box-shadow: 0 0 8px 0 var(--color-text);
+
+			@include responsive(phone) {
+				width: 90%;
+			}
 		}
 	}
 
@@ -115,12 +140,21 @@
 		flex-direction: column;
 		gap: 24px;
 
+		@include responsive(phone) {
+			width: 90%;
+		}
+
 		&-group {
 			width: 100%;
 			display: flex;
 			justify-content: flex-start;
 			align-items: center;
 			gap: 32px;
+
+			@include responsive(phone) {
+				flex-direction: column;
+				gap: 16px;
+			}
 		}
 
 		textarea {

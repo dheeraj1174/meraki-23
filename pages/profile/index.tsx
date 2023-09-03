@@ -8,7 +8,6 @@ import Responsive from "@/layouts/Responsive";
 import Button from "@/library/Button";
 import Typography from "@/library/Typography";
 import { Input } from "@/library/form";
-import styles from "@/styles/pages/Profile.module.scss";
 import { patchUserDetails } from "@/utils/api/auth";
 import {
 	removeParticipantFromEvent,
@@ -16,13 +15,16 @@ import {
 } from "@/utils/api/participation";
 import { getMyRegistrations } from "@/utils/api/users";
 import { removeTeam as removeTeamApi } from "@/utils/api/teams";
-import { stylesConfig } from "@/utils/functions";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { FiLogOut } from "react-icons/fi";
 import { PiCaretLeftBold } from "react-icons/pi";
 import { AiOutlineDelete } from "react-icons/ai";
+import Footer from "@/components/Footer";
+import { stylesConfig } from "@/utils/functions";
+import styles from "@/styles/pages/Profile.module.scss";
+import useDevice from "@/hooks/device";
 
 interface IRegistration {
 	event: {
@@ -56,6 +58,7 @@ const classes = stylesConfig(styles, "profile");
 
 const ProfilePage: React.FC = () => {
 	const router = useRouter();
+	const { type: device } = useDevice();
 	const { user, setUser, isCheckingLoggedIn, isLoggedIn, logout } =
 		useStore();
 
@@ -311,7 +314,7 @@ const ProfilePage: React.FC = () => {
 						<Avatar
 							src={profileContents.avatar ?? defaultAvatar}
 							alt={user?.name}
-							size={256}
+							size={device === "mobile" ? 128 : 256}
 							className={classes("-avatar")}
 						/>
 					</section>
@@ -668,10 +671,12 @@ const ProfilePage: React.FC = () => {
 							)}
 						</section>
 					)}
+					<hr className={classes("-divider")} />
 				</>
 			) : isCheckingLoggedIn ? (
 				<Loader />
 			) : null}
+			<Footer />
 		</main>
 	);
 };

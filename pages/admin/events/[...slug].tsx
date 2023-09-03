@@ -27,6 +27,7 @@ import Loader from "@/components/Loader";
 import { TEAM_PARTICIPATION_STATUS } from "@/constants/enum";
 import { stylesConfig, switchDateFormat } from "@/utils/functions";
 import styles from "@/styles/pages/admin/Event.module.scss";
+import Footer from "@/components/Footer";
 
 const classes = stylesConfig(styles, "admin-event");
 
@@ -669,6 +670,7 @@ const AdminEventPage: React.FC = () => {
 					<hr className={classes("-divider")} />
 				</>
 			)}
+			<Footer />
 		</main>
 	);
 };

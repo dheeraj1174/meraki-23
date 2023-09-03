@@ -12,6 +12,10 @@
 		padding: 0 24px;
 		padding: 42px 48px 56px 48px;
 
+		@include responsive(phone) {
+			padding: 24px 12px 56px 12px;
+		}
+
 		&-back {
 			@include init-button();
 			width: 36px;
@@ -34,6 +38,12 @@
 		justify-content: space-evenly;
 		align-items: center;
 		padding: 0 5%;
+
+		@include responsive(phone) {
+			flex-direction: column-reverse;
+			padding: 0;
+			gap: 36px;
+		}
 	}
 
 	&-form {
@@ -43,6 +53,11 @@
 		align-items: flex-start;
 		flex-direction: column;
 		gap: 36px;
+
+		@include responsive(phone) {
+			width: 90%;
+			align-items: center;
+		}
 
 		button {
 			margin: 0 8px;
@@ -74,6 +89,10 @@
 			padding: 0 24px;
 			padding: 24px 48px 56px 48px;
 			text-align: center;
+
+			@include responsive(phone) {
+				padding: 24px 12px 56px 12px;
+			}
 		}
 
 		&-card {
@@ -89,6 +108,7 @@
 				justify-content: flex-start;
 				align-items: center;
 				gap: 8px;
+
 				svg {
 					@include init-button();
 					cursor: pointer;

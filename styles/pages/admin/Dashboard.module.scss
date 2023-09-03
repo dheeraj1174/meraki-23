@@ -9,8 +9,11 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding: 0 24px;
 		padding: 42px 48px 56px 48px;
+
+		@include responsive(phone) {
+			padding: 24px 6px 56px 12px;
+		}
 
 		&-back {
 			@include init-button();
@@ -35,6 +38,12 @@
 		align-items: center;
 		padding: 0 5%;
 
+		@include responsive(phone) {
+			flex-direction: column-reverse;
+			padding: 0;
+			gap: 36px;
+		}
+
 		&-form {
 			width: 60%;
 			display: flex;
@@ -42,6 +51,11 @@
 			align-items: flex-start;
 			flex-direction: column;
 			gap: 36px;
+
+			@include responsive(phone) {
+				width: 90%;
+				align-items: center;
+			}
 
 			button {
 				margin: 0 8px;
@@ -67,6 +81,10 @@
 			align-items: center;
 			padding: 0 24px;
 			padding: 24px 48px 56px 48px;
+
+			@include responsive(phone) {
+				padding: 24px 12px 56px 12px;
+			}
 		}
 
 		&-all {

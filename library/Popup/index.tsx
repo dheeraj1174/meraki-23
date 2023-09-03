@@ -45,8 +45,8 @@ export const Popup: React.FC<PopupProps> = ({
 					"--closing": isClosing,
 				})}
 				style={{
-					width: `min(95%, ${width})`,
-					height: `min(95%, ${height})`,
+					width: `min(90%, ${width})`,
+					height: `min(90%, ${height})`,
 					...style,
 				}}
 				ref={popupRef}

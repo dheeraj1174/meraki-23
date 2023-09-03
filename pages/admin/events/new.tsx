@@ -186,7 +186,7 @@ const AdminNewEventPage: React.FC = () => {
 								placeholder="Enter Brochure URL"
 							/>
 							<Input
-								label="Event Poster Image URL"
+								label="Poster Image URL"
 								name="image"
 								id="image"
 								value={eventDetails.image}
