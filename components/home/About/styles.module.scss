@@ -16,6 +16,12 @@
 	background-blend-mode: darken;
 	background-color: rgba(6, 12, 34, 0.9);
 
+	@include responsive(phone) {
+		align-items: center;
+		padding: 0 24px;
+		text-align: center;
+	}
+
 	&-title {
 		@include font(
 			var(--font-cormorant),
@@ -24,6 +30,10 @@
 			125%,
 			var(--theme-white)
 		);
+
+		@include responsive(phone) {
+			font-size: 64px;
+		}
 	}
 
 	&-body {
@@ -35,6 +45,11 @@
 			125%,
 			var(--theme-white)
 		);
+
+		@include responsive(phone) {
+			width: 95%;
+			font-size: 24px;
+		}
 	}
 
 	&-buttons {
@@ -44,5 +59,10 @@
 		align-items: center;
 		gap: 36px;
 		padding: 12px 6px;
+
+		@include responsive(phone) {
+			justify-content: center;
+			flex-direction: column;
+		}
 	}
 }

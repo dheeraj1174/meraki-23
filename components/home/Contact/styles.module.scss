@@ -12,8 +12,8 @@
 	position: relative;
 
 	&-frame {
-		width: calc(100% - 125px);
-		height: calc(100% - 125px);
+		width: calc(100% - var(--frame-size));
+		height: calc(100% - var(--frame-size));
 		background-color: #000;
 		display: flex;
 		justify-content: center;
@@ -37,6 +37,17 @@
 		background-size: cover;
 		background-position-x: right;
 		background-position-y: center;
+
+		@include responsive(phone) {
+			padding: 0 5%;
+			background-image: url("https://wallpaperaccess.com/full/1408411.jpg");
+			background-position-x: center;
+			background-position-y: center;
+			background-blend-mode: lighten;
+			background-color: rgba(255, 255, 255, 0.7);
+			text-align: center;
+			align-items: center;
+		}
 	}
 
 	&-title {
@@ -47,6 +58,10 @@
 			125%,
 			var(--theme-black)
 		);
+
+		@include responsive(phone) {
+			font-size: 48px;
+		}
 	}
 
 	&-subtitle {
@@ -57,5 +72,9 @@
 			125%,
 			var(--theme-black)
 		);
+
+		@include responsive(phone) {
+			font-size: 18px;
+		}
 	}
 }

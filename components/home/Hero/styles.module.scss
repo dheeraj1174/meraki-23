@@ -12,8 +12,8 @@
 	position: relative;
 
 	&-frame {
-		width: calc(100% - 125px);
-		height: calc(100% - 125px);
+		width: calc(100% - var(--frame-size));
+		height: calc(100% - var(--frame-size));
 		background-color: #000;
 		display: flex;
 		justify-content: center;

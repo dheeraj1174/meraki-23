@@ -47,6 +47,21 @@
 				height: 1px;
 				background-color: var(--theme-white);
 			}
+
+			@include responsive(phone) {
+				width: 100%;
+				justify-content: center;
+				align-items: center;
+				padding: 0 24px;
+				font-size: 24px;
+			}
+		}
+
+		@include responsive(phone) {
+			width: 100%;
+			height: 10%;
+			justify-content: flex-start;
+			align-items: flex-start;
 		}
 	}
 
@@ -56,6 +71,15 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+
+		@include responsive(phone) {
+			width: 100%;
+			height: 75%;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			gap: 24px;
+		}
 
 		&-left {
 			width: 40%;
@@ -69,6 +93,17 @@
 				max-height: 92.5%;
 				object-fit: contain;
 				filter: invert(1);
+
+				@include responsive(phone) {
+					width: 90%;
+					max-height: 70%;
+					height: auto;
+				}
+			}
+
+			@include responsive(phone) {
+				width: 100%;
+				height: auto;
 			}
 		}
 
@@ -80,6 +115,15 @@
 			align-items: flex-start;
 			flex-direction: column;
 			gap: 24px;
+
+			@include responsive(phone) {
+				width: 100%;
+				height: 100%;
+				justify-content: flex-start;
+				align-items: center;
+				padding: 0 24px;
+				flex: 0 1 auto;
+			}
 		}
 
 		&-block {
@@ -89,6 +133,14 @@
 			align-items: flex-start;
 			flex-direction: column;
 			gap: 16px;
+
+			@include responsive(phone) {
+				width: 100%;
+				height: 100%;
+				justify-content: center;
+				align-items: center;
+				gap: 24px;
+			}
 
 			&--heading {
 				color: var(--theme-white);
@@ -101,6 +153,14 @@
 				justify-content: flex-start;
 				align-items: center;
 				gap: 18px;
+
+				@include responsive(phone) {
+					width: 100%;
+					height: 100%;
+					justify-content: center;
+					align-items: center;
+					padding: 0 24px;
+				}
 
 				svg {
 					width: 24px;
@@ -116,14 +176,30 @@
 				gap: 12px;
 				text-decoration: none;
 				color: var(--theme-white);
+
+				@include responsive(phone) {
+					justify-content: center;
+
+					span {
+						display: none;
+					}
+				}
 			}
 
 			&:first-child {
 				height: 60%;
+
+				@include responsive(phone) {
+					height: auto;
+				}
 			}
 
 			&:last-child {
 				height: 30%;
+
+				@include responsive(phone) {
+					height: auto;
+				}
 			}
 
 			&:first-child &--body {
@@ -131,6 +207,13 @@
 				justify-content: space-between;
 				align-items: flex-start;
 				flex-flow: column wrap;
+
+				@include responsive(phone) {
+					padding: 0;
+					justify-content: center;
+					align-items: center;
+					flex-flow: row wrap;
+				}
 			}
 		}
 	}
@@ -158,6 +241,15 @@
 			width: 100%;
 			height: 1px;
 			background-color: var(--theme-white);
+		}
+
+		@include responsive(phone) {
+			width: 100%;
+			height: 15%;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			gap: 12px;
 		}
 	}
 }

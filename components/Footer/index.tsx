@@ -46,7 +46,8 @@ const Footer: React.FC<FooterProps> = ({ className = "", ...props }) => {
 										key={index}
 										className={classes("-mid-block--link")}
 									>
-										{link.icon} {link.label}
+										{link.icon}
+										<span>{link.label}</span>
 									</Link>
 								))}
 						</div>

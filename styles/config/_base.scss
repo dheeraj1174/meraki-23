@@ -21,13 +21,17 @@
 }
 
 html {
+	width: 100%;
+	// overflow-x: hidden;
 	scroll-behavior: smooth;
 	scroll-snap-type: y mandatory;
 }
 
 body {
+	width: 100%;
 	font-family: var(--font-red-hat-text);
 	overflow-x: hidden;
+	position: relative;
 	@include hide-scrollbar();
 }
 

@@ -3,11 +3,13 @@ import { stylesConfig } from "@/utils/functions";
 import styles from "./styles.module.scss";
 import Button from "@/library/Button";
 import { useRouter } from "next/router";
+import useDevice from "@/hooks/device";
 
 const classes = stylesConfig(styles, "home-about");
 
 const HomeAbout: React.FC = () => {
 	const router = useRouter();
+	const { type: device } = useDevice();
 	return (
 		<section className={classes("")} id="about">
 			<span className={classes("-title")}>About Us</span>
@@ -21,6 +23,7 @@ const HomeAbout: React.FC = () => {
 			<div className={classes("-buttons")}>
 				<Button
 					className={classes("-button")}
+					size={device === "mobile" ? "small" : "medium"}
 					onClick={() => {
 						router.push("/about");
 					}}
@@ -29,6 +32,7 @@ const HomeAbout: React.FC = () => {
 				</Button>
 				<Button
 					className={classes("-button")}
+					size={device === "mobile" ? "small" : "medium"}
 					onClick={() => {
 						router.push("/brochure");
 					}}
