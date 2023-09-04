@@ -8,6 +8,7 @@
 	box-sizing: border-box;
 	transition: all 0.3s ease-in-out;
 	scroll-behavior: smooth;
+	@include hide-scrollbar();
 }
 
 :root,

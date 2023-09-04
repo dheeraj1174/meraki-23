@@ -10,7 +10,7 @@ const HomeContact: React.FC = () => {
 	const router = useRouter();
 	return (
 		<section className={classes("")}>
-			<div className={classes("-frame")}>
+			<div className={classes("-frame")} data-aos="zoom-in">
 				<span className={classes("-title")}>Contact Us!</span>
 				<span className={classes("-subtitle")}>
 					Have questions or need assistance? We&apos;re here to help!

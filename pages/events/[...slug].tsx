@@ -61,7 +61,9 @@ const EventPage: React.FC<EventPageProps> = ({ event }) => {
 						variant="large"
 						className={classes("-description")}
 					>
-						TeamSize: {event.teamSize}
+						{event.teamSize === 1
+							? "Individual"
+							: `Team Size: ${event.teamSize}`}
 					</Typography>
 					{event.registrationsStart || event.registrationsEnd ? (
 						<Typography

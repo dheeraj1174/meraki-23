@@ -14,7 +14,7 @@ const HomeAccout: React.FC = () => {
 
 	return (
 		<section className={classes("")}>
-			<div className={classes("-frame")}>
+			<div className={classes("-frame")} data-aos="zoom-in">
 				<div className={classes("-eclipse")}>
 					<div className={classes("-layer", "-layer-1")}></div>
 					<div className={classes("-layer", "-layer-2")}></div>
