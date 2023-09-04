@@ -8,6 +8,7 @@ import Event from "@/models/Event";
 import Participant from "@/models/Participant";
 import Team from "@/models/Team";
 import User from "@/models/User";
+import { sendRegistrationConfirmation, sendTeamRemoved } from "@/utils/emails";
 
 export const getAllTeams = async (req: ApiRequest, res: ApiResponse) => {
 	try {
@@ -97,6 +98,12 @@ export const createTeam = async (req: ApiRequest, res: ApiResponse) => {
 			user: req.user?.id,
 			status: TEAM_PARTICIPATION_STATUS.ACCEPTED,
 		});
+		const foundUser = await User.findById(req.user?.id);
+		await sendRegistrationConfirmation(
+			foundUser?.email,
+			foundEvent.name,
+			req.body.name
+		);
 		await newTeam.populate({
 			path: "createdBy",
 			select: "name email avatar",
@@ -139,8 +146,14 @@ export const removeTeam = async (req: ApiRequest, res: ApiResponse) => {
 				message: "Only the creator can delete this team",
 			});
 		}
+		const foundEvent = await Event.findById(foundTeam.event.toString());
 		await Participant.deleteMany({ team: teamId });
 		await Team.findByIdAndDelete(teamId);
+		await sendTeamRemoved(
+			foundUser?.email,
+			foundEvent?.name,
+			foundTeam.name
+		);
 		return res.status(204).json({ message: RESPONSE_MESSAGES.SUCCESS });
 	} catch (error: any) {
 		console.error(error);

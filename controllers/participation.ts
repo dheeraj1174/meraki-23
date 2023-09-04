@@ -8,6 +8,13 @@ import Participant from "@/models/Participant";
 import Team from "@/models/Team";
 import User from "@/models/User";
 import { ApiRequest, ApiResponse } from "@/types/api";
+import {
+	sendAcceptedInTeam,
+	sendRegistrationConfirmation,
+	sendRejectedInTeam,
+	sendRequestedInTeam,
+	sendWithdrawnFromEvent,
+} from "@/utils/emails";
 import mongoose from "mongoose";
 
 export const getAllParticipants = async (req: ApiRequest, res: ApiResponse) => {
@@ -241,6 +248,10 @@ export const participateInEvent = async (req: ApiRequest, res: ApiResponse) => {
 				path: "user",
 				select: "name email avatar",
 			});
+			await sendRegistrationConfirmation(
+				newParticipant.user.email,
+				newParticipant.event.name
+			);
 			return res.status(201).json({
 				message: RESPONSE_MESSAGES.SUCCESS,
 				data: newParticipant,
@@ -267,6 +278,15 @@ export const participateInEvent = async (req: ApiRequest, res: ApiResponse) => {
 				user: req.user?.id,
 				status: TEAM_PARTICIPATION_STATUS.PENDING,
 			});
+			const foundTeamLeader = await User.findById(
+				foundTeam.createdBy.toString()
+			);
+			await sendRequestedInTeam(
+				foundTeamLeader.email,
+				foundEvent.name,
+				foundTeamLeader.name,
+				foundTeam.name
+			);
 			await newParticipant.populate({
 				path: "event",
 				select: "name description",
@@ -335,16 +355,30 @@ export const handleParticipantStatusInTeam = async (
 				message: "Please select a valid status to approve or reject",
 			});
 		}
+		const foundUser = await User.findById(foundParticipant.user.toString());
+		const foundEvent = await Event.findById(
+			foundParticipant.event.toString()
+		);
 		if (req.body.status === TEAM_PARTICIPATION_STATUS.ACCEPTED) {
 			foundParticipant.status = TEAM_PARTICIPATION_STATUS.ACCEPTED;
+			await foundParticipant.save();
+			await sendAcceptedInTeam(
+				foundUser?.email,
+				foundEvent.name,
+				foundTeam.name
+			);
 		} else if (req.body.status === TEAM_PARTICIPATION_STATUS.REJECTED) {
 			await Participant.findByIdAndDelete(foundParticipant._id);
+			await sendRejectedInTeam(
+				foundUser?.email,
+				foundEvent.name,
+				foundTeam.name
+			);
 		} else {
 			return res.status(400).json({
 				message: "Please select a valid status to approve",
 			});
 		}
-		await foundParticipant.save();
 		return res.status(200).json({
 			message: RESPONSE_MESSAGES.SUCCESS,
 			data: foundParticipant,
@@ -424,7 +458,15 @@ export const approveParticipant = async (req: ApiRequest, res: ApiResponse) => {
 				});
 			}
 			foundParticipant.status = TEAM_PARTICIPATION_STATUS.ACCEPTED;
+			const foundUser = await User.findById(
+				foundParticipant.user.toString()
+			);
 			await foundParticipant.save();
+			await sendAcceptedInTeam(
+				foundUser?.email,
+				foundEvent.name,
+				foundTeam.name
+			);
 			return res.status(200).json({
 				message: RESPONSE_MESSAGES.SUCCESS,
 				data: foundParticipant,
@@ -486,6 +528,8 @@ export const removeParticipantFromEvent = async (
 			}
 		}
 		await Participant.findByIdAndDelete(foundParticipant._id);
+		const foundUser = await User.findById(foundParticipant.user.toString());
+		await sendWithdrawnFromEvent(foundUser?.email, foundEvent.name);
 		return res.status(204).json({
 			message: RESPONSE_MESSAGES.SUCCESS,
 			data: foundParticipant,
