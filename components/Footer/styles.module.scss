@@ -78,7 +78,6 @@
 			flex-direction: column;
 			justify-content: center;
 			align-items: center;
-			gap: 24px;
 		}
 
 		&-left {
@@ -95,7 +94,7 @@
 				filter: invert(1);
 
 				@include responsive(phone) {
-					width: 90%;
+					width: 80%;
 					max-height: 70%;
 					height: auto;
 				}
@@ -103,7 +102,7 @@
 
 			@include responsive(phone) {
 				width: 100%;
-				height: auto;
+				height: unset;
 			}
 		}
 
