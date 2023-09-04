@@ -281,10 +281,11 @@ export const participateInEvent = async (req: ApiRequest, res: ApiResponse) => {
 			const foundTeamLeader = await User.findById(
 				foundTeam.createdBy.toString()
 			);
+			const foundUser = await User.findById(req.user?.id);
 			await sendRequestedInTeam(
 				foundTeamLeader.email,
 				foundEvent.name,
-				foundTeamLeader.name,
+				foundUser.name,
 				foundTeam.name
 			);
 			await newParticipant.populate({
