@@ -9,6 +9,11 @@
 	gap: 36px;
 	padding: 48px;
 
+	@include responsive(phone) {
+		height: 100vh;
+		padding: var(--nav-height) 24px 24px 24px;
+	}
+
 	&-menu {
 		position: fixed;
 		top: 24px;
@@ -20,6 +25,10 @@
 		height: 100%;
 		padding-top: 60px;
 		padding-bottom: 0;
+
+		@include responsive(phone) {
+			display: none;
+		}
 
 		img {
 			max-width: 100%;
@@ -39,6 +48,12 @@
 		flex-flow: column nowrap;
 		gap: 36px;
 
+		@include responsive(phone) {
+			width: 100%;
+			padding-bottom: 0;
+			margin-top: 24px;
+		}
+
 		&-heading {
 			@include font(
 				var(--font-red-hat-text),
@@ -47,6 +62,10 @@
 				var(--color-black),
 				120%
 			);
+
+			@include responsive(phone) {
+				display: none;
+			}
 		}
 
 		&-content {
@@ -59,6 +78,12 @@
 			gap: 48px;
 			padding: 36px;
 			border: 2px solid var(--color-black);
+
+			@include responsive(phone) {
+				padding: 24px;
+				flex-direction: column;
+				gap: 24px;
+			}
 		}
 	}
 
@@ -70,6 +95,11 @@
 		align-items: flex-start;
 		gap: 36px;
 		flex-direction: column;
+
+		@include responsive(phone) {
+			width: 100%;
+			gap: 24px;
+		}
 
 		input,
 		textarea {
@@ -95,6 +125,11 @@
 		align-items: flex-start;
 		flex-flow: column;
 
+		@include responsive(phone) {
+			width: 100%;
+			gap: 16px;
+		}
+
 		&-item {
 			width: 100%;
 			display: flex;
@@ -103,12 +138,22 @@
 			flex-flow: column;
 			gap: 20px;
 
+			@include responsive(phone) {
+				gap: 12px;
+				align-items: center;
+				text-align: center;
+			}
+
 			&-socials {
 				width: 100%;
 				display: flex;
 				justify-content: flex-start;
 				align-items: center;
 				gap: 18px;
+
+				@include responsive(phone) {
+					justify-content: center;
+				}
 
 				svg {
 					width: 24px;
