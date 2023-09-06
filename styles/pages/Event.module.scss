@@ -108,7 +108,7 @@
 	&-btn {
 		gap: 4px;
 		padding: 10px 24px;
-		background-color: rgba($theme-indigo, 0.4);
+		background-color: rgba($theme-navy, 0.4);
 		@include font(
 			var(--font-red-hat-display),
 			16px,
@@ -141,33 +141,33 @@
 		}
 
 		&--filled:hover {
-			background-color: darken($color: $theme-indigo, $amount: 10%);
+			background-color: darken($color: $theme-navy, $amount: 10%);
 		}
 
 		&--filled:active {
-			background-color: darken($color: $theme-indigo, $amount: 20%);
+			background-color: darken($color: $theme-navy, $amount: 20%);
 		}
 
 		&--filled:disabled {
-			background-color: lighten($color: $theme-indigo, $amount: 20%);
+			background-color: lighten($color: $theme-navy, $amount: 20%);
 		}
 
 		&--outlined {
-			background-color: rgba($theme-indigo, 0.2);
+			background-color: rgba($theme-navy, 0.2);
 			color: var(--theme-white);
 			border: 1px solid var(--theme-indigo);
 		}
 
 		&--outlined:hover {
-			background-color: rgba($theme-indigo, 0.3);
+			background-color: rgba($theme-navy, 0.3);
 		}
 
 		&--outlined:active {
-			background-color: rgba($theme-indigo, 0.4);
+			background-color: rgba($theme-navy, 0.4);
 		}
 
 		&--outlined:disabled {
-			background-color: rgba($theme-indigo, 0.2);
+			background-color: rgba($theme-navy, 0.2);
 			color: var(--theme-white);
 			border-color: var(--theme-indigo);
 		}

@@ -10,6 +10,7 @@ import useStore from "@/hooks/store";
 import { getEvent } from "@/utils/api/events";
 import { stylesConfig } from "@/utils/functions";
 import styles from "@/styles/pages/Event.module.scss";
+import Navigation from "@/components/Navigation";
 
 interface EventPageProps {
 	event: IEvent;
@@ -25,6 +26,7 @@ const EventPage: React.FC<EventPageProps> = ({ event }) => {
 	if (!event) return null;
 	return (
 		<>
+			<Navigation />
 			<main className={classes("")}>
 				<Image
 					src={event.image}

@@ -7,7 +7,7 @@
 	align-items: center;
 	flex-flow: column;
 	--frame-size: 125px;
-	--bg: #111018;
+	--bg: var(--theme-indigo);
 	background-color: var(--bg);
 	position: relative;
 	background-image: url("/vectors/mesh.svg");
