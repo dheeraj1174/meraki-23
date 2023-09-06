@@ -16,11 +16,22 @@
 	position: relative;
 	background-image: url("/vectors/mesh.svg");
 	background-attachment: fixed;
+	overflow-x: hidden;
+
+	@include responsive(phone) {
+		flex-direction: column;
+		justify-content: center;
+		padding: 0 32px;
+	}
 
 	&-image {
 		width: 40%;
 		height: auto;
 		object-fit: contain;
+
+		@include responsive(phone) {
+			display: none;
+		}
 	}
 
 	&-content {
@@ -30,6 +41,13 @@
 		align-items: flex-start;
 		flex-direction: column;
 		gap: 24px;
+
+		@include responsive(phone) {
+			width: 100%;
+			align-items: center;
+			text-align: center;
+			gap: 16px;
+		}
 	}
 
 	&-title {
@@ -51,6 +69,11 @@
 			150%,
 			var(--theme-white)
 		);
+
+		@include responsive(phone) {
+			width: 100%;
+			font-size: 16px;
+		}
 	}
 
 	&-actions,
@@ -59,8 +82,16 @@
 		display: flex;
 		justify-content: flex-start;
 		align-items: center;
-		flex-flow: row wrap;
 		gap: 20px;
+
+		@include responsive(phone) {
+			justify-content: center;
+			gap: 14px;
+		}
+	}
+
+	&-chips {
+		flex-flow: row wrap;
 	}
 
 	&-btn {
@@ -86,6 +117,11 @@
 			var(--theme-white),
 			1px
 		);
+
+		@include responsive(phone) {
+			padding: 10px 16px;
+			font-size: 14px;
+		}
 	}
 
 	&-chip {
