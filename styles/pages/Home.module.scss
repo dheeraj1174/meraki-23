@@ -6,8 +6,12 @@
 	justify-content: center;
 	align-items: center;
 	flex-flow: column;
-	background-color: var(--theme-black);
 	--frame-size: 125px;
+	--bg: #111018;
+	background-color: var(--bg);
+	position: relative;
+	background-image: url("/vectors/mesh.svg");
+	background-attachment: fixed;
 
 	@include responsive(phone) {
 		--frame-size: 50px;
