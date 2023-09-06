@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import Button from "@/library/Button";
+import Image from "next/image";
 import Typography from "@/library/Typography";
 import { IEvent } from "@/types/event";
-import { PiCaretLeftBold } from "react-icons/pi";
+import { AiOutlineUser } from "react-icons/ai";
+import { HiOutlineDownload } from "react-icons/hi";
 import { useRouter } from "next/router";
 import EventPopup from "@/components/Event";
 import useStore from "@/hooks/store";
@@ -24,22 +25,15 @@ const EventPage: React.FC<EventPageProps> = ({ event }) => {
 	if (!event) return null;
 	return (
 		<>
-			<main
-				className={classes("")}
-				style={{
-					backgroundImage: `url(${event.image})`,
-				}}
-				data-aos="zoom-in"
-			>
-				<div className={classes("-header")}>
-					<button
-						className={classes("-header-back")}
-						onClick={() => {
-							router.push("/");
-						}}
-					>
-						<PiCaretLeftBold />
-					</button>
+			<main className={classes("")}>
+				<Image
+					src={event.image}
+					alt={event.name}
+					width={1920}
+					height={1080}
+					className={classes("-image")}
+				/>
+				<section className={classes("-content")}>
 					<Typography
 						type="heading"
 						variant="display"
@@ -47,8 +41,6 @@ const EventPage: React.FC<EventPageProps> = ({ event }) => {
 					>
 						{event.name}
 					</Typography>
-				</div>
-				<div className={classes("-body")}>
 					<Typography
 						type="body"
 						variant="extra-large"
@@ -56,62 +48,83 @@ const EventPage: React.FC<EventPageProps> = ({ event }) => {
 					>
 						{event.description}
 					</Typography>
-					<Typography
-						type="body"
-						variant="large"
-						className={classes("-description")}
-					>
-						{event.teamSize === 1
-							? "Individual"
-							: `Team Size: ${event.teamSize}`}
-					</Typography>
-					{event.registrationsStart || event.registrationsEnd ? (
-						<Typography
-							type="body"
-							variant="large"
-							className={classes("-description")}
-						>
-							Registrations:{" "}
-							{new Date(event.registrationsStart)
-								.toString()
-								.slice(0, 21)}
-							{new Date(event.registrationsEnd)
-								.toString()
-								.slice(0, 21)}
-						</Typography>
-					) : null}
-					{event.eventStart || event.eventEnd ? (
-						<Typography
-							type="body"
-							variant="large"
-							className={classes("-description")}
-						>
-							Event timeline:{" "}
-							{new Date(event.eventStart).toString().slice(0, 21)}
-							{new Date(event.eventEnd).toString().slice(0, 21)}
-						</Typography>
-					) : null}
-					{event.brochure ? (
-						<Button
-							variant="light"
+					<div className={classes("-actions")}>
+						<button
+							className={classes("-btn", "-btn--filled")}
 							onClick={() => {
-								window.open(event.brochure, "_blank");
+								if (isLoggedIn) setShowApplyPopup(true);
+								else
+									router.push(
+										`/login?redirect=${router.asPath}`
+									);
 							}}
+							disabled={
+								new Date(event.registrationsEnd) < new Date() ||
+								new Date(event.registrationsStart) > new Date()
+							}
+							title={(() => {
+								if (
+									new Date(event.registrationsEnd) <
+										new Date() &&
+									new Date(event.registrationsStart) <
+										new Date()
+								)
+									return "Registrations closed";
+								else if (
+									new Date(event.registrationsStart) >
+									new Date()
+								)
+									return "Registrations not yet open";
+								else return "Register Now";
+							})()}
 						>
-							Event Brochure
-						</Button>
-					) : null}
-				</div>
-				<Button
-					className={classes("-cta")}
-					size="large"
-					onClick={() => {
-						if (isLoggedIn) setShowApplyPopup(true);
-						else router.push(`/login?redirect=${router.asPath}`);
-					}}
-				>
-					Register Now
-				</Button>
+							<AiOutlineUser />
+							Register Now
+						</button>
+						{event.brochure ? (
+							<button
+								className={classes("-btn", "-btn--outlined")}
+								onClick={() => {
+									window.open(event.brochure, "_blank");
+								}}
+							>
+								<HiOutlineDownload />
+								Event Brochure
+							</button>
+						) : null}
+					</div>
+					<div className={classes("-chips")}>
+						<span className={classes("-chip")}>
+							{event.teamSize > 1
+								? `Team Size: ${event.teamSize}`
+								: "Individual"}
+						</span>
+						{event.registrationsStart || event.registrationsEnd ? (
+							<span className={classes("-chip")}>
+								Registrations:{" "}
+								{new Date(event.registrationsStart)
+									.toString()
+									.slice(0, 16)}
+								{" - "}
+								{new Date(event.registrationsEnd)
+									.toString()
+									.slice(0, 16)}
+							</span>
+						) : null}
+						{event.eventStart || event.eventEnd ? (
+							<span className={classes("-chip")}>
+								Event timeline:{" "}
+								{new Date(event.eventStart)
+									.toString()
+									.slice(0, 16)}
+								{" - "}
+								{new Date(event.eventEnd)
+									.toString()
+									.slice(0, 16)}
+							</span>
+						) : null}
+					</div>
+				</section>
 			</main>
 			{showApplyPopup ? (
 				<EventPopup
