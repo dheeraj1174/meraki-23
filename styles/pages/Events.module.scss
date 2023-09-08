@@ -2,15 +2,75 @@
 
 .events {
 	width: 100%;
-	height: 100vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-flow: column;
 	gap: 24px;
 	padding: 24px;
+	background-color: var(--theme-indigo);
+	position: relative;
+	background-image: url("/vectors/mesh.svg");
+	background-attachment: fixed;
 
 	&-title {
-		@include font(Orbitron, 64px, 700);
+		@include font(
+			var(--font-cormorant),
+			56px,
+			500,
+			108px,
+			var(--theme-white)
+		);
+	}
+
+	&-section {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: flex-start;
+	}
+
+	&-card {
+		width: 100%;
+		height: 500px;
+		margin: 24px;
+		border: 1px solid rgba(255, 255, 255, 0.5);
+		border-radius: 8px;
+		background-color: var(--theme-indigo);
+		box-shadow: var(--shadow-elevation-4dp);
+		overflow: hidden;
+
+		&-image {
+			width: 100%;
+			height: 50%;
+			border-radius: 8px 8px 0 0;
+			background-size: cover;
+			background-position: center;
+			background-repeat: no-repeat;
+		}
+
+		&-content {
+			width: 100%;
+			height: 50%;
+			display: flex;
+			justify-content: space-between;
+			align-items: flex-start;
+			flex-direction: column;
+			gap: 16px;
+			padding: 24px 16px;
+
+			span {
+				color: var(--theme-white) !important;
+			}
+		}
+
+		&-description {
+			flex-shrink: 2;
+			overflow: hidden;
+		}
+
+		&-button {
+			width: 100%;
+		}
 	}
 }

@@ -74,7 +74,7 @@
 			display: flex;
 			justify-content: flex-start;
 			align-items: flex-start;
-			flex: 0 1 1;
+			flex: 0 1 auto;
 			gap: 48px;
 			padding: 36px;
 			border: 2px solid var(--color-black);
@@ -98,7 +98,9 @@
 
 		@include responsive(phone) {
 			width: 100%;
-			gap: 24px;
+			height: 100%;
+			flex: 0 1 auto;
+			justify-content: space-between;
 		}
 
 		input,
@@ -110,6 +112,16 @@
 				var(--color-black),
 				120%
 			);
+		}
+
+		& > *:nth-child(3) {
+			height: 100%;
+			flex: 0 1 auto;
+
+			textarea {
+				height: 100%;
+				resize: none;
+			}
 		}
 
 		&-button {
@@ -127,6 +139,7 @@
 
 		@include responsive(phone) {
 			width: 100%;
+			height: fit-content;
 			gap: 16px;
 		}
 
