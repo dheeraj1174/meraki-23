@@ -20,17 +20,35 @@ const HomeHero: React.FC = () => {
 					></div>
 				))}
 			</div>
-			<div className={classes("-content")} data-aos="fade-left">
-				<span className={classes("-content__text")}>
-					Unleashing&nbsp;
-				</span>
+			<div className={classes("-content")}>
+				Unleashing&nbsp;
 				<span className={classes("-content__highlight")}>
 					Innovation
 				</span>
-				<span className={classes("-content__text")}>
-					: Where Tech Dreams Become Reality!
-				</span>
+				: Where Tech Dreams Become Reality!
 			</div>
+			<button
+				className={classes("-button")}
+				onClick={() => {
+					window.scrollTo(0, window.innerHeight);
+				}}
+			>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="60"
+					height="60"
+					viewBox="0 0 60 60"
+					fill="none"
+				>
+					<path
+						d="M17.5 25L30 37.5L42.5 25"
+						stroke="white"
+						stroke-width="1.5"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					/>
+				</svg>
+			</button>
 		</section>
 	);
 };
