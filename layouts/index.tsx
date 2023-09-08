@@ -116,13 +116,7 @@ const Layout: React.FC<any> = ({ children }) => {
 			{router.pathname.startsWith("/faqs") ? <Navbar /> : null}
 			{children}
 			{["/", "/events", "/team", "/gallery"].includes(router.pathname) ? (
-				<Footer
-					style={
-						router.pathname === "/"
-							? { scrollSnapAlign: "start" }
-							: {}
-					}
-				/>
+				<Footer />
 			) : null}
 			<Toaster position="top-center" />
 		</>

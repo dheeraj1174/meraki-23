@@ -12,6 +12,7 @@ import {
 import { getEvents } from "@/utils/api/events";
 import { IEvent } from "@/types/event";
 import useStore from "@/hooks/store";
+import Navigation from "../components/Navigation";
 
 interface HomePageProps {
 	events: IEvent[];
@@ -29,6 +30,7 @@ const HomePage: React.FC<HomePageProps> = ({ events }) => {
 
 	return (
 		<main className={classes("")}>
+			<Navigation />
 			<Hero />
 			<About />
 			{events.length > 0 ? <Events events={events} /> : null}
