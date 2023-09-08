@@ -11,33 +11,26 @@
 	background-color: var(--bg);
 	--mesh-height: 150px;
 
-	@include responsive(phone) {
-		--mesh-height: 100px;
-	}
-
 	&-container {
 		width: 100%;
 		height: calc(100% - var(--mesh-height));
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		flex-direction: column;
+		gap: 48px;
 		padding: 0 5%;
 		overflow: hidden;
-
-		@include responsive(phone) {
-			flex-direction: column-reverse;
-			justify-content: flex-start;
-			align-items: center;
-		}
 	}
 
-	&-left {
-		width: 50%;
-		height: 100%;
+	&-logos {
+		width: 100%;
+		height: auto;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		flex-flow: row wrap;
+		justify-content: center;
 		gap: 36px;
 
 		@include responsive(phone) {
@@ -47,58 +40,57 @@
 		}
 	}
 
-	&-right {
-		width: 50%;
-		height: 100%;
+	&-content {
+		width: 100%;
+		height: auto;
 		display: flex;
 		justify-content: center;
-		align-items: flex-start;
+		align-items: center;
 		flex-direction: column;
 		gap: 24px;
+		flex: 0 1 1;
 		padding: 0 5%;
+		text-align: center;
 
 		@include responsive(phone) {
-			width: 100%;
-			align-items: center;
 			padding: 0 12px;
-			text-align: center;
 		}
-	}
 
-	&-title {
-		@include font(
-			var(--font-cormorant),
-			56px,
-			500,
-			125%,
-			var(--theme-white)
-		);
-		position: relative;
-		z-index: 5;
+		&__title {
+			@include font(
+				var(--font-cormorant),
+				56px,
+				500,
+				125%,
+				var(--theme-white)
+			);
+			position: relative;
+			z-index: 5;
 
-		svg {
-			width: 48px;
-			height: 48px;
-			position: absolute;
-			bottom: -6px;
-			right: -24px;
-			z-index: -1;
+			svg {
+				width: 48px;
+				height: 48px;
+				position: absolute;
+				bottom: -6px;
+				right: -24px;
+				z-index: -1;
+			}
 		}
-	}
 
-	&-description {
-		@include font(
-			var(--font-red-hat-text),
-			24px,
-			400,
-			125%,
-			var(--theme-white)
-		);
+		&__description {
+			@include font(
+				var(--font-red-hat-text),
+				24px,
+				400,
+				125%,
+				var(--theme-white)
+			);
+		}
 	}
 
 	&-sponsor {
-		width: 120px;
-		height: auto;
+		width: 240px;
+		height: 150px;
 		overflow: hidden;
 		display: flex;
 		justify-content: center;
@@ -106,7 +98,7 @@
 		cursor: pointer;
 
 		@include responsive(phone) {
-			width: 80px;
+			width: 160px;
 		}
 
 		img {
@@ -117,7 +109,7 @@
 		}
 
 		&:hover {
-			filter: drop-shadow(0px 0px 10px rgba(255, 255, 255, 0.5));
+			filter: drop-shadow(0px 0px 4px rgba(255, 255, 255, 0.5));
 
 			img {
 				transform: scale(0.95) translateY(-2.5%);
