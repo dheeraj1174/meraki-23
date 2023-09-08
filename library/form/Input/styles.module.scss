@@ -68,7 +68,7 @@
 
 	&--line &__input:active,
 	&--line &__input:focus {
-		border-bottom: 1.5px solid #000;
+		border-color: var(--theme-navy);
 	}
 
 	&--box &__input:invalid,

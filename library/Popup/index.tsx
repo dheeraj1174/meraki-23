@@ -1,7 +1,7 @@
 import { stylesConfig } from "@/utils/functions";
 import styles from "./styles.module.scss";
 import React, { useEffect, useRef, useState } from "react";
-import { AiOutlineClose } from "react-icons/ai";
+import { IoCloseOutline } from "react-icons/io5";
 import Typography from "@/library/Typography";
 
 interface PopupProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -70,7 +70,7 @@ export const Popup: React.FC<PopupProps> = ({
 						onClick={handleClose}
 						className={classes("-header-close")}
 					>
-						<AiOutlineClose />
+						<IoCloseOutline />
 					</button>
 				</div>
 				<div className={classes("-body")}>{children}</div>
