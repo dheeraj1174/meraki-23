@@ -6,17 +6,26 @@
 	&-btn {
 		@include init-button;
 		position: fixed;
-		top: 56px;
-		right: 56px;
+		top: 48px;
+		right: 48px;
 		z-index: 100;
 		width: 48px;
 		height: 48px;
+
+		@include responsive(phone) {
+			top: 24px;
+			right: 24px;
+		}
 
 		span {
 			width: 48px;
 			height: 1px;
 			background-color: var(--color-white);
 			position: relative;
+
+			@include responsive(phone) {
+				width: 32px;
+			}
 
 			&::before,
 			&::after {
