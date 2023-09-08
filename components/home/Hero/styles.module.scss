@@ -42,6 +42,10 @@
 			transition: all 0.3s ease-in-out;
 			background-blend-mode: darken;
 			background-color: rgba(0, 0, 0, 0.3);
+
+			@include responsive(phone) {
+				width: 250px;
+			}
 		}
 	}
 
