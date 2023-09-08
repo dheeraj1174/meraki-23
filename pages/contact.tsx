@@ -71,7 +71,7 @@ const ContactUsPage: React.FC = () => {
 							rows={3}
 						/>
 						<Button
-							variant="dark"
+							variant="fill"
 							type="submit"
 							className={classes("-form-button")}
 						>

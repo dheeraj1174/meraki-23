@@ -18,7 +18,7 @@ const HomeContact: React.FC = () => {
 					from you!
 				</span>
 				<Button
-					variant="dark"
+					variant="fill"
 					className={classes("-button")}
 					onClick={() => router.push("/contact")}
 				>

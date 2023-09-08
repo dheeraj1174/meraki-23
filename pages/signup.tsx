@@ -247,7 +247,7 @@ const SignInPage: React.FC = () => {
 					<div className={classNames("-content-form-group")}>
 						{showOTPBox ? (
 							<Button
-								variant="light"
+								variant="outline"
 								type="button"
 								disabled={
 									!inputCred.email.length ||
@@ -264,7 +264,7 @@ const SignInPage: React.FC = () => {
 						) : null}
 						{otpSent ? (
 							<Button
-								variant="dark"
+								variant="fill"
 								type="button"
 								disabled={
 									!inputCred.email.length ||
@@ -279,7 +279,7 @@ const SignInPage: React.FC = () => {
 							</Button>
 						) : (
 							<Button
-								variant="dark"
+								variant="fill"
 								type="button"
 								disabled={
 									showOTPBox ||
@@ -360,7 +360,7 @@ const SignInPage: React.FC = () => {
 						</div>
 						<Button
 							type="submit"
-							variant="dark"
+							variant="fill"
 							loading={registering}
 						>
 							Create Account

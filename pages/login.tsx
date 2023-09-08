@@ -105,7 +105,7 @@ const SignInPage: React.FC = () => {
 						)
 					}
 				/>
-				<Button type="submit" variant="dark" loading={loading}>
+				<Button type="submit" variant="fill" loading={loading}>
 					Login
 				</Button>
 			</form>

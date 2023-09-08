@@ -236,7 +236,7 @@ const EventPopup: React.FC<EventPopupProps> = ({ event, onClose }) => {
 						/>
 						<Button
 							type="submit"
-							variant="dark"
+							variant="fill"
 							size="small"
 							loading={creatingTeam || registering}
 						>

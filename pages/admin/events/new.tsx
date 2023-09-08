@@ -218,7 +218,7 @@ const AdminNewEventPage: React.FC = () => {
 						/>
 						<Button
 							type="submit"
-							variant="dark"
+							variant="fill"
 							size="small"
 							loading={creating}
 						>

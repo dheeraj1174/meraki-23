@@ -88,7 +88,7 @@ const AdminDashboardEventCard: React.FC<AdminDashboardEventCardProps> = ({
 				</Typography>
 				<div className={classes("-buttons")}>
 					<Button
-						variant="light"
+						variant="fill"
 						onClick={() => {
 							deleteEventConfirmation.openPopup();
 						}}
@@ -100,7 +100,7 @@ const AdminDashboardEventCard: React.FC<AdminDashboardEventCardProps> = ({
 						Delete
 					</Button>
 					<Button
-						variant="light"
+						variant="fill"
 						onClick={() => {
 							router.push(`/admin/events/${_id}`);
 						}}

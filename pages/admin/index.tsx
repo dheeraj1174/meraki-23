@@ -133,7 +133,7 @@ const AdminDashboard: React.FC = () => {
 						</Typography>
 						<Button
 							icon={<FiLogOut />}
-							variant="dark"
+							variant="outline"
 							size="small"
 							onClick={logoutUser}
 						>
@@ -184,7 +184,7 @@ const AdminDashboard: React.FC = () => {
 								errorMessage="Enter a valid image URL"
 							/>
 							<Button
-								variant="dark"
+								variant="fill"
 								loading={updatingProfile}
 								type="submit"
 							>
@@ -209,7 +209,7 @@ const AdminDashboard: React.FC = () => {
 								Events
 							</Typography>
 							<Button
-								variant="dark"
+								variant="outline"
 								onClick={() => {
 									router.push("/admin/events/new");
 								}}

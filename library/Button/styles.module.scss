@@ -1,4 +1,5 @@
 @import "@/styles/config/mixins";
+@import "@/styles/config/variables";
 @import "@/styles/config/typography";
 
 .btn {
@@ -14,35 +15,11 @@
 	user-select: none;
 	transition: all 0.2s ease-in-out;
 	position: relative;
+	border-radius: 4px;
 
-	&::before {
-		content: "";
-		position: absolute;
-		top: -8px;
-		left: -8px;
-		width: 100%;
-		height: 100%;
-		border: 1px solid transparent;
-	}
-
-	&--variant {
-		&--light {
-			background-color: var(--color-white);
-			color: var(--color-black) !important;
-
-			&::before {
-				border-color: var(--color-white);
-			}
-		}
-
-		&--dark {
-			background-color: var(--color-black);
-			color: var(--color-white) !important;
-
-			&::before {
-				border-color: var(--color-black);
-			}
-		}
+	svg {
+		width: 20px;
+		height: 20px;
 	}
 
 	&--size {
@@ -50,8 +27,7 @@
 			padding: 12px 18px;
 			min-width: 100px;
 			letter-spacing: 2px;
-			@include typography(body, large, regular);
-			font-family: var(--font-orbitron);
+			@include font(var(--font-red-hat-display), 16px, 500, 150%);
 
 			&::before {
 				top: -8px;
@@ -63,8 +39,7 @@
 			padding: 8px 12px;
 			min-width: 80px;
 			letter-spacing: 2px;
-			@include typography(body, medium, regular);
-			font-family: var(--font-orbitron);
+			@include font(var(--font-red-hat-display), 14px, 500, 150%);
 
 			&::before {
 				top: -6px;
@@ -76,13 +51,51 @@
 			padding: 18px 24px;
 			min-width: 120px;
 			letter-spacing: 2px;
-			@include typography(body, extra-large, regular);
-			font-family: var(--font-orbitron);
+			@include font(var(--font-red-hat-display), 18px, 500, 150%);
 
 			&::before {
 				top: -10px;
 				left: -10px;
 			}
+		}
+	}
+
+	&--variant {
+		&--fill {
+			background-color: $theme-navy;
+			color: var(--theme-white);
+		}
+
+		&--fill:hover {
+			background-color: darken($color: $theme-navy, $amount: 10%);
+		}
+
+		&--fill:active {
+			background-color: darken($color: $theme-navy, $amount: 20%);
+		}
+
+		&--fill:disabled {
+			background-color: lighten($color: $theme-navy, $amount: 20%);
+		}
+
+		&--outline {
+			background-color: rgba($theme-navy, 0.2);
+			color: var(--theme-black);
+			border: 1px solid $theme-navy;
+		}
+
+		&--outline:hover {
+			background-color: rgba($theme-navy, 0.3);
+		}
+
+		&--outline:active {
+			background-color: rgba($theme-navy, 0.4);
+		}
+
+		&--outline:disabled {
+			background-color: rgba($theme-navy, 0.2);
+			color: var(--theme-black);
+			border-color: var(--theme-indigo);
 		}
 	}
 
@@ -132,29 +145,27 @@
 		height: 23px;
 	}
 
-	&--variant--light &__loader {
-		border-left-color: var(--color-brand-white);
-		border-top-color: var(--color-brand-black);
+	&--variant--fill &__loader {
+		border-left-color: var(--theme-navy);
+		border-top-color: var(--theme-navy);
 	}
 
-	&--variant--dark &__loader {
-		border-left-color: var(--color-brand-black);
-		border-top-color: var(--color-brand-white);
+	&--variant--outline &__loader {
+		border-left-color: var(--theme-navy);
+		border-top-color: var(--theme-navy);
 	}
 
 	&:hover {
 		box-shadow: var(--shadow-elevation-2dp);
 	}
 
-	&:hover {
-		&::before {
-			top: 0;
-			left: 0;
-		}
-	}
-
 	&:active {
 		box-shadow: var(--shadow-elevation-1dp);
+	}
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
 	}
 }
 

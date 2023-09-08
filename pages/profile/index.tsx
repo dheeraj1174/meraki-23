@@ -251,7 +251,7 @@ const ProfilePage: React.FC = () => {
 				</Typography>
 				<Button
 					icon={<FiLogOut />}
-					variant="dark"
+					variant="outline"
 					size="small"
 					onClick={logoutUser}
 				>
@@ -304,7 +304,7 @@ const ProfilePage: React.FC = () => {
 								errorMessage="Enter a valid image URL"
 							/>
 							<Button
-								variant="dark"
+								variant="fill"
 								loading={updatingProfile}
 								type="submit"
 							>

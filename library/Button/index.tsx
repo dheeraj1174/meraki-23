@@ -6,7 +6,7 @@ interface IButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	children: React.ReactNode;
 	className?: string;
 	size?: "small" | "medium" | "large";
-	variant?: "light" | "dark";
+	variant?: "fill" | "outline";
 	loading?: boolean;
 	icon?: React.ReactNode;
 	iconPosition?: "left" | "right";
@@ -21,15 +21,15 @@ const BUTON_SIZES: { [key: string]: string } = {
 };
 
 const BUTTON_VARIANTS: { [key: string]: string } = {
-	light: "btn--variant--light",
-	dark: "btn--variant--dark",
+	fill: "btn--variant--fill",
+	outline: "btn--variant--outline",
 };
 
 export const Button: React.FC<IButtonProps> = ({
 	children,
 	className,
 	size = "medium",
-	variant = "light",
+	variant = "fill",
 	loading = false,
 	icon,
 	iconPosition = "left",

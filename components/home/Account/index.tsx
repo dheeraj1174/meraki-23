@@ -45,7 +45,7 @@ const HomeAccout: React.FC = () => {
 					</span>
 					<Button
 						className={classes("-button")}
-						variant="light"
+						variant="fill"
 						onClick={() => {
 							if (!isLoggedIn) {
 								router.push("/login");

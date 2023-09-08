@@ -411,7 +411,7 @@ const AdminEventPage: React.FC = () => {
 							/>
 							<Button
 								type="submit"
-								variant="dark"
+								variant="fill"
 								size="small"
 								loading={updatingDetails}
 							>

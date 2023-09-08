@@ -23,10 +23,10 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
 		<Popup title={title} onClose={onCancel} width="550px" height="250px">
 			<div className={classes("-body")}>{body}</div>
 			<div className={classes("-footer")}>
-				<Button variant="light" onClick={onCancel} size="small">
+				<Button variant="outline" onClick={onCancel} size="small">
 					Cancel
 				</Button>
-				<Button variant="dark" onClick={onConfirm} size="small">
+				<Button variant="fill" onClick={onConfirm} size="small">
 					Confirm
 				</Button>
 			</div>
