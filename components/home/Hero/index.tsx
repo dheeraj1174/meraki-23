@@ -21,7 +21,7 @@ const HomeHero: React.FC = () => {
 				<Avatar
 					src="/favicon-512.png"
 					alt="Meraki IIITU Logo"
-					size={device === "mobile" || device === "tablet" ? 48 : 36}
+					size={device === "mobile" || device === "tablet" ? 48 : 64}
 				/>
 				<Button
 					size={

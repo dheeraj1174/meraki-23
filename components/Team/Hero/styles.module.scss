@@ -1,0 +1,48 @@
+@import "@/styles/config/mixins";
+
+.team-hero {
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	flex-direction: column;
+	gap: 48px;
+	position: relative;
+	padding: 0 10%;
+	background-size: cover;
+	background-position: center;
+	background-color: var(--theme-indigo);
+	background-image: url("/vectors/mesh.svg");
+	background-attachment: fixed;
+	overflow-x: hidden;
+
+	&-title {
+		@include font(
+			var(--font-cormorant),
+			56px,
+			500,
+			150%,
+			var(--theme-white)
+		);
+	}
+
+	&-description {
+		@include font(
+			var(--font-red-hat-display),
+			24px,
+			400,
+			150%,
+			var(--theme-white)
+		);
+	}
+
+	&-button {
+		@include init-button;
+		position: absolute;
+		bottom: 16px;
+		left: 50%;
+		transform: translateX(-50%);
+		color: var(--theme-white);
+	}
+}
