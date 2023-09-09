@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Typography from "@/library/Typography";
-import { stylesConfig } from "@/utils/functions";
+import { slugify, stylesConfig } from "@/utils/functions";
 import { getEvents } from "@/utils/api/events";
 import { IEvent } from "@/types/event";
 import styles from "@/styles/pages/Events.module.scss";
@@ -8,6 +8,7 @@ import useStore from "@/hooks/store";
 import Button from "@/library/Button";
 import Responsive from "@/layouts/Responsive";
 import Navigation from "@/components/Navigation";
+import { useRouter } from "next/router";
 
 interface EventsPageProps {
 	events: IEvent[];
@@ -16,6 +17,7 @@ interface EventsPageProps {
 const classes = stylesConfig(styles, "events");
 
 const EventsPage: React.FC<EventsPageProps> = ({ events }) => {
+	const router = useRouter();
 	const { setEvents } = useStore();
 
 	useEffect(() => {
@@ -71,6 +73,13 @@ const EventsPage: React.FC<EventsPageProps> = ({ events }) => {
 										<Button
 											variant="fill"
 											className={classes("-card-button")}
+											onClick={() => {
+												router.push(
+													`/events/${
+														event._id
+													}/${slugify(event.name)}`
+												);
+											}}
 										>
 											Join Event Now
 										</Button>

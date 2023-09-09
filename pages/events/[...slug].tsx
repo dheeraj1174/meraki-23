@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import EventPopup from "@/components/Event";
 import useStore from "@/hooks/store";
 import { getEvent } from "@/utils/api/events";
-import { stylesConfig } from "@/utils/functions";
+import { slugify, stylesConfig } from "@/utils/functions";
 import styles from "@/styles/pages/Event.module.scss";
 import Navigation from "@/components/Navigation";
 
@@ -142,14 +142,21 @@ export default EventPage;
 
 export const getServerSideProps = async ({ params }: any) => {
 	const { slug } = params;
-	let [eventId] = slug;
-	const res = await getEvent(eventId);
+	const eventId = slug[0];
 	try {
-		return {
+		const res = await getEvent(eventId);
+		let returnOptions: any = {
 			props: {
-				event: res.data,
+				event: JSON.parse(JSON.stringify(res.data)),
 			},
 		};
+		if (slug[1] !== slugify(res.data.name)) {
+			returnOptions.redirect = {
+				destination: `/events/${eventId}/${slugify(res.data.name)}`,
+				permanent: true,
+			};
+		}
+		return returnOptions;
 	} catch (error) {
 		console.error(error);
 		return {
