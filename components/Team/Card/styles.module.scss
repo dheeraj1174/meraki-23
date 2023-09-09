@@ -7,6 +7,11 @@
 	position: relative;
 	perspective: 1000px;
 
+	@include responsive(phone) {
+		height: 200px;
+		margin: 24px;
+	}
+
 	&:hover &-back {
 		transform: rotateX(0);
 	}
@@ -48,6 +53,10 @@
 				150%,
 				var(--theme-white)
 			);
+
+			@include responsive(phone) {
+				font-size: 24px;
+			}
 		}
 	}
 
@@ -88,6 +97,10 @@
 			150%,
 			var(--theme-white)
 		);
+
+		@include responsive(phone) {
+			font-size: 24px;
+		}
 	}
 
 	&-bio {
@@ -98,6 +111,10 @@
 			150%,
 			var(--theme-white)
 		);
+
+		@include responsive(phone) {
+			font-size: 16px;
+		}
 	}
 
 	&-socials {
@@ -115,6 +132,11 @@
 		svg {
 			width: 24px;
 			height: 24px;
+
+			@include responsive(phone) {
+				width: 16px;
+				height: 16px;
+			}
 		}
 	}
 }

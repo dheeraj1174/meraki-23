@@ -5,6 +5,7 @@ import images from "@/utils/gallery";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { stylesConfig } from "@/utils/functions";
 import styles from "./styles.module.scss";
+import useDevice from "@/hooks/device";
 
 interface IGalleryFrame {
 	index: number;
@@ -20,6 +21,7 @@ const GalleryFrame: React.FC<IGalleryFrame> = ({
 	onSelection,
 }) => {
 	const frameRef = useRef<HTMLDivElement>(null);
+	const { type: device } = useDevice();
 
 	useEffect(() => {
 		frameRef.current?.focus();
@@ -50,7 +52,7 @@ const GalleryFrame: React.FC<IGalleryFrame> = ({
 			</div>
 			<div className={classes("-tray")}>
 				<button
-					className={classes("-tray-button")}
+					className={classes("-tray-button", "-tray-button--back")}
 					onClick={() => {
 						onSelection(Math.max(0, index - 1));
 					}}
@@ -58,34 +60,37 @@ const GalleryFrame: React.FC<IGalleryFrame> = ({
 				>
 					<FaArrowUp />
 				</button>
-				{images
-					.slice(
-						Math.max(0, index - 1),
-						Math.min(images.length, index + 2)
-					)
-					.map((image, i) => (
-						<div
-							className={classes("-tray-item", {
-								"-tray-item--active":
-									images.indexOf(image) === index,
-							})}
-							key={`gallery-frame-${i}`}
-							onClick={() => {
-								onSelection(images.indexOf(image));
-							}}
-						>
-							<Image
-								src={image}
-								alt="Gallery Image"
-								width={256}
-								height={256}
-								data-aos="zoom-in"
-							/>
-						</div>
-					))}
+				{(() => {
+					if (device === "mobile") {
+						return images.slice(index, index + 1);
+					} else
+						return images.slice(
+							Math.max(0, index - 1),
+							Math.min(images.length, index + 2)
+						);
+				})().map((image, i) => (
+					<div
+						className={classes("-tray-item", {
+							"-tray-item--active":
+								images.indexOf(image) === index,
+						})}
+						key={`gallery-frame-${i}`}
+						onClick={() => {
+							onSelection(images.indexOf(image));
+						}}
+					>
+						<Image
+							src={image}
+							alt="Gallery Image"
+							width={256}
+							height={256}
+							data-aos="zoom-in"
+						/>
+					</div>
+				))}
 
 				<button
-					className={classes("-tray-button")}
+					className={classes("-tray-button", "-tray-button--forward")}
 					onClick={() => {
 						onSelection(Math.min(images.length - 1, index + 1));
 					}}

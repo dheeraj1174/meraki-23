@@ -13,6 +13,11 @@
 	background-color: rgba(0, 0, 0, 0.9);
 	padding-left: 64px;
 
+	@include responsive(phone) {
+		flex-direction: column;
+		padding: 0 12px;
+	}
+
 	&-image {
 		width: 90%;
 		height: 90%;
@@ -25,6 +30,11 @@
 			height: 100%;
 			object-fit: contain;
 			border-radius: 12px;
+
+			@include responsive(phone) {
+				width: 100%;
+				height: auto;
+			}
 		}
 	}
 
@@ -36,6 +46,14 @@
 		flex-direction: column;
 		gap: 8px;
 		padding: 0 36px;
+
+		@include responsive(phone) {
+			width: 100%;
+			height: fit-content;
+			flex-direction: row;
+			justify-content: space-between;
+			padding: 24px 0;
+		}
 
 		&-item {
 			width: 200px;
@@ -68,6 +86,10 @@
 
 		&:hover {
 			background-color: rgba(255, 255, 255, 0.2);
+
+			@include responsive(phone) {
+				background-color: transparent;
+			}
 		}
 
 		&:disabled {
@@ -76,6 +98,16 @@
 
 			&:hover {
 				background-color: transparent;
+			}
+		}
+
+		@include responsive(phone) {
+			&--back {
+				transform: rotate(-90deg);
+			}
+
+			&--forward {
+				transform: rotate(-90deg);
 			}
 		}
 	}

@@ -11,6 +11,10 @@
 	background-color: var(--theme-black);
 	--mesh-height: 150px;
 
+	@include responsive(phone) {
+		--mesh-height: 100px;
+	}
+
 	&-container {
 		width: 100%;
 		height: calc(100% - var(--mesh-height));
@@ -37,6 +41,7 @@
 			width: 100%;
 			gap: 24px;
 			align-content: space-evenly;
+			flex-flow: row;
 		}
 	}
 
@@ -99,6 +104,7 @@
 
 		@include responsive(phone) {
 			width: 160px;
+			height: 96px;
 		}
 
 		img {
