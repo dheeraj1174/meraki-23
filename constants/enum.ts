@@ -1,7 +1,9 @@
+/* eslint-disable no-unused-vars */
 import { USER_ROLES as ROLES } from "@/types/auth";
+import { PERSON_ROLES as TEAM_PERSON_ROLES } from "@/types/people";
 
 export const USER_ROLES: {
-	[key: string]: ROLES;
+	[key in "ADMIN" | "USER" | "GUEST"]: ROLES;
 } = {
 	ADMIN: "admin",
 	USER: "user",
@@ -23,4 +25,17 @@ export const TEAM_PARTICIPATION_STATUS = {
 export const OTP_TYPES = {
 	REGISTER: "register",
 	RESET_PASSWORD: "reset_password",
+};
+
+export const PERSON_ROLE: {
+	[key in
+		| "FACULTY_COORDINATOR"
+		| "STUDENT_COORDINATOR"
+		| "ALUMNI"
+		| "DEVELOPMENT_TEAM"]: TEAM_PERSON_ROLES;
+} = {
+	FACULTY_COORDINATOR: "faculty-coordinator",
+	STUDENT_COORDINATOR: "student-coordinator",
+	ALUMNI: "alumni",
+	DEVELOPMENT_TEAM: "development-team",
 };

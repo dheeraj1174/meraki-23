@@ -2,4 +2,37 @@
 
 .team {
 	width: 100%;
+	background-size: cover;
+	background-position: center;
+	background-color: var(--theme-indigo);
+	background-image: url("/vectors/mesh.svg");
+	background-attachment: fixed;
+	overflow-x: hidden;
+	@include hide-scrollbar;
+
+	&-section {
+		&__title {
+			width: fit-content;
+			text-align: center;
+			margin: 48px auto;
+			@include font(
+				var(--font-cormorant),
+				56px,
+				500,
+				150%,
+				var(--theme-white)
+			);
+			position: relative;
+			z-index: 5;
+
+			svg {
+				width: 48px;
+				height: 48px;
+				position: absolute;
+				bottom: 0px;
+				right: -24px;
+				z-index: -1;
+			}
+		}
+	}
 }

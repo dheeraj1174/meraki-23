@@ -10,12 +10,6 @@
 	gap: 48px;
 	position: relative;
 	padding: 0 10%;
-	background-size: cover;
-	background-position: center;
-	background-color: var(--theme-indigo);
-	background-image: url("/vectors/mesh.svg");
-	background-attachment: fixed;
-	overflow-x: hidden;
 
 	&-title {
 		@include font(

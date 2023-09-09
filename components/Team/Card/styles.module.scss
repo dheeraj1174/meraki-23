@@ -1,0 +1,120 @@
+@import "@/styles/config/mixins";
+@import "@/styles/config/animations";
+
+.team-card {
+	width: 100%;
+	height: 350px;
+	position: relative;
+	perspective: 1000px;
+
+	&:hover &-back {
+		transform: rotateX(0);
+	}
+
+	&:hover &-front {
+		transform: rotateX(-180deg);
+	}
+
+	&-front,
+	&-back {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		backface-visibility: hidden;
+		overflow: hidden;
+		box-shadow: var(--shadow-elevation-4dp);
+		background-size: cover;
+		background-position: center;
+		background-repeat: no-repeat;
+	}
+
+	&-front {
+		display: flex;
+		justify-content: flex-start;
+		align-items: flex-end;
+		padding: 48px;
+
+		@include responsive(phone) {
+			transform: rotateX(-180deg);
+		}
+
+		&-name {
+			@include font(
+				var(--font-red-hat-display),
+				36px,
+				500,
+				150%,
+				var(--theme-white)
+			);
+		}
+	}
+
+	&-back {
+		width: 100%;
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		gap: 24px;
+		padding: 24px;
+		transform: rotateX(180deg);
+		background-color: var(--theme-indigo);
+
+		@include responsive(phone) {
+			transform: rotateX(0);
+		}
+
+		&-content {
+			width: 60%;
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: flex-start;
+			flex-direction: column;
+			gap: 16px;
+		}
+	}
+
+	&:hover &-back-content {
+		animation: fade-right-in 0.5s ease-in-out forwards;
+	}
+
+	&-name {
+		@include font(
+			var(--font-red-hat-display),
+			32px,
+			500,
+			150%,
+			var(--theme-white)
+		);
+	}
+
+	&-bio {
+		@include font(
+			var(--font-red-hat-display),
+			20px,
+			400,
+			150%,
+			var(--theme-white)
+		);
+	}
+
+	&-socials {
+		width: 100%;
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		gap: 16px;
+
+		a {
+			text-decoration: none;
+			color: var(--theme-white);
+		}
+
+		svg {
+			width: 24px;
+			height: 24px;
+		}
+	}
+}
