@@ -39,10 +39,18 @@
 
 			&::before {
 				transform: translateY(-12px);
+
+				@include responsive(phone) {
+					transform: translateY(-8px);
+				}
 			}
 
 			&::after {
 				transform: translateY(12px);
+
+				@include responsive(phone) {
+					transform: translateY(8px);
+				}
 			}
 		}
 

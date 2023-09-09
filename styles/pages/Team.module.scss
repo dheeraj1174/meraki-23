@@ -25,6 +25,10 @@
 			position: relative;
 			z-index: 5;
 
+			@include responsive(phone) {
+				font-size: 36px;
+			}
+
 			svg {
 				width: 48px;
 				height: 48px;

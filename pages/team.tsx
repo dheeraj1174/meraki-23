@@ -6,12 +6,14 @@ import styles from "@/styles/pages/Team.module.scss";
 import Responsive from "@/layouts/Responsive";
 import { PERSON_ROLE } from "@/constants/enum";
 import { DotsSquare } from "@/assets/vectors/Dots";
+import Navigation from "@/components/Navigation";
 
 const classes = stylesConfig(styles, "team");
 
 const TeamPage: React.FC = () => {
 	return (
 		<main className={classes("")}>
+			<Navigation />
 			<Hero />
 			{Object.values(PERSON_ROLE).map((role, i) =>
 				people.some((person) => person.role === role) ? (

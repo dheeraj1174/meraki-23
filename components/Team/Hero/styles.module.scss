@@ -11,6 +11,12 @@
 	position: relative;
 	padding: 0 10%;
 
+	@include responsive(phone) {
+		padding: 0 5%;
+		align-items: center;
+		text-align: center;
+	}
+
 	&-title {
 		@include font(
 			var(--font-cormorant),
@@ -19,6 +25,10 @@
 			150%,
 			var(--theme-white)
 		);
+
+		@include responsive(phone) {
+			font-size: 48px;
+		}
 	}
 
 	&-description {
@@ -29,6 +39,10 @@
 			150%,
 			var(--theme-white)
 		);
+
+		@include responsive(phone) {
+			font-size: 20px;
+		}
 	}
 
 	&-button {

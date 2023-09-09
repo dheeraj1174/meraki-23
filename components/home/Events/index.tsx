@@ -20,7 +20,7 @@ const HomeEvents: React.FC<HomeEventsProps> = ({ events }) => {
 		<section className={classes("")}>
 			<div className={classes("-header")}>
 				<span className={classes("-label")}>
-					<span className={classes("-label__index")}>01. &nbsp;</span>
+					<span className={classes("-label__index")}>02. &nbsp;</span>
 					<span className={classes("-label__text")}>Events</span>
 				</span>
 				<Button
