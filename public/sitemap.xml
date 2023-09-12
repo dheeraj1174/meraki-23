@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<url>
+  <loc>https://meraki-23.vercel.app</loc>
+  <lastmod>2023-08-22T14:16:53+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://meraki-23.vercel.app/events</loc>
+  <lastmod>2023-08-22T14:16:53+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://meraki-23.vercel.app/brochure</loc>
+  <lastmod>2023-08-22T14:16:53+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://meraki-23.vercel.app/gallery</loc>
+  <lastmod>2023-08-22T14:16:53+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://meraki-23.vercel.app/team</loc>
+  <lastmod>2023-08-22T14:16:53+00:00</lastmod>
+  <priority>0.60</priority>
+</url>
+<url>
+  <loc>https://meraki-23.vercel.app/contact</loc>
+  <lastmod>2023-08-22T14:16:53+00:00</lastmod>
+  <priority>0.60</priority>
+</url>
+<url>
+  <loc>https://meraki-23.vercel.app/about</loc>
+  <lastmod>2023-08-22T14:16:53+00:00</lastmod>
+  <priority>0.60</priority>
+</url>
+<url>
+  <loc>https://meraki-23.vercel.app/sponsors</loc>
+  <lastmod>2023-08-22T14:16:53+00:00</lastmod>
+  <priority>0.60</priority>
+</url>
+<url>
+  <loc>https://meraki-23.vercel.app/faqs</loc>
+  <lastmod>2023-08-22T14:16:53+00:00</lastmod>
+  <priority>0.40</priority>
+</url>
+<url>
+  <loc>https://meraki-23.vercel.app/login</loc>
+  <lastmod>2023-08-22T14:16:53+00:00</lastmod>
+  <priority>0.20</priority>
+</url>
+<url>
+  <loc>https://meraki-23.vercel.app/register</loc>
+  <lastmod>2023-08-22T14:16:53+00:00</lastmod>
+  <priority>0.20</priority>
+</url>
+<url>
+  <loc>https://meraki-23.vercel.app/reset-password</loc>
+  <lastmod>2023-08-22T14:16:53+00:00</lastmod>
+  <priority>0.20</priority>
+</url>
+
+</urlset>
