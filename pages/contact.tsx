@@ -8,6 +8,8 @@ import { Input, Textarea } from "@/library/form";
 import Button from "@/library/Button";
 import { NavBarMenu } from "@/components/Navbar";
 import styles from "@/styles/pages/Contact.module.scss";
+import Seo from "@/layouts/Seo";
+import { frontendBaseUrl } from "@/constants/variables";
 
 const classes = stylesConfig(styles, "contact");
 
@@ -32,6 +34,36 @@ const ContactUsPage: React.FC = () => {
 
 	return (
 		<main className={classes("")}>
+			<Seo
+				title="Contact Us"
+				description="Reach out to us at meraki@iiitu.ac.in"
+				image="/favicon.png"
+				canonical={frontendBaseUrl + "/contact"}
+				url={frontendBaseUrl + "/contact"}
+				twitter={{
+					title: "Contact Us",
+					description: "Reach out to us at meraki@iiitu.ac.in",
+					image: "/favicon.png",
+					url: frontendBaseUrl + "/contact",
+				}}
+				og={{
+					title: "Contact Us",
+					description: "Reach out to us at meraki@iiitu.ac.in",
+					images: [
+						{
+							url: "/favicon.png",
+							secureUrl: "/favicon.png",
+							type: "image/png",
+							width: 512,
+							height: 512,
+							alt: "Contact Us",
+						},
+					],
+					url: frontendBaseUrl + "/contact",
+					type: "website",
+					siteName: "Contact Us",
+				}}
+			/>
 			<NavBarMenu className={classes("-menu")} theme="light" />
 			<div className={classes("-left")}>
 				<Image

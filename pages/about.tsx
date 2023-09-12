@@ -8,6 +8,8 @@ import Link from "next/link";
 import useStore from "@/hooks/store";
 import { IEvent } from "@/types/event";
 import { useRouter } from "next/router";
+import Seo from "@/layouts/Seo";
+import { frontendBaseUrl } from "@/constants/variables";
 
 const classes = stylesConfig(styles, "about");
 
@@ -27,6 +29,38 @@ const AboutPage: React.FC = () => {
 
 	return (
 		<main className={classes("")}>
+			<Seo
+				title="About Us"
+				description="Welcome to MERAKI: Where Creativity Meets Technology, the annual celebration of innovation, creativity, and technology at IIIT UNA. We are more than just a technical fest; we are a platform for dreamers, creators, and tech enthusiasts to come together and push the boundaries of possibility and shape their future."
+				image="/favicon.png"
+				canonical={frontendBaseUrl + router.asPath}
+				url={frontendBaseUrl + router.asPath}
+				twitter={{
+					title: "About Us",
+					description:
+						"Welcome to MERAKI: Where Creativity Meets Technology, the annual celebration of innovation, creativity, and technology at IIIT UNA. We are more than just a technical fest; we are a platform for dreamers, creators, and tech enthusiasts to come together and push the boundaries of possibility and shape their future.",
+					image: "/favicon.png",
+					url: frontendBaseUrl + router.asPath,
+				}}
+				og={{
+					title: "About Us",
+					description:
+						"Welcome to MERAKI: Where Creativity Meets Technology, the annual celebration of innovation, creativity, and technology at IIIT UNA. We are more than just a technical fest; we are a platform for dreamers, creators, and tech enthusiasts to come together and push the boundaries of possibility and shape their future.",
+					images: [
+						{
+							url: "/favicon.png",
+							secureUrl: "/favicon.png",
+							type: "image/png",
+							width: 512,
+							height: 512,
+							alt: "About Us",
+						},
+					],
+					url: frontendBaseUrl + router.asPath,
+					type: "website",
+					siteName: "About Us",
+				}}
+			/>
 			<Navbar />
 			<main className={classes("-container")}>
 				<div className={classes("-content")}>

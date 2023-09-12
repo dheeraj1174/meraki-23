@@ -11,6 +11,8 @@ import Masonry from "@/layouts/Masonry";
 import Image from "next/image";
 import images from "@/utils/gallery";
 import GalleryFrame from "@/components/Gallery";
+import Seo from "@/layouts/Seo";
+import { frontendBaseUrl } from "@/constants/variables";
 
 const classes = stylesConfig(styles, "gallery");
 
@@ -33,6 +35,36 @@ const GalleryPage: React.FC = () => {
 
 	return (
 		<>
+			<Seo
+				title="Gallery"
+				description="Reach out to us at meraki@iiitu.ac.in"
+				image="/favicon.png"
+				canonical={frontendBaseUrl + "/gallery"}
+				url={frontendBaseUrl + "/gallery"}
+				twitter={{
+					title: "Gallery",
+					description: "Reach out to us at meraki@iiitu.ac.in",
+					image: "/favicon.png",
+					url: frontendBaseUrl + "/gallery",
+				}}
+				og={{
+					title: "Gallery",
+					description: "Reach out to us at meraki@iiitu.ac.in",
+					images: [
+						{
+							url: "/favicon.png",
+							secureUrl: "/favicon.png",
+							type: "image/png",
+							width: 512,
+							height: 512,
+							alt: "Gallery",
+						},
+					],
+					url: frontendBaseUrl + "/gallery",
+					type: "website",
+					siteName: "Gallery",
+				}}
+			/>
 			<main className={classes("")}>
 				<Navbar />
 				<section className={classes("-hero")}>

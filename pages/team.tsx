@@ -7,12 +7,46 @@ import Responsive from "@/layouts/Responsive";
 import { PERSON_ROLE } from "@/constants/enum";
 import { DotsSquare } from "@/assets/vectors/Dots";
 import Navigation from "@/components/Navigation";
+import Seo from "@/layouts/Seo";
+import { frontendBaseUrl } from "@/constants/variables";
 
 const classes = stylesConfig(styles, "team");
 
 const TeamPage: React.FC = () => {
 	return (
 		<main className={classes("")}>
+			<Seo
+				title="Our Team"
+				description="Our team is a group of passionate students and faculty members who are working hard to make MERAKI a success."
+				image="/favicon.png"
+				canonical={frontendBaseUrl + "/team"}
+				url={frontendBaseUrl + "/team"}
+				twitter={{
+					title: "Our Team",
+					description:
+						"Our team is a group of passionate students and faculty members who are working hard to make MERAKI a success.",
+					image: "/favicon.png",
+					url: frontendBaseUrl + "/team",
+				}}
+				og={{
+					title: "Our Team",
+					description:
+						"Our team is a group of passionate students and faculty members who are working hard to make MERAKI a success.",
+					images: [
+						{
+							url: "/favicon.png",
+							secureUrl: "/favicon.png",
+							type: "image/png",
+							width: 512,
+							height: 512,
+							alt: "Our Team",
+						},
+					],
+					url: frontendBaseUrl + "/team",
+					type: "website",
+					siteName: "Our Team",
+				}}
+			/>
 			<Navigation />
 			<Hero />
 			{Object.values(PERSON_ROLE).map((role, i) =>

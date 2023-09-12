@@ -11,6 +11,8 @@ import { getEvent } from "@/utils/api/events";
 import { slugify, stylesConfig } from "@/utils/functions";
 import styles from "@/styles/pages/Event.module.scss";
 import Navigation from "@/components/Navigation";
+import Seo from "@/layouts/Seo";
+import { frontendBaseUrl } from "@/constants/variables";
 
 interface EventPageProps {
 	event: IEvent;
@@ -26,6 +28,38 @@ const EventPage: React.FC<EventPageProps> = ({ event }) => {
 	if (!event) return null;
 	return (
 		<>
+			<Seo
+				title={event.name}
+				description={event.description}
+				image={event.image}
+				canonical={
+					frontendBaseUrl + router.asPath.split("?")[0].slice(1)
+				}
+				url={frontendBaseUrl + router.asPath}
+				twitter={{
+					title: event.name,
+					description: event.description,
+					image: event.image,
+					url: frontendBaseUrl + router.asPath,
+				}}
+				og={{
+					title: event.name,
+					description: event.description,
+					images: [
+						{
+							url: event.image,
+							secureUrl: event.image,
+							type: "image/jpeg",
+							width: 1920,
+							height: 1080,
+							alt: event.name,
+						},
+					],
+					url: frontendBaseUrl + router.asPath,
+					type: "website",
+					siteName: event.name,
+				}}
+			/>
 			<Navigation />
 			<main className={classes("")}>
 				<Image

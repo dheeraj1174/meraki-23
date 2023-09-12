@@ -7,7 +7,8 @@ export default Brochure;
 export const getServerSideProps = async () => {
 	return {
 		redirect: {
-			destination: "/brochure.pdf",
+			destination:
+				"https://drive.google.com/file/d/1zl979feuLpyHCEb3qMOMYIjg4zMHqcjf/view",
 			permanent: true,
 		},
 	};
