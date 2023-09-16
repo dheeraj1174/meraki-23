@@ -30,12 +30,12 @@ export const OTP_TYPES = {
 export const PERSON_ROLE: {
 	[key in
 		| "FACULTY_COORDINATOR"
-		| "STUDENT_COORDINATOR"
 		| "ALUMNI"
+		| "STUDENT_COORDINATOR"
 		| "DEVELOPMENT_TEAM"]: TEAM_PERSON_ROLES;
 } = {
 	FACULTY_COORDINATOR: "faculty-coordinator",
-	STUDENT_COORDINATOR: "student-coordinator",
 	ALUMNI: "alumni",
+	STUDENT_COORDINATOR: "student-coordinator",
 	DEVELOPMENT_TEAM: "development-team",
 };

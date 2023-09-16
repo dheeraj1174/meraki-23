@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Hero } from "@/components/Team";
-import people from "@/data/people";
+import people from "@/constants/people";
 import { stylesConfig } from "@/utils/functions";
 import styles from "@/styles/pages/Team.module.scss";
 import Responsive from "@/layouts/Responsive";
@@ -50,7 +50,7 @@ const TeamPage: React.FC = () => {
 			<Navigation />
 			<Hero />
 			{Object.values(PERSON_ROLE).map((role, i) =>
-				people.some((person) => person.role === role) ? (
+				people.some((person) => person.role.includes(role)) ? (
 					<React.Fragment key={`role-${role}-${i}`}>
 						<h2 className={classes("-section__title")}>
 							{(() => {
@@ -72,7 +72,9 @@ const TeamPage: React.FC = () => {
 						<div className={classes("-people")}>
 							<Responsive.Row>
 								{people
-									.filter((person) => person.role === role)
+									.filter((person) =>
+										person.role.includes(role)
+									)
 									.map((person, i) => (
 										<Responsive.Col
 											key={`person-${i}`}

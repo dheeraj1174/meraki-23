@@ -12,5 +12,5 @@ export interface IPerson {
 	linkedin?: string;
 	instagram?: string;
 	email: string;
-	role: PERSON_ROLES;
+	role: PERSON_ROLES[];
 }
