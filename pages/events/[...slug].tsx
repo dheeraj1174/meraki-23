@@ -13,6 +13,8 @@ import styles from "@/styles/pages/Event.module.scss";
 import Navigation from "@/components/Navigation";
 import Seo from "@/layouts/Seo";
 import { frontendBaseUrl } from "@/constants/variables";
+import { USER_ROLES } from "@/constants/enum";
+import { FaShieldAlt } from "react-icons/fa";
 
 interface EventPageProps {
 	event: IEvent;
@@ -22,7 +24,7 @@ const classes = stylesConfig(styles, "event");
 
 const EventPage: React.FC<EventPageProps> = ({ event }) => {
 	const router = useRouter();
-	const { isLoggedIn } = useStore();
+	const { isLoggedIn, user } = useStore();
 	const [showApplyPopup, setShowApplyPopup] = useState(false);
 
 	if (!event) return null;
@@ -126,6 +128,17 @@ const EventPage: React.FC<EventPageProps> = ({ event }) => {
 							>
 								<HiOutlineDownload />
 								Event Brochure
+							</button>
+						) : null}
+						{isLoggedIn && user?.role === USER_ROLES.ADMIN ? (
+							<button
+								className={classes("-btn", "-btn--outlined")}
+								onClick={() => {
+									router.push(`/admin/events/${event._id}`);
+								}}
+							>
+								<FaShieldAlt />
+								Admin Controls
 							</button>
 						) : null}
 					</div>

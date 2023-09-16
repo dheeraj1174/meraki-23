@@ -502,7 +502,8 @@ const AdminEventPage: React.FC = () => {
 													"-team-name"
 												)}
 											>
-												{team.name}
+												{team.name} - (
+												{team.participants.length}){" "}
 												<AiOutlineDelete
 													onClick={() => {
 														toast.promise(

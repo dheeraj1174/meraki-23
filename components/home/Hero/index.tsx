@@ -43,7 +43,7 @@ const HomeHero: React.FC = () => {
 						? "Join us Today!"
 						: user?.role === USER_ROLES.ADMIN
 						? "Go to Admin Dashboard"
-						: `Hii ${user?.name.split(" ")?.[0]} Visit Profile`}
+						: `Hii ${user?.name.split(" ")?.[0]} - Visit Profile`}
 				</Button>
 			</header>
 			<div className={classes("-carousel")} data-aos="fade-left">

@@ -19,6 +19,7 @@ import styles from "./styles.module.scss";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import Button from "@/library/Button";
 import Typography from "@/library/Typography";
+import { useRouter } from "next/router";
 
 interface EventPopupProps {
 	event: IEvent;
@@ -34,6 +35,7 @@ const Loader: React.FC = () => (
 );
 
 const EventPopup: React.FC<EventPopupProps> = ({ event, onClose }) => {
+	const router = useRouter();
 	const { user } = useStore();
 
 	const [gettingTeams, setGettingTeams] = useState(false);
@@ -163,11 +165,18 @@ const EventPopup: React.FC<EventPopupProps> = ({ event, onClose }) => {
 				variant="subtitle"
 				style={{
 					textAlign: "center",
-					margin: "auto",
+					margin: "12px auto",
 				}}
 			>
 				You have already registered for this event
 			</Typography>
+			<Button
+				onClick={() => {
+					router.push("/profile");
+				}}
+			>
+				Go to Your profile
+			</Button>
 		</Popup>
 	) : event.teamSize === 1 ? (
 		<ConfirmationModal
