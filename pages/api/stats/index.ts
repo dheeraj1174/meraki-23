@@ -1,7 +1,6 @@
 import { RESPONSE_MESSAGES } from "@/constants/enum";
 import { getGlobalStats } from "@/controllers/stats";
 import connectDB from "@/db";
-import { isAdmin } from "@/middleware/roles";
 import { ApiRequest, ApiResponse } from "@/types/api";
 
 const handler = async (req: ApiRequest, res: ApiResponse) => {

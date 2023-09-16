@@ -17,6 +17,7 @@ import { FiLogOut } from "react-icons/fi";
 import { EventCard } from "@/components/admin";
 import useDevice from "@/hooks/device";
 import styles from "@/styles/pages/admin/Dashboard.module.scss";
+import { fetchGlobalStats } from "@/utils/api/stats";
 
 const classes = stylesConfig(styles, "admin-dashboard");
 
@@ -27,6 +28,7 @@ const AdminDashboard: React.FC = () => {
 		useStore();
 
 	const [gettingEvents, setGettingEvents] = useState(false);
+	const [gettingStats, setGettingStats] = useState(false);
 	const [updatingProfile, setUpdatingProfile] = useState(false);
 	const [profileContents, setProfileContents] = useState({
 		name: user?.name,
@@ -34,6 +36,17 @@ const AdminDashboard: React.FC = () => {
 		avatar: user?.avatar,
 	});
 	const [events, setEvents] = useState<IEvent[]>([]);
+	const [globalStats, setGlobalStats] = useState<
+		{
+			event: {
+				_id: string;
+				name: string;
+				teamSize: number;
+			};
+			participants: number;
+			teams?: number;
+		}[]
+	>([]);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setProfileContents((prev) => ({
@@ -86,6 +99,19 @@ const AdminDashboard: React.FC = () => {
 		}
 	};
 
+	const getGlobalStats = async () => {
+		try {
+			setGettingStats(true);
+			const res = await fetchGlobalStats();
+			setGlobalStats(res.data);
+		} catch (error: any) {
+			console.error(error);
+			toast.error(error?.message ?? "Something went wrong");
+		} finally {
+			setGettingStats(false);
+		}
+	};
+
 	const deleteEventHandler = async (id: string) => {
 		try {
 			const res = await deleteEvent(id);
@@ -107,6 +133,7 @@ const AdminDashboard: React.FC = () => {
 
 	useEffect(() => {
 		getAllEvents();
+		getGlobalStats();
 	}, [isLoggedIn]);
 
 	return (
@@ -242,6 +269,40 @@ const AdminDashboard: React.FC = () => {
 								))
 							)}
 						</div>
+					</section>
+					<hr className={classes("-divider")} />
+					<section className={classes("-stats")}>
+						<div className={classes("-stats-header")}>
+							<Typography
+								type="heading"
+								variant="display"
+								className={classes("-stats-heading")}
+							>
+								Global Stats
+							</Typography>
+						</div>
+						{gettingStats ? (
+							<Loader />
+						) : (
+							<table className={classes("-stats-table")}>
+								<thead>
+									<tr>
+										<th>Events</th>
+										<th>No. of Teams</th>
+										<th>No. of Participants</th>
+									</tr>
+								</thead>
+								<tbody>
+									{globalStats.map((stat) => (
+										<tr key={stat.event._id}>
+											<td>{stat.event.name}</td>
+											<td>{stat.teams ?? "-"}</td>
+											<td>{stat.participants}</td>
+										</tr>
+									))}
+								</tbody>
+							</table>
+						)}
 					</section>
 					<hr className={classes("-divider")} />
 				</>
