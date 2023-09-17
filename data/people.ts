@@ -9,7 +9,7 @@ const people: IPerson[] = [
 		twitter: "https://twitter.com/klausmikaelson",
 		instagram: "https://www.instagram.com/klaus.mikealsonn/",
 		email: "mailto:klaus@originals.com",
-		role: PERSON_ROLE.FACULTY_COORDINATOR,
+		role: [PERSON_ROLE.FACULTY_COORDINATOR],
 	},
 	{
 		name: "Dylan O'Brien",
@@ -18,7 +18,7 @@ const people: IPerson[] = [
 		twitter: "https://twitter.com/dylanobrien",
 		instagram: "https://www.instagram.com/dylanobrien/",
 		email: "mailto:dylan@beaconhillsmemorial.us",
-		role: PERSON_ROLE.STUDENT_COORDINATOR,
+		role: [PERSON_ROLE.STUDENT_COORDINATOR],
 	},
 	{
 		name: "Katherine Pierce",
@@ -26,7 +26,7 @@ const people: IPerson[] = [
 		bio: "I am Katherine Pierce, I am a survivor.",
 		instagram: "https://www.instagram.com/katherinexvamp/",
 		email: "mailto:katherine@mysticfalls.us",
-		role: PERSON_ROLE.ALUMNI,
+		role: [PERSON_ROLE.ALUMNI],
 	},
 	{
 		name: "Sheldon Cooper",
@@ -35,7 +35,7 @@ const people: IPerson[] = [
 		twitter: "https://twitter.com/sonofMaryCooper",
 		instagram: "https://www.instagram.com/sheldoncooperunofficial/",
 		email: "mailto:sheldon@caltech.us",
-		role: PERSON_ROLE.DEVELOPMENT_TEAM,
+		role: [PERSON_ROLE.DEVELOPMENT_TEAM],
 	},
 	{
 		name: "Chandler Bing",
@@ -44,7 +44,7 @@ const people: IPerson[] = [
 		twitter: "https://twitter.com/NoContxtBing",
 		instagram: "https://www.instagram.com/chandler_bingofficial/",
 		email: "mailto:chanandler@chickduck.us",
-		role: PERSON_ROLE.DEVELOPMENT_TEAM,
+		role: [PERSON_ROLE.DEVELOPMENT_TEAM],
 	},
 	{
 		name: "Barney Stinson",
@@ -53,7 +53,7 @@ const people: IPerson[] = [
 		twitter: "https://twitter.com/Broslife",
 		instagram: "https://www.instagram.com/barney_stinson.officiel/",
 		email: "mailto:barney@brobibs.dev",
-		role: PERSON_ROLE.STUDENT_COORDINATOR,
+		role: [PERSON_ROLE.STUDENT_COORDINATOR],
 	},
 ];
 
