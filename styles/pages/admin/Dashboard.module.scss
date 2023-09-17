@@ -113,6 +113,10 @@
 			margin: 16px auto;
 			position: relative;
 
+			@include responsive(phone) {
+				width: 95%;
+			}
+
 			* {
 				position: relative;
 			}
