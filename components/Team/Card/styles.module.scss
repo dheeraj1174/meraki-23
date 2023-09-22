@@ -3,92 +3,48 @@
 
 .team-card {
 	width: 100%;
-	height: 350px;
+	height: 500px;
 	position: relative;
-	perspective: 1000px;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	border-radius: 32px 0 32px 0;
+	overflow: hidden;
+	box-shadow: var(--shadow-elevation-8dp);
+	margin: 16px;
+	cursor: crosshair;
 
 	@include responsive(phone) {
-		height: 200px;
 		margin: 24px;
 	}
 
-	&:hover &-back {
-		transform: rotateX(0);
-	}
-
-	&:hover &-front {
-		transform: rotateX(-180deg);
-	}
-
-	&-front,
-	&-back {
-		position: absolute;
-		top: 0;
-		left: 0;
+	&-content {
 		width: 100%;
 		height: 100%;
-		backface-visibility: hidden;
-		overflow: hidden;
-		box-shadow: var(--shadow-elevation-4dp);
-		background-size: cover;
-		background-position: center;
-		background-repeat: no-repeat;
-	}
-
-	&-front {
 		display: flex;
-		justify-content: flex-start;
-		align-items: flex-end;
-		padding: 48px;
+		justify-content: flex-end;
+		align-items: flex-start;
+		flex-direction: column;
+		gap: 16px;
+		padding: 32px;
+		transform: translateY(100%);
+		background: linear-gradient(
+			180deg,
+			rgba(255, 255, 255, 0) 0%,
+			rgba(0, 0, 0, 0.8) 50%
+		);
 
 		@include responsive(phone) {
-			transform: rotateX(-180deg);
-		}
-
-		&-name {
-			@include font(
-				var(--font-red-hat-display),
-				36px,
-				500,
-				150%,
-				var(--theme-white)
+			transform: translateY(0);
+			background: linear-gradient(
+				180deg,
+				rgba(255, 255, 255, 0) 0%,
+				rgba(0, 0, 0, 0.8) 75%
 			);
-
-			@include responsive(phone) {
-				font-size: 24px;
-			}
 		}
 	}
 
-	&-back {
-		width: 100%;
-		display: flex;
-		justify-content: flex-start;
-		align-items: center;
-		gap: 24px;
-		padding: 24px;
-		transform: rotateX(180deg);
-		background-color: var(--theme-indigo);
-
-		@include responsive(phone) {
-			transform: rotateX(0);
-		}
-
-		&-content {
-			width: 60%;
-			height: 100%;
-			display: flex;
-			justify-content: center;
-			align-items: flex-start;
-			flex-direction: column;
-			gap: 16px;
-		}
-	}
-
-	&:hover &-back-content {
-		animation: fade-right-in 0.5s ease-in-out forwards;
-	}
-
+	&-cover-name,
 	&-name {
 		@include font(
 			var(--font-red-hat-display),
@@ -120,6 +76,33 @@
 		@include responsive(phone) {
 			font-size: 16px;
 		}
+	}
+
+	&-cover-name {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		padding: 32px;
+		z-index: 5;
+		background: linear-gradient(
+			180deg,
+			rgba(255, 255, 255, 0) 0%,
+			rgba(0, 0, 0, 0.8) 100%
+		);
+
+		@include responsive(phone) {
+			display: none;
+		}
+	}
+
+	&:hover &-cover-name {
+		opacity: 0;
+	}
+
+	&:hover &-content {
+		transform: translateY(0);
+		animation: fade-in 0.5s ease-in-out;
 	}
 
 	&-socials {
