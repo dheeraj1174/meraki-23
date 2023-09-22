@@ -273,9 +273,9 @@ const AdminEventPage: React.FC = () => {
 		}
 		exportAsCSV(
 			parsedData,
-			`${eventDetails.name}-${
+			`${eventDetails.name}-registrations-${
 				eventDetails._id
-			}-${Date.now()} Registrations`
+			}-${Date.now()}`
 		);
 	};
 

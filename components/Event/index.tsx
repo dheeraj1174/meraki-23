@@ -127,12 +127,16 @@ const EventPopup: React.FC<EventPopupProps> = ({ event, onClose }) => {
 		try {
 			setRegistering(true);
 			const res = await participateInEventApi(event._id);
-			toast.success(`You have registered in ${res.data.event.name}`);
 			onClose();
+			setRegistering(false);
+			return Promise.resolve(
+				res.message ?? `You have registered in ${res.data.event.name}`
+			);
 		} catch (error: any) {
 			console.error(error);
-			toast.error(error?.message ?? "Something went wrong");
 			setIsInputDisabled(false);
+			setRegistering(false);
+			return Promise.reject(error?.message ?? "Something went wrong");
 		} finally {
 			setRegistering(false);
 		}
@@ -165,7 +169,7 @@ const EventPopup: React.FC<EventPopupProps> = ({ event, onClose }) => {
 				variant="subtitle"
 				style={{
 					textAlign: "center",
-					margin: "12px auto",
+					margin: "24px auto",
 				}}
 			>
 				You have already registered for this event
@@ -183,7 +187,12 @@ const EventPopup: React.FC<EventPopupProps> = ({ event, onClose }) => {
 			title="Register"
 			body={`Participate in ${event.name} as ${user?.name}?`}
 			onConfirm={() => {
-				participateAsIndividual();
+				// participateAsIndividual();
+				toast.promise(participateAsIndividual(), {
+					loading: "Registering...",
+					success: "Registered successfully!",
+					error: "Something went wrong",
+				});
 			}}
 			onCancel={onClose}
 		/>
