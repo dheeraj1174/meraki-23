@@ -19,6 +19,8 @@ import useDevice from "@/hooks/device";
 import styles from "@/styles/pages/admin/Dashboard.module.scss";
 import { fetchGlobalStats } from "@/utils/api/stats";
 import { exportAsCSV } from "@/services/files";
+import Link from "next/link";
+import { FaExternalLinkAlt } from "react-icons/fa";
 
 const classes = stylesConfig(styles, "admin-dashboard");
 
@@ -309,8 +311,23 @@ const AdminDashboard: React.FC = () => {
 								</thead>
 								<tbody>
 									{globalStats.map((stat) => (
-										<tr key={stat.event._id}>
-											<td>{stat.event.name}</td>
+										<tr
+											key={`state-event-${stat.event.id}`}
+										>
+											<td className="cursor-pointer">
+												<Link
+													href={`/admin/events/${stat.event.id}`}
+												>
+													{stat.event.name}
+													<FaExternalLinkAlt
+														style={{
+															width: "14px",
+															height: "14px",
+															marginLeft: "12px",
+														}}
+													/>
+												</Link>
+											</td>
 											<td>{stat.teams ?? "-"}</td>
 											<td>{stat.participants}</td>
 										</tr>

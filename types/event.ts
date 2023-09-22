@@ -13,7 +13,7 @@ export interface IEvent {
 
 export interface IStat {
 	event: {
-		_id: string;
+		id: string;
 		name: string;
 		teamSize: number;
 	};

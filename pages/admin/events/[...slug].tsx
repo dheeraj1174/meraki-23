@@ -28,6 +28,7 @@ import { TEAM_PARTICIPATION_STATUS } from "@/constants/enum";
 import { stylesConfig, switchDateFormat } from "@/utils/functions";
 import styles from "@/styles/pages/admin/Event.module.scss";
 import Footer from "@/components/Footer";
+import { exportAsCSV } from "@/services/files";
 
 const classes = stylesConfig(styles, "admin-event");
 
@@ -241,6 +242,43 @@ const AdminEventPage: React.FC = () => {
 		}
 	};
 
+	const exportData = () => {
+		let parsedData = [];
+		if (!eventDetails.teamSize) return;
+		if (eventDetails.teamSize > 1) {
+			parsedData = registrations
+				.map((team: any) => {
+					if (team.participants.length > 0) {
+						return team.participants.map((participant: any) => ({
+							Name: participant.name,
+							Email: participant.email,
+							Team: team.name,
+							Status:
+								team.createdBy === participant.userId
+									? "Team Leader"
+									: participant.status === "accepted"
+									? "Accepted"
+									: "Pending",
+						}));
+					}
+					return null;
+				})
+				.flat()
+				.sort((a: any, b: any) => a.Team.localeCompare(b.Team));
+		} else {
+			parsedData = registrations.map((participant: any) => ({
+				Name: participant.name,
+				Email: participant.email,
+			}));
+		}
+		exportAsCSV(
+			parsedData,
+			`${eventDetails.name}-${
+				eventDetails._id
+			}-${Date.now()} Registrations`
+		);
+	};
+
 	useEffect(() => {
 		if (isLoggedIn) getEventDetails();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -444,6 +482,15 @@ const AdminEventPage: React.FC = () => {
 								>
 									Registrations
 								</Typography>
+								<Button
+									variant="outline"
+									onClick={() => {
+										exportData();
+									}}
+									size="medium"
+								>
+									Download as CSV
+								</Button>
 							</div>
 							{registrations.length === 0 ? (
 								<Typography

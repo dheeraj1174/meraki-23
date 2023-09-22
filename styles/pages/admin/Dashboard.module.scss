@@ -128,6 +128,10 @@
 				font-weight: unset;
 				padding-left: 16px;
 				text-align: left;
+
+				@include responsive(phone) {
+					font-size: 16px;
+				}
 			}
 
 			tbody tr {
@@ -138,8 +142,17 @@
 				line-height: 1.2;
 				font-weight: unset;
 
+				@include responsive(phone) {
+					font-size: 16px;
+				}
+
 				td {
 					padding: 0 16px;
+
+					a {
+						text-decoration: none;
+						color: inherit;
+					}
 				}
 
 				&:last-child {
