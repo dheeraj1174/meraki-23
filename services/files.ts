@@ -51,3 +51,20 @@ export const exportAsJSON = (data: any, name: string) => {
 	const json = JSON.stringify(data, null, 2);
 	saveFile(json, name, "json");
 };
+
+export const jsonToCsv = (json: any[]) => {
+	const replacer = (_: any, value: any) => (value === null ? "" : value);
+	const header = Object.keys(json[0]);
+	let csv = json.map((row: any) =>
+		header
+			.map((fieldName) => JSON.stringify(row[fieldName], replacer))
+			.join(",")
+	);
+	csv.unshift(header.join(","));
+	return csv.join("\r\n");
+};
+
+export const exportAsCSV = (data: any[], name: string) => {
+	const csv = jsonToCsv(data);
+	saveFile(csv, name, "csv");
+};

@@ -18,7 +18,7 @@ import { EventCard } from "@/components/admin";
 import useDevice from "@/hooks/device";
 import styles from "@/styles/pages/admin/Dashboard.module.scss";
 import { fetchGlobalStats } from "@/utils/api/stats";
-import { exportAsJSON } from "@/services/files";
+import { exportAsCSV } from "@/services/files";
 
 const classes = stylesConfig(styles, "admin-dashboard");
 
@@ -278,10 +278,13 @@ const AdminDashboard: React.FC = () => {
 							<Button
 								variant="outline"
 								onClick={() => {
-									exportAsJSON(
+									exportAsCSV(
 										globalStats.map((stat) => ({
 											name: stat.event.name,
-											teamSize: stat.event.teamSize,
+											teamSize:
+												stat.event.teamSize === 1
+													? "Solo Event"
+													: stat.event.teamSize,
 											participants: stat.participants,
 											teams: stat.teams,
 										})),
@@ -290,7 +293,7 @@ const AdminDashboard: React.FC = () => {
 								}}
 								size="medium"
 							>
-								Download as JSON
+								Download as CSV
 							</Button>
 						</div>
 						{gettingStats ? (
