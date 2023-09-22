@@ -4,7 +4,7 @@ import useStore from "@/hooks/store";
 import Button from "@/library/Button";
 import Typography from "@/library/Typography";
 import { Input } from "@/library/form";
-import { IEvent } from "@/types/event";
+import { IEvent, IStat } from "@/types/event";
 import { patchUserDetails } from "@/utils/api/auth";
 import { deleteEvent, getEvents } from "@/utils/api/events";
 import { useRouter } from "next/router";
@@ -18,6 +18,7 @@ import { EventCard } from "@/components/admin";
 import useDevice from "@/hooks/device";
 import styles from "@/styles/pages/admin/Dashboard.module.scss";
 import { fetchGlobalStats } from "@/utils/api/stats";
+import { exportAsJSON } from "@/services/files";
 
 const classes = stylesConfig(styles, "admin-dashboard");
 
@@ -36,17 +37,7 @@ const AdminDashboard: React.FC = () => {
 		avatar: user?.avatar,
 	});
 	const [events, setEvents] = useState<IEvent[]>([]);
-	const [globalStats, setGlobalStats] = useState<
-		{
-			event: {
-				_id: string;
-				name: string;
-				teamSize: number;
-			};
-			participants: number;
-			teams?: number;
-		}[]
-	>([]);
+	const [globalStats, setGlobalStats] = useState<IStat[]>([]);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setProfileContents((prev) => ({
@@ -103,7 +94,11 @@ const AdminDashboard: React.FC = () => {
 		try {
 			setGettingStats(true);
 			const res = await fetchGlobalStats();
-			setGlobalStats(res.data);
+			setGlobalStats(
+				res.data.sort((a: IStat, b: IStat) =>
+					a.event.name.localeCompare(b.event.name)
+				)
+			);
 		} catch (error: any) {
 			console.error(error);
 			toast.error(error?.message ?? "Something went wrong");
@@ -280,6 +275,23 @@ const AdminDashboard: React.FC = () => {
 							>
 								Global Stats
 							</Typography>
+							<Button
+								variant="outline"
+								onClick={() => {
+									exportAsJSON(
+										globalStats.map((stat) => ({
+											name: stat.event.name,
+											teamSize: stat.event.teamSize,
+											participants: stat.participants,
+											teams: stat.teams,
+										})),
+										`global-stats-${Date.now()}`
+									);
+								}}
+								size="medium"
+							>
+								Download as JSON
+							</Button>
 						</div>
 						{gettingStats ? (
 							<Loader />

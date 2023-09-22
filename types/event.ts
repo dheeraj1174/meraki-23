@@ -10,3 +10,13 @@ export interface IEvent {
 	teamSize: number;
 	brochure?: string;
 }
+
+export interface IStat {
+	event: {
+		_id: string;
+		name: string;
+		teamSize: number;
+	};
+	participants: number;
+	teams?: number;
+}
