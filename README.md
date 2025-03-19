@@ -2,6 +2,9 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
+## Live link
+https://meraki-23-six.vercel.app/
+
 ## Features
 
 -   [x] Next.js
@@ -58,8 +61,7 @@ yarn format
 
 [MIT](LICENSE)
 
-## Live link
-https://meraki-23-six.vercel.app/
+
 
 ## Acknowledgements
 
