@@ -58,9 +58,7 @@ yarn format
 
 [MIT](LICENSE)
 
-## Author
 
-[Akshat Mittal](https://akshatmittal61.vercel.app)
 
 ## Acknowledgements
 
