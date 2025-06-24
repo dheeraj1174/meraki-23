@@ -1,0 +1,142 @@
+@import "@/styles/config/mixins";
+@import "@/styles/config/variables";
+@import "@/styles/config/typography";
+
+.member {
+	width: 100%;
+	height: 225px;
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	gap: 24px;
+	border: 1px solid var(--color-black);
+	border-radius: 8px;
+	margin: 16px;
+	padding: 24px;
+	background-color: var(--color-white);
+	box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+	position: relative;
+
+	&::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 50%;
+		height: 8px;
+		border-radius: 0 0 16px 16px;
+		background-color: var(--blue);
+	}
+
+	&--success::before {
+		background-color: var(--green-700);
+	}
+
+	&--danger::before {
+		background-color: $notion-color-red;
+	}
+
+	&--warning::before {
+		background-color: $notion-color-orange;
+	}
+
+	&--info::before {
+		background-color: var(--blue-700);
+	}
+
+	&:hover {
+		box-shadow: 0px 20px 25px -5px rgba(0, 0, 0, 0.1);
+
+		&::before {
+			height: 12px;
+		}
+	}
+
+	&-left {
+		width: 60%;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: flex-start;
+		flex-direction: column;
+		gap: 8px;
+
+		span {
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+		}
+	}
+
+	&-right {
+		width: 40%;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		gap: 24px;
+	}
+
+	&-status {
+		display: inline-flex;
+		justify-content: flex-start;
+		align-items: center;
+		padding: 4px 10px;
+		border-radius: 500px;
+		gap: 6px;
+		backdrop-filter: blur(10px);
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		@include typography(body, medium, regular);
+
+		&-dot {
+			width: 8px;
+			height: 8px;
+			border-radius: 50%;
+		}
+
+		&--success {
+			background-color: var(--green-100);
+			color: var(--green-700);
+		}
+
+		&--danger {
+			background-color: $notion-background-color-red;
+			color: $notion-color-red;
+		}
+
+		&--warning {
+			background-color: $notion-background-color-yellow;
+			color: $notion-color-orange;
+		}
+
+		&--info {
+			background-color: var(--blue-100);
+			color: var(--blue-700);
+		}
+	}
+
+	&-btn {
+		@include init-button();
+		@include typography(body, medium, regular);
+		border-radius: 500px;
+		padding: 4px 10px;
+		gap: 8px;
+
+		svg {
+			width: 16px;
+			height: 16px;
+		}
+
+		&--success {
+			background-color: var(--green-100);
+		}
+
+		&--danger {
+			background-color: var(--red-100);
+		}
+	}
+}

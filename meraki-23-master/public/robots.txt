@@ -1,0 +1,12 @@
+User-agent: *
+Disallow: /js/
+Disallow: /css/
+Disallow: /admin/
+Disallow: /tmp/
+Disallow: /cgi-bin/
+Disallow: /download/
+Disallow: /includes/
+Disallow: /modules/
+Allow: /
+
+Sitemap: https://meraki-23.vercel.app/sitemap.xml

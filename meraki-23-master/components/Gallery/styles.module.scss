@@ -1,0 +1,120 @@
+@import "@/styles/config/mixins";
+
+.gallery-frame {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 25;
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(0, 0, 0, 0.9);
+	padding-left: 64px;
+
+	@include responsive(phone) {
+		flex-direction: column;
+		padding: 0 12px;
+	}
+
+	&-image {
+		width: 90%;
+		height: 90%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		img {
+			width: auto;
+			height: 100%;
+			object-fit: contain;
+			border-radius: 12px;
+
+			@include responsive(phone) {
+				width: 100%;
+				height: auto;
+			}
+		}
+	}
+
+	&-tray {
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		gap: 8px;
+		padding: 0 36px;
+
+		@include responsive(phone) {
+			width: 100%;
+			height: fit-content;
+			flex-direction: row;
+			justify-content: space-between;
+			padding: 24px 0;
+		}
+
+		&-item {
+			width: 200px;
+			height: 150px;
+			cursor: pointer;
+			border-radius: 8px;
+			overflow: hidden;
+
+			&--active {
+				border: 2px solid var(--theme-white);
+				filter: drop-shadow(0px 0px 8px var(--theme-white));
+			}
+
+			img {
+				width: 100%;
+				height: auto;
+				object-fit: cover;
+				border-radius: 8px;
+			}
+		}
+	}
+
+	&-close,
+	&-tray-button {
+		@include init-button();
+		border-radius: 500px;
+		padding: 12px;
+		color: #fff;
+		font-size: 32px;
+
+		&:hover {
+			background-color: rgba(255, 255, 255, 0.2);
+
+			@include responsive(phone) {
+				background-color: transparent;
+			}
+		}
+
+		&:disabled {
+			opacity: 0.5;
+			cursor: not-allowed;
+
+			&:hover {
+				background-color: transparent;
+			}
+		}
+
+		@include responsive(phone) {
+			&--back {
+				transform: rotate(-90deg);
+			}
+
+			&--forward {
+				transform: rotate(-90deg);
+			}
+		}
+	}
+
+	&-close {
+		position: absolute;
+		top: 16px;
+		left: 16px;
+	}
+}

@@ -1,0 +1,79 @@
+@import "@/styles/config/mixins";
+@import "@/styles/config/animations";
+
+.home-contact {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: #fff;
+	position: relative;
+
+	&-frame {
+		width: calc(100% - var(--frame-size));
+		height: calc(100% - var(--frame-size));
+		background-color: #000;
+		display: flex;
+		justify-content: center;
+		align-items: flex-start;
+		flex-direction: column;
+		gap: 36px;
+		padding: 0 50% 0 56px;
+		position: relative;
+		z-index: 5;
+		overflow: hidden;
+		animation: fade-in 0.5s ease-in-out forwards;
+		box-shadow: var(--shadow-elevation-4dp);
+		background-image: linear-gradient(
+				105deg,
+				rgba(255, 255, 255, 0.9) 0%,
+				rgba(255, 255, 255, 0.9) 50%,
+				transparent 50%
+			),
+			url("https://wallpaperaccess.com/full/1408411.jpg");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position-x: right;
+		background-position-y: center;
+
+		@include responsive(phone) {
+			padding: 0 5%;
+			background-image: url("https://wallpaperaccess.com/full/1408411.jpg");
+			background-position-x: center;
+			background-position-y: center;
+			background-blend-mode: lighten;
+			background-color: rgba(255, 255, 255, 0.7);
+			text-align: center;
+			align-items: center;
+		}
+	}
+
+	&-title {
+		@include font(
+			var(--font-cormorant),
+			56px,
+			500,
+			125%,
+			var(--theme-black)
+		);
+
+		@include responsive(phone) {
+			font-size: 48px;
+		}
+	}
+
+	&-subtitle {
+		@include font(
+			var(--font-red-hat-text),
+			24px,
+			400,
+			125%,
+			var(--theme-black)
+		);
+
+		@include responsive(phone) {
+			font-size: 18px;
+		}
+	}
+}

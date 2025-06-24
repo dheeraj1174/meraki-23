@@ -1,0 +1,107 @@
+@import "@/styles/config/mixins";
+@import "@/styles/config/typography";
+
+.auth {
+	width: 100%;
+	height: 100vh;
+	display: flex;
+
+	&-graphic {
+		width: 55%;
+		height: 100%;
+		background-image: url(https://e0.pxfuel.com/wallpapers/2/511/desktop-wallpaper-abstract-technical-ultra-tech.jpg);
+		background-size: cover;
+		background-position: center;
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+		background-blend-mode: darken;
+		background-color: rgba(0, 0, 0, 0.5);
+		display: flex;
+		justify-content: flex-start;
+		align-items: flex-end;
+		padding: 120px 60px;
+		@include typography(heading, title-3);
+
+		&__text {
+			color: #fff !important;
+		}
+
+		@include responsive(phone) {
+			display: none;
+		}
+	}
+
+	&-content {
+		width: 45%;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: flex-start;
+		flex-flow: column;
+		gap: 50px;
+		padding: 0 60px;
+
+		@include responsive(phone) {
+			width: 100%;
+			padding: 0 40px;
+		}
+
+		&-head {
+			&__title {
+				@include typography(heading, title-1);
+				color: #1a1a1a;
+				margin: 20px 0 10px 0;
+			}
+
+			&__subtitle {
+				@include typography(heading, subtitle);
+				color: #4b4b4b;
+			}
+		}
+
+		&-form {
+			width: 80%;
+			display: flex;
+			justify-content: space-evenly;
+			align-items: flex-start;
+			flex-flow: column;
+			gap: 40px;
+
+			@include responsive(phone) {
+				width: 100%;
+			}
+
+			input,
+			button {
+				width: 100%;
+			}
+
+			button {
+				flex: 0 1 auto;
+			}
+
+			&-group {
+				width: 100%;
+				display: flex;
+				justify-content: flex-start;
+				align-items: center;
+				gap: 12px;
+			}
+		}
+
+		&-footer {
+			width: 100%;
+			color: #4b4b4b;
+			@include typography(body, medium);
+
+			a {
+				color: #1a1a1a;
+				text-decoration: underline;
+
+				&:hover {
+					text-decoration: none;
+				}
+			}
+		}
+	}
+}

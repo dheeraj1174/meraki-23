@@ -1,0 +1,176 @@
+@import "@/styles/config/mixins";
+@import "@/styles/config/variables";
+
+.event {
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 32px;
+	padding: 0 5%;
+	background-size: cover;
+	background-position: center;
+	background-color: var(--theme-indigo);
+	position: relative;
+	background-image: url("/vectors/mesh.svg");
+	background-attachment: fixed;
+	overflow-x: hidden;
+
+	@include responsive(phone) {
+		flex-direction: column;
+		justify-content: center;
+		padding: 0 32px;
+	}
+
+	&-image {
+		width: 40%;
+		height: auto;
+		object-fit: contain;
+
+		@include responsive(phone) {
+			display: none;
+		}
+	}
+
+	&-content {
+		width: 60%;
+		display: flex;
+		justify-content: center;
+		align-items: flex-start;
+		flex-direction: column;
+		gap: 24px;
+
+		@include responsive(phone) {
+			width: 100%;
+			align-items: center;
+			text-align: center;
+			gap: 16px;
+		}
+	}
+
+	&-title {
+		@include font(
+			var(--font-red-hat-display),
+			44px,
+			800,
+			150%,
+			var(--theme-white)
+		);
+	}
+
+	&-description {
+		width: 80%;
+		@include font(
+			var(--font-red-hat-display),
+			20px,
+			400,
+			150%,
+			var(--theme-white)
+		);
+
+		@include responsive(phone) {
+			width: 100%;
+			font-size: 16px;
+		}
+	}
+
+	&-actions,
+	&-chips {
+		width: 100%;
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		flex-flow: row wrap;
+		gap: 20px;
+
+		@include responsive(phone) {
+			justify-content: center;
+			gap: 14px;
+		}
+	}
+
+	&-btn {
+		@include init-button();
+	}
+
+	&-chip {
+		display: inline-flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	&-chip,
+	&-btn {
+		gap: 4px;
+		padding: 10px 24px;
+		background-color: rgba($theme-navy, 0.4);
+		@include font(
+			var(--font-red-hat-display),
+			16px,
+			700,
+			150%,
+			var(--theme-white),
+			1px
+		);
+
+		@include responsive(phone) {
+			padding: 10px 16px;
+			font-size: 14px;
+		}
+	}
+
+	&-chip {
+		border-radius: 12px;
+	}
+
+	&-btn {
+		border-radius: 4px;
+
+		svg {
+			width: 20px;
+			height: 20px;
+		}
+
+		&--filled {
+			background-color: $theme-navy;
+		}
+
+		&--filled:hover {
+			background-color: darken($color: $theme-navy, $amount: 10%);
+		}
+
+		&--filled:active {
+			background-color: darken($color: $theme-navy, $amount: 20%);
+		}
+
+		&--filled:disabled {
+			background-color: lighten($color: $theme-navy, $amount: 20%);
+		}
+
+		&--outlined {
+			background-color: rgba($theme-navy, 0.2);
+			color: var(--theme-white);
+			border: 1px solid var(--theme-indigo);
+		}
+
+		&--outlined:hover {
+			background-color: rgba($theme-navy, 0.3);
+		}
+
+		&--outlined:active {
+			background-color: rgba($theme-navy, 0.4);
+		}
+
+		&--outlined:disabled {
+			background-color: rgba($theme-navy, 0.2);
+			color: var(--theme-white);
+			border-color: var(--theme-indigo);
+		}
+
+		&:disabled {
+			opacity: 0.5;
+			cursor: not-allowed;
+		}
+	}
+}

@@ -1,0 +1,46 @@
+@import "./mixins";
+
+*,
+*::before,
+*::after {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	transition: all 0.3s ease-in-out;
+	scroll-behavior: smooth;
+	@include hide-scrollbar();
+}
+
+:root,
+:root::before,
+:root::after {
+	--transition-time: 0.3s;
+	--nav-height: 92px;
+
+	--font-red-hat-display: "Red Hat Display", sans-serif;
+	--font-red-hat-text: "Red Hat Text", sans-serif;
+	--font-orbitron: "Orbitron", sans-serif;
+	--font-cormorant: "Cormorant", serif;
+
+	@include responsive(phone) {
+		--nav-height: 70px;
+	}
+}
+
+html {
+	width: 100%;
+	scroll-behavior: smooth;
+	scroll-snap-type: y mandatory;
+}
+
+body {
+	width: 100%;
+	font-family: var(--font-red-hat-text);
+	overflow-x: hidden;
+	position: relative;
+	@include hide-scrollbar();
+}
+
+.dispn {
+	display: none !important;
+}

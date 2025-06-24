@@ -1,0 +1,134 @@
+@import "@/styles/config/mixins";
+
+.home-events {
+	width: 100%;
+	min-height: 100vh;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-direction: column;
+	padding: 36px 0;
+	gap: 50px;
+
+	&-header {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-end;
+		padding: 24px 36px;
+		margin-bottom: 30px;
+
+		@include responsive(phone) {
+			padding: 24px 12px;
+		}
+	}
+
+	&-label {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		writing-mode: vertical-lr;
+		transform: rotate(180deg);
+		@include font(
+			var(--font-red-hat-display),
+			32px,
+			700,
+			150%,
+			var(--theme-white)
+		);
+
+		&__index {
+			opacity: 0.5;
+		}
+	}
+
+	&-carousel {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 5%;
+	}
+
+	&-event {
+		width: 40%;
+		height: 300px;
+		display: flex;
+		align-items: flex-end;
+		background-image: linear-gradient(
+			to bottom,
+			rgba(0, 0, 0, 0),
+			rgba(0, 0, 0, 0.5)
+		);
+		background-size: cover;
+		background-position: center;
+		background-repeat: no-repeat;
+		flex: 0 0 auto;
+		padding: 32px;
+		transition: none;
+
+		@include responsive(phone) {
+			width: 80%;
+		}
+
+		&--active {
+			transform: translateY(-75px);
+		}
+
+		&__content {
+			width: 100%;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+
+			@include responsive(phone) {
+				flex-direction: column;
+				justify-content: flex-end;
+				align-items: flex-start;
+				gap: 16px;
+			}
+		}
+
+		&__title {
+			@include font(
+				var(--font-red-hat-display),
+				32px,
+				700,
+				150%,
+				var(--theme-white)
+			);
+		}
+	}
+
+	&-buttons {
+		width: 100%;
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		gap: 24px;
+		padding: 0 36px;
+
+		@include responsive(phone) {
+			padding: 0 12px;
+		}
+	}
+
+	&-btn {
+		@include init-button;
+		border-radius: 500px;
+		padding: 8px;
+		border: 1px solid var(--theme-white);
+
+		svg {
+			width: 24px;
+			height: 24px;
+			color: var(--theme-white);
+		}
+
+		&:disabled {
+			cursor: not-allowed;
+			opacity: 0.5;
+		}
+	}
+}

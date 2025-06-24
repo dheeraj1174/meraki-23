@@ -1,0 +1,15 @@
+@import "@/styles/config/animations";
+
+.loader {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 96px auto;
+
+	svg {
+		width: 48px;
+		height: 48px;
+		animation: rotate 1s linear infinite;
+	}
+}

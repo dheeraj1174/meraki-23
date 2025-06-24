@@ -1,0 +1,184 @@
+@import "@/styles/config/mixins";
+
+.gallery {
+	width: 100%;
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+	flex-direction: column;
+	padding-top: var(--nav-height);
+
+	&-hero {
+		width: 100%;
+		height: calc(100vh - var(--nav-height));
+		padding: 0 0 0 36px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
+		@include responsive(phone) {
+			width: 100%;
+			height: fit-content;
+			padding: 36px;
+		}
+	}
+
+	&-content {
+		width: 70%;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: flex-start;
+		flex-direction: column;
+		gap: 24px;
+		padding: 0 20vw 0 0;
+
+		@include responsive(phone) {
+			width: 100%;
+			height: fit-content;
+			justify-content: flex-start;
+			padding: 24px 0 0 0;
+		}
+	}
+
+	&-right {
+		width: 30%;
+		height: 100%;
+		background-color: var(--theme-black);
+		position: relative;
+
+		@include responsive(phone) {
+			display: none;
+		}
+
+		&-dots {
+			position: absolute;
+			bottom: -75px;
+			right: -75px;
+			opacity: 0.35;
+			z-index: 7;
+		}
+	}
+
+	&-slideshow {
+		position: absolute;
+		top: 50%;
+		left: 0;
+		transform: translate(-50%, -50%);
+		width: 27.5vw;
+		height: 27.5vw;
+		background-size: cover;
+		background-position: center;
+		background-repeat: no-repeat;
+		cursor: pointer;
+		box-shadow: var(--shadow-elevation-4dp);
+
+		@include responsive(phone) {
+			width: 40vw;
+			height: 40vw;
+			top: unset;
+			bottom: 0;
+		}
+
+		span {
+			position: absolute;
+
+			&:first-child,
+			&:last-child {
+				top: -2rem;
+				width: 12px;
+				height: calc(100% + 4rem);
+
+				@include responsive(phone) {
+					width: 8px;
+					top: -1rem;
+					height: calc(100% + 2rem);
+				}
+			}
+
+			&:first-child {
+				left: -2rem;
+				background-color: var(--theme-black);
+
+				@include responsive(phone) {
+					left: -1rem;
+				}
+			}
+
+			&:last-child {
+				right: -2rem;
+				background-color: var(--theme-white);
+
+				@include responsive(phone) {
+					right: -1rem;
+				}
+			}
+
+			&:nth-child(2),
+			&:nth-child(3) {
+				width: 100%;
+
+				&::before,
+				&::after {
+					content: "";
+					position: absolute;
+					top: -2rem;
+					left: -2rem;
+					width: calc(50% + 2rem);
+					height: 12px;
+
+					@include responsive(phone) {
+						top: -1rem;
+						left: -1rem;
+						width: calc(50% + 1rem);
+						height: 8px;
+					}
+				}
+
+				&::before {
+					background-color: var(--theme-black);
+				}
+
+				&::after {
+					left: 50%;
+					background-color: var(--theme-white);
+				}
+			}
+
+			&:nth-child(3) {
+				bottom: calc(-4rem + 12px);
+
+				@include responsive(phone) {
+					bottom: calc(-2rem + 8px);
+				}
+			}
+		}
+	}
+
+	&-media {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 32px;
+
+		&-item {
+			margin: 16px;
+			border-radius: 16px;
+			overflow: hidden;
+			cursor: crosshair;
+
+			img {
+				width: 100%;
+				height: auto;
+				object-fit: cover;
+				border-radius: 16px;
+			}
+
+			&:hover img {
+				transition: all 0.3s ease-in-out;
+				transform: scale(1.25);
+			}
+		}
+	}
+}
